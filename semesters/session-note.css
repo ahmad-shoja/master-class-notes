@@ -1,0 +1,87 @@
+/* Shared frame for NotebookLM session notes. */
+:root {
+  --font-headline: Vazirmatn, Tahoma, sans-serif;
+  --font-body: Vazirmatn, Tahoma, sans-serif;
+}
+
+.note-masthead {
+  width: min(920px, calc(100% - 2rem));
+  margin-inline: auto;
+  padding-block: .85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1rem;
+  align-items: baseline;
+}
+
+.note-masthead a { color: #1f4e5f; }
+
+.note-toc {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 50;
+  background: #f1efe8;
+  border-block-end: 1px solid #dedad0;
+}
+
+.note-toc-list {
+  width: min(920px, calc(100% - 2rem));
+  margin-inline: auto;
+  display: flex;
+  gap: .35rem;
+  padding: .35rem;
+  overflow-x: auto;
+}
+
+.note-toc .toc-link {
+  flex: none;
+  min-height: 44px;
+  padding: .35rem .55rem;
+  font-size: .9rem;
+  color: #1f4e5f;
+  white-space: nowrap;
+}
+
+.note-toc .toc-link:hover,
+.note-toc .toc-link.active,
+.note-toc .toc-link.is-active {
+  background: #f2b705;
+  color: #17181a;
+}
+
+.note-toc .toc-link:focus-visible { outline-offset: -2px; }
+
+main section[id],
+main header[id] { scroll-margin-block-start: 5rem; }
+
+.note-diagram-scroll { overflow-x: auto; }
+.note-diagram-scroll svg { min-width: 420px; }
+
+.note-figure { margin: 1rem 0; }
+.note-figure figcaption { margin-block-end: .75rem; font-weight: 600; }
+.note-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: .75rem;
+  padding-inline-start: 1.75rem;
+}
+.note-steps li {
+  padding: .75rem;
+  background: #fff;
+  border: 1px solid #dedad0;
+  border-inline-start: 4px solid #f2b705;
+}
+.note-steps strong { display: block; }
+
+.note-diagram-scroll.svg-stage {
+  display: block;
+  min-width: 0;
+}
+
+.note-steps > div {
+  padding: .75rem;
+  background: #fff;
+  border: 1px solid #dedad0;
+}
+.note-steps dd { margin: .25rem 0 0; }
+dl.note-steps { padding-inline-start: 0; }

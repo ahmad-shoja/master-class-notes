@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="briefing">
+  <title>راهنمای جامع مطالعه: الگوهای یکپارچه‌سازی سازمانی — دانشگاه آزاد اسلامی واحد ساوه</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Source+Serif+4:wght@600;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and Surfaces: Warm Stone-White Paper */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      /* Ink & Typography */
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      /* Borders & Rules */
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+
+      /* Accent Colors */
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --tertiary: #785008;
+      --tag-bg: #f5e6c4;
+
+      /* Semantic UI States */
+      --positive: #1f6b48;
+      --positive-bg: #eaf5ef;
+      --warning: #8a5600;
+      --warning-bg: #fbf2de;
+      --error: #b42318;
+      --error-bg: #fceceb;
+      --on-error: #ffffff;
+
+      /* Data Series Visualization */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Focus */
+      --focus: #1f4e5f;
+
+      /* Fonts (Persian-first with Editorial & Mono voices) */
+      --font-headline: 'Vazirmatn', 'Source Serif 4', serif;
+      --font-body: 'Vazirmatn', sans-serif;
+      --font-label: 'Geist Mono', 'Vazirmatn', monospace;
+
+      /* Type Scale (Narrative) */
+      --display-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+      --headline-size: clamp(1.5rem, 1.2rem + 1.1vw, 2.05rem);
+      --subhead-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.35rem);
+      --body-size: clamp(1rem, 0.96rem + 0.18vw, 1.09375rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Shape & Style Effects */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --badge-radius: 2px;
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --heading-tracking: 0;
+      --label-tracking: 0;
+
+      /* Spacing Scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 140ms;
+      --dur-short: 240ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.75;
+      scroll-behavior: smooth;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Page Container */
+    .page-grid {
+      display: grid;
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Sticky Table of Contents Strip */
+    .toc-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      text-decoration: none;
+      font-size: var(--label-size);
+      font-weight: 600;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .toc-link:hover {
+      background-color: var(--surface-container);
+      color: var(--secondary);
+    }
+    .toc-link.active {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    /* Dossier Section Bar & Pills */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-bar-start {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-weight: 700;
+      font-size: var(--label-size);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--badge-radius);
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 500;
+    }
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      background: var(--tag-bg);
+      color: var(--tertiary);
+      font-size: var(--label-size);
+      font-weight: 600;
+      padding: 0.18rem 0.55rem;
+      border-radius: var(--rounded);
+    }
+    .index-num {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      background: var(--surface-container);
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--badge-radius);
+    }
+
+    /* Hero & Headings */
+    .hero-block {
+      padding-top: var(--space-sm);
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .title {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .standfirst {
+      font-size: var(--subhead-size);
+      font-weight: 600;
+      color: var(--secondary);
+      margin: var(--space-sm) 0 0 0;
+      max-width: 68ch;
+      line-height: 1.6;
+    }
+    .section-heading {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm) 0;
+    }
+    .section-lede {
+      color: var(--on-surface-variant);
+      max-width: 68ch;
+      margin: 0 0 var(--space-lg) 0;
+    }
+    h3 {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 700;
+      line-height: 1.4;
+      margin: 0 0 var(--space-sm) 0;
+      color: var(--on-surface);
+    }
+    h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--secondary);
+    }
+    p {
+      margin: 0 0 var(--space-md) 0;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .kpi-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .kpi-value {
+      font-family: var(--font-headline);
+      font-size: clamp(1.85rem, 1.5rem + 1.2vw, 2.5rem);
+      font-weight: 800;
+      color: var(--secondary);
+      line-height: 1.15;
+      font-variant-numeric: tabular-nums;
+    }
+    .kpi-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--on-surface);
+    }
+    .kpi-sub {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Section & Asymmetric Grids */
+    .content-section {
+      padding-top: var(--space-md);
+      scroll-margin-top: 72px;
+    }
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    /* Editorial Cards & Callouts */
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+    .payload-box {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-right: 4px solid var(--secondary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .payload-box.highlight-gold {
+      border-right-color: var(--primary-container);
+    }
+    .deep-dive {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .quote-note {
+      background: var(--warning-bg);
+      border-right: 3px solid var(--tertiary);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-size: 0.95rem;
+    }
+
+    /* Section Footer */
+    .section-footer {
+      margin-top: var(--space-lg);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-md);
+      border-top: 1px dashed var(--outline-variant);
+    }
+    /* Interactive Case Study Selector */
+    .case-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .case-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .case-btn:hover {
+      background: var(--surface-container);
+    }
+    .case-btn.active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .case-detail-panel {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .meta-kv {
+      display: grid;
+      gap: var(--space-sm);
+      background: var(--surface-container);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+    }
+    .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: var(--space-xs);
+    }
+    .meta-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .meta-key {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    /* Integration Styles Interactive Inspector & Table */
+    .style-selector-bar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .style-tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      min-height: 56px;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      cursor: pointer;
+      text-align: right;
+      color: var(--on-surface);
+      transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .style-tab-btn:hover {
+      background: var(--surface-container);
+    }
+    .style-tab-btn.active {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--outline);
+      box-shadow: 0 2px 0 var(--outline);
+    }
+    .style-tab-num {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      opacity: 0.85;
+    }
+    .style-tab-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .style-inspector-box {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: center;
+      margin-bottom: var(--space-lg);
+    }
+    .svg-stage {
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      min-height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .svg-stage svg {
+      width: 100%;
+      height: auto;
+      max-height: 220px;
+      display: block;
+    }
+
+    .pros-cons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .pro-box {
+      background: var(--positive-bg);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.9rem;
+    }
+    .pro-box strong { color: var(--positive); }
+    .con-box {
+      background: var(--error-bg);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.9rem;
+    }
+    .con-box strong { color: var(--error); }
+
+    /* Responsive Table */
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      min-width: 640px;
+    }
+    thead th {
+      text-align: right;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container);
+      border-bottom: var(--section-rule);
+      font-weight: 700;
+      color: var(--on-surface);
+      font-size: var(--label-size);
+    }
+    tbody td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--card-border);
+      vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--background); }
+
+    /* ESB & Pipe-Filters Interactive Simulator */
+    .esb-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+      padding: var(--space-md);
+      background: var(--surface-container);
+      border-radius: var(--rounded-lg);
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      min-width: 240px;
+    }
+    .field-group label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--secondary);
+    }
+    .field-group select {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-xl);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--primary);
+      color: var(--on-primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity var(--dur-micro) var(--ease-out);
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn-secondary:hover { background: var(--surface-container-high); }
+
+    .esb-pipeline {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .pipe-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-xs);
+      padding: var(--space-sm);
+      min-height: 92px;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      cursor: pointer;
+      color: var(--on-surface);
+      transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .pipe-node:hover {
+      background: var(--surface-container);
+      transform: translateY(-2px);
+    }
+    .pipe-node.active {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--outline);
+      box-shadow: 0 3px 0 var(--outline);
+    }
+    .pipe-step-num {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+    }
+    .pipe-title {
+      font-weight: 700;
+      font-size: 0.85rem;
+      line-height: 1.3;
+    }
+    .pipe-sub {
+      font-size: 0.75rem;
+      color: var(--on-surface-variant);
+    }
+    .pipe-node.active .pipe-sub {
+      color: var(--on-primary-container);
+    }
+    .esb-readout {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-right: 4px solid var(--data-2);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: var(--space-md);
+    }
+    .payload-code {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-label);
+      font-size: 0.82rem;
+      direction: ltr;
+      text-align: left;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      color: var(--secondary);
+    }
+
+    /* Channel Simulator (P2P vs Pub-Sub) */
+    .channel-sim {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+    .channel-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .mode-switch {
+      display: inline-flex;
+      background: var(--surface-container);
+      padding: 4px;
+      border-radius: var(--rounded);
+      border: var(--card-border);
+      gap: 4px;
+    }
+    .mode-btn {
+      min-height: 38px;
+      padding: var(--space-xs) var(--space-md);
+      border: none;
+      border-radius: var(--rounded);
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .channel-lanes {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr) minmax(0, 1.2fr);
+      gap: var(--space-md);
+      align-items: stretch;
+    }
+    .lane-box {
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .lane-title {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--secondary);
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: var(--space-xs);
+    }
+    .msg-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .msg-chip.delivered {
+      background: var(--positive-bg);
+      color: var(--positive);
+      border: 1px solid var(--positive);
+    }
+    .receiver-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .receiver-card.inactive {
+      opacity: 0.48;
+      background: var(--surface-container);
+    }
+
+    /* EIP 6 Groups Grid */
+    .eip-group-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      container-type: inline-size;
+    }
+    .eip-group-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .eip-list {
+      margin: 0;
+      padding-right: 1.2rem;
+      color: var(--on-surface-variant);
+      font-size: 0.92rem;
+    }
+    .eip-list li { margin-bottom: 4px; }
+
+    /* Quiz Section */
+    .quiz-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .quiz-options {
+      display: grid;
+      gap: var(--space-xs);
+      margin-top: var(--space-sm);
+    }
+    .quiz-opt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      min-height: 46px;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      text-align: right;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .quiz-opt:hover {
+      background: var(--surface-container);
+    }
+    .quiz-opt.correct {
+      background: var(--positive-bg);
+      border-color: var(--positive);
+      color: var(--positive);
+      font-weight: 700;
+    }
+    .quiz-opt.wrong {
+      background: var(--error-bg);
+      border-color: var(--error);
+      color: var(--error);
+    }
+    .quiz-feedback {
+      margin-top: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.9rem;
+      display: none;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.ok { background: var(--positive-bg); color: var(--positive); }
+    .quiz-feedback.err { background: var(--error-bg); color: var(--error); }
+
+    .quiz-summary-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+    }
+
+    /* Footer */
+    .doc-footer {
+      border-top: var(--section-rule);
+      padding: var(--space-lg) 0 var(--space-2xl) 0;
+      color: var(--on-surface-variant);
+      font-size: var(--label-size);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    /* Container Queries & Mobile Breakpoints */
+    @container (min-width: 380px) {
+      .eip-group-top { flex-direction: row; }
+    }
+    @media (max-width: 900px) {
+      .split-grid,
+      .case-detail-panel,
+      .style-inspector-box,
+      .esb-readout,
+      .channel-lanes {
+        grid-template-columns: 1fr;
+      }
+      .style-selector-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .esb-pipeline {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-lg);
+      }
+      .two-col,
+      .pros-cons,
+      .style-selector-bar,
+      .esb-pipeline {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="../../session-note.css">
+</head>
+<body>
+  <div class="note-masthead">
+    <a href="index.html">فهرست جلسات</a>
+    <span>الگوها در مهندسی نرم‌افزار</span>
+    <time datetime="2026-11-19">پنجشنبه، ۱۹ نوامبر ۲۰۲۶</time>
+  </div>
+  <nav class="note-toc" aria-label="فهرست مطالب">
+    <div class="note-toc-list">
+      <a href="#overview" class="toc-link active">۱. نمای کلی</a>
+      <a href="#foundations" class="toc-link">۲. الگو و سبک</a>
+      <a href="#islands" class="toc-link">۳. جزایر اپلیکیشن</a>
+      <a href="#styles" class="toc-link">۴. ۴ سبک یکپارچه‌سازی</a>
+      <a href="#esb" class="toc-link">۵. ESB و لوله‌ها</a>
+      <a href="#eip" class="toc-link">۶. ۶۵ الگوی EIP</a>
+      <a href="#quiz" class="toc-link">۷. خودآزمایی</a>
+    </div>
+  </nav>
+
+
+  
+
+  <main class="page-grid">
+
+    <!-- HERO / OVERVIEW -->
+    <header id="overview" class="hero-block">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">پرونده آموزشی · EIP</span>
+          <span class="dossier-meta">دانشگاه آزاد اسلامی واحد ساوه · جلسه سوم (هفته ۸ و ۹)</span>
+        </div>
+        <span class="tag-chip">مرجع: Enterprise Integration Patterns</span>
+      </div>
+
+      <div>
+        <h1 class="title">از جزایر نرم‌افزاری تا گذرگاه سرویس سازمانی</h1>
+        <p class="standfirst">راهنمای جامع مباحث جلسه: تمایز الگو و سبک، یکپارچه‌سازی در برابر تعامل‌پذیری، اصل انسجام و وابستگی، جزایر اپلیکیشن در سازمان‌های ایرانی، چهار سبک یکپارچه‌سازی و معماری ۶۵ الگوی پیام‌رسانی.</p>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-value">۶۵</div>
+          <div class="kpi-label">کل الگوهای یکپارچه‌سازی (<bdi dir="ltr">EIP</bdi>)</div>
+          <div class="kpi-sub">مدون‌شده در کتاب مرجع الگوهای سازمانی</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">۶</div>
+          <div class="kpi-label">گروه دسته‌بندی الگوها</div>
+          <div class="kpi-sub">از کانال پیام تا مدیریت سیستم</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">۴</div>
+          <div class="kpi-label">سبک بنیادین یکپارچه‌سازی</div>
+          <div class="kpi-sub">فایل، دیتابیس مشترک، فراخوانی از دور، پیام‌رسانی</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">۲</div>
+          <div class="kpi-label">الگوی نخست کانال پیام</div>
+          <div class="kpi-sub"><bdi dir="ltr">Point-to-Point</bdi> و <bdi dir="ltr">Publish-Subscribe</bdi></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: PATTERN VS STYLE, INTEGRATION VS INTEROPERABILITY, SOLID -->
+    <section id="foundations" class="content-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۱</span>
+          <span class="dossier-meta">مبانی نظری و مرزهای طراحی</span>
+        </div>
+        <span class="tag-chip">Pattern vs. Style · SOLID</span>
+      </div>
+
+      <h2 class="section-heading">چرا «سبک» هنوز «الگو» نیست و سامانه‌ها چگونه بدون وابستگی شدید متصل می‌شوند؟</h2>
+      <p class="section-lede">در ابتدای جلسه، پیش از ورود به جزئیات فنی پیام‌رسانی، چهار مفهوم کلیدی از هم تفکیک شدند: تفاوت دقیق الگو و سبک، مرز بین یکپارچه‌سازی و تعامل‌پذیری، و نقش اصول شیءگرایی در تعیین میزان ارتباط بین سازمان‌ها.</p>
+
+      <div class="split-grid">
+        <div style="display: grid; gap: var(--space-md);">
+          <div class="two-col">
+            <div class="payload-box highlight-gold">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xs);">
+                <h4>الگو (<bdi dir="ltr">Pattern</bdi>)</h4>
+                <span class="index-num">۰۱</span>
+              </div>
+              <p>راهکاری (<bdi dir="ltr">Solution</bdi>) که بارها اجرا شده، خطاها و باگ‌های آن برطرف شده، به حالت بهینه درآمده و <strong>استاندارد شده است</strong>؛ به‌طوری که دیگر نیازی به طراحی و نوشتن دوباره از صفر نیست.</p>
+              <p><strong>مثال ملموس کلاس:</strong> در صنف خیاطی، الگوی آماده برش لباس باعث می‌شود مصرف پارچه کاهش یابد، زمان دوخت کمتر شود و کیفیت نهایی بالاتر برود.</p>
+            </div>
+
+            <div class="payload-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xs);">
+                <h4>سبک (<bdi dir="ltr">Style</bdi>)</h4>
+                <span class="index-num">۰۲</span>
+              </div>
+              <p>روشی که فرد یا تیم بر اثر تجربه و تکرار به کارایی بهینه در آن رسیده، اما <strong>هنوز به استاندارد عمومی تبدیل نشده است</strong>. تا زمانی که استاندارد نشود، نامش سبک است نه الگو.</p>
+              <p><strong>مثال کلاس:</strong> یک برنامه‌نویس باتجربه روش خاصی دارد که کارایی او را بالا می‌برد اما در فهرست الگوهای استاندارد نیست؛ او می‌گوید «این سبک من است».</p>
+            </div>
+          </div>
+
+          <div class="figure-card">
+            <h3>یکپارچه‌سازی (<bdi dir="ltr">Integration</bdi>) در برابر تعامل‌پذیری (<bdi dir="ltr">Interoperability</bdi>)</h3>
+            <div class="two-col" style="margin-top: var(--space-sm);">
+              <div>
+                <h4>یکپارچه‌سازی (<bdi dir="ltr">Integration</bdi>)</h4>
+                <p>اتصال چند سامانه مختلف به هم برای بهره‌برداری مشترک از اطلاعات، تکمیل یک فرآیند واحد یا تولید محصول درست. وقتی چند سامانه به هم وصل شوند، جلوی معضلاتی مثل قاچاق کالا، سوخت و آرد بدون نیاز به محدودیت‌های دست‌وپاگیر گرفته می‌شود.</p>
+              </div>
+              <div>
+                <h4>تعامل‌پذیری (<bdi dir="ltr">Interoperability</bdi>)</h4>
+                <p>توانایی صحبت کردن و ردوبدل کردن داده بین دو سامانه. دو سامانه می‌توانند با هم تعامل داشته باشند و پیام بفرستند و بگیرند، اما لزوماً با هم یکپارچه (<bdi dir="ltr">Integrated</bdi>) نباشند.</p>
+              </div>
+            </div>
+            <div class="quote-note" style="margin-top: var(--space-md);">
+              <strong>بحث کلاس درباره سهمیه نان و آرد:</strong> در گفتگو درباره سهمیه کارت سوخت و سهمیه آرد و نان (مثلاً بحث سهمیه حدود ۷ کیلوگرم آرد یا ۷۰ تا ۲۸۰ نان لواش در ماه برای خانواده)، جمع‌بندی استاد این بود که به جای فشار و سهمیه‌بندی‌های استرس‌زا، با <strong>اتصال ۴ سامانه مرتبط</strong> می‌توان نظارت دقیق و بدون زحمت بر زنجیره تأمین داشت.
+            </div>
+          </div>
+        </div>
+
+        <aside class="aside-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm);">
+            <h3 style="margin: 0;">اصول <bdi dir="ltr">SOLID</bdi>، انسجام و وابستگی</h3>
+            <span class="tag-chip">معماری نرم‌افزار</span>
+          </div>
+          <p>دانشجویان در کلاس پنج اصل <bdi dir="ltr">SOLID</bdi> را مرور کردند: <bdi dir="ltr">Single Responsibility</bdi>، <bdi dir="ltr">Open/Closed</bdi>، <bdi dir="ltr">Liskov Substitution</bdi>، <bdi dir="ltr">Interface Segregation</bdi> و <bdi dir="ltr">Dependency Inversion</bdi>.</p>
+          <p>در سطح کلان سازمانی، دو اصل بنیادین <strong>انسجام (<bdi dir="ltr">Cohesion</bdi>)</strong> و <strong>وابستگی (<bdi dir="ltr">Coupling</bdi>)</strong> تعیین می‌کنند که ارتباط سامانه‌ها چه اندازه باید باشد:</p>
+          <div class="deep-dive" style="background: var(--surface-container-low); margin-top: var(--space-sm);">
+            <p><strong>درون یک سازمان ← بیشترین ارتباط (انسجام بالا):</strong> بخش‌های مختلف معاونت آموزشی در دانشگاه باید ارتباط نزدیک و مستمر با هم داشته باشند.</p>
+            <p><strong>بین دو سازمان مستقل ← کمترین ارتباط (وابستگی حداقلی):</strong> هنگام انتخاب واحد در دانشگاه آزاد و پرداخت شهریه، سامانه دانشگاه به بانک وصل می‌شود. بانک نیازی به دانستن کل سوابق دانشجو ندارد و دانشگاه هم نباید از ساختار داخلی بانک باخبر باشد؛ صرفاً شماره کارت/تراکنش و تأیید پرداخت ردوبدل می‌شود.</p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section-footer">
+        <span class="dossier-meta">شرط تبادل داده بین دانشگاه و بانک: مؤثر، قابل اطمینان و امن</span>
+      </div>
+    </section>
+
+    <!-- SECTION 2: APPLICATION ISLANDS CASE STUDIES -->
+    <section id="islands" class="content-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۲</span>
+          <span class="dossier-meta">پدیده جزایر اپلیکیشن (<bdi dir="ltr">Application Islands</bdi>)</span>
+        </div>
+        <span class="tag-chip">۵ مطالعه موردی واقعی</span>
+      </div>
+
+      <h2 class="section-heading">چرا رویای «سیستم جامع» شکست خورد و جزایر اپلیکیشن شکل گرفتند؟</h2>
+      <p class="section-lede">در سازمان‌ها مجموعه‌ای از برنامه‌ها وجود دارند که یا سفارشی ساخته شده‌اند، یا از شرکت خصوصی برون‌سپاری خریداری شده‌اند، یا سیستم‌های موروثی (<bdi dir="ltr">Legacy</bdi>) قدیمی اما حیاتی‌اند. از آنجا که سازمان در گذر زمان تکامل می‌یابد و نیازهای تازه متولد می‌شوند، ساخت یک سامانه جامعِ ازپیش‌طراحی‌شده ممکن نیست؛ نتیجه، شکل‌گیری <strong>جزایر اپلیکیشن</strong> است: سامانه‌هایی که به تنهایی درست کار می‌کنند اما با هم حرف نمی‌زنند.</p>
+
+      <div class="case-tabs" role="tablist" aria-label="انتخاب مطالعه موردی جزایر اپلیکیشن">
+        <button type="button" class="case-btn active" role="tab" aria-selected="true" onclick="selectCaseStudy('azad', this)">۱. پورتال‌های دانشگاه آزاد</button>
+        <button type="button" class="case-btn" role="tab" aria-selected="false" onclick="selectCaseStudy('shahrdari', this)">۲. سامانه‌های شهرداری</button>
+        <button type="button" class="case-btn" role="tab" aria-selected="false" onclick="selectCaseStudy('shetab', this)">۳. شبکه شتاب و بانک‌ها</button>
+        <button type="button" class="case-btn" role="tab" aria-selected="false" onclick="selectCaseStudy('erp', this)">۴. سیستم‌های <bdi dir="ltr">ERP</bdi> و <bdi dir="ltr">SAP</bdi></button>
+        <button type="button" class="case-btn" role="tab" aria-selected="false" onclick="selectCaseStudy('mygov', this)">۵. دولت من و ثبت احوال</button>
+      </div>
+
+      <div class="case-detail-panel" id="case-detail-panel">
+        <div>
+          <span class="tag-chip" id="case-tag">نمونه آموزشی و اداری</span>
+          <h3 id="case-title" style="margin-top: var(--space-sm);">جزایر سامانه‌ای در دانشگاه آزاد اسلامی</h3>
+          <p id="case-desc">در دانشگاه چندین سامانه مستقل وجود دارد: «آموزشیار» برای ورودی‌های پیش از ۱۴۰۵، «معیار» برای ورودی‌های ۱۴۰۵ به بعد، «پژوهشیار» برای فرآیندهای پایان‌نامه و شورای پژوهشی، و «ساجد» برای امور و مجوزهای هیئت علمی. به دلیل نبود یکپارچگی کامل، ممکن است در ساعت ۸ صبح پنجشنبه در سامانه معیار درس تحلیل کلان‌داده و در آموزشیار درس دیگری برای همان استاد ثبت شده باشد.</p>
+          <div class="quote-note" id="case-insight">
+            <strong>نیاز واقعی از دید کاربر:</strong> استاد و دانشجو باید تنها با ورود به یک پنجره واحد، در هر لحظه آخرین داده درست، برنامه کلاسی، امور پژوهشی، حقوق و مرخصی را یکجا ببینند.
+          </div>
+        </div>
+        <div class="meta-kv" id="case-meta-kv">
+          <div class="meta-row">
+            <span class="meta-key">سامانه‌های درگیر</span>
+            <span id="case-systems">آموزشیار، معیار، پژوهشیار، ساجد</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">گلوگاه جزیره‌ای</span>
+            <span id="case-bottleneck">عدم همگام‌سازی لحظه‌ای برنامه درسی و وضعیت استاد/دانشجو بین ورود‌های قدیم و جدید</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">هدف یکپارچه‌سازی</span>
+            <span id="case-goal">دریافت آخرین داده معتبر در هر لحظه از طریق درگاه واحد</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-footer">
+        <span class="dossier-meta">نکته کلیدی: کاربر نهایی (مثل مشتری ATM) نباید درگیر نحوه اتصال پنهان سامانه‌ها شود</span>
+      </div>
+    </section>
+
+    <!-- SECTION 3: 4 INTEGRATION STYLES -->
+    <section id="styles" class="content-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۳</span>
+          <span class="dossier-meta">چهار سبک یکپارچه‌سازی برنامه‌های کاربردی</span>
+        </div>
+        <span class="tag-chip">ناهمگنی سیستم‌عامل و زبان برنامه‌نویسی</span>
+      </div>
+
+      <h2 class="section-heading">چگونه برنامه‌هایی با زبان‌ها و سیستم‌عامل‌های متفاوت (لینوکس، یونیکس، ویندوز) با هم صحبت کنند؟</h2>
+      <p class="section-lede">در دنیای واقعی نمی‌توان همه سازمان‌ها را مجبور به استفاده از ویندوز یا محصولات یک شرکت کرد. برای اتصال برنامه‌های ناهمگن در سطوح مختلف، چهار سبک اصلی یکپارچه‌سازی مطرح شد. هر سبک را انتخاب کنید تا شماتیک و تحلیل آن را ببینید، و در جدول زیر هر چهار سبک را هم‌زمان مقایسه کنید.</p>
+
+      <div class="style-selector-bar" role="tablist" aria-label="انتخاب سبک یکپارچه‌سازی">
+        <button type="button" class="style-tab-btn active" role="tab" aria-selected="true" onclick="selectStyle('file', this)">
+          <span class="style-tab-num">STYLE 01</span>
+          <span class="style-tab-title">انتقال فایل (<bdi dir="ltr">File Transfer</bdi>)</span>
+        </button>
+        <button type="button" class="style-tab-btn" role="tab" aria-selected="false" onclick="selectStyle('db', this)">
+          <span class="style-tab-num">STYLE 02</span>
+          <span class="style-tab-title">پایگاه داده مشترک (<bdi dir="ltr">Shared DB</bdi>)</span>
+        </button>
+        <button type="button" class="style-tab-btn" role="tab" aria-selected="false" onclick="selectStyle('rpc', this)">
+          <span class="style-tab-num">STYLE 03</span>
+          <span class="style-tab-title">فراخوانی از راه دور (<bdi dir="ltr">RPC / API</bdi>)</span>
+        </button>
+        <button type="button" class="style-tab-btn" role="tab" aria-selected="false" onclick="selectStyle('msg', this)">
+          <span class="style-tab-num">STYLE 04</span>
+          <span class="style-tab-title">پیام‌رسانی (<bdi dir="ltr">Messaging</bdi>)</span>
+        </button>
+      </div>
+
+      <div class="style-inspector-box" id="style-inspector-box">
+        <div>
+          <span class="tag-chip" id="style-badge">ساده‌ترین و قدیمی‌ترین سبک</span>
+          <h3 id="style-name" style="margin-top: var(--space-sm);">۱. انتقال فایل (<bdi dir="ltr">File Transfer</bdi>)</h3>
+          <p id="style-summary">برنامه A داده‌های مورد نیاز مشترک را استخراج (<bdi dir="ltr">Export</bdi>) کرده و در قالب یک فایل خروجی می‌گیرد؛ سپس برنامه B این فایل را وارد (<bdi dir="ltr">Import</bdi>) و پردازش می‌کند.</p>
+          <p id="style-example"><strong>مثال کلاس:</strong> لیست بیمه تأمین اجتماعی که کارفرما در پایان ماه از نرم‌افزار حقوق و دستمزد خروجی می‌گیرد و (قبلاً روی دیسکت و CD و اکنون با نرم‌افزار لیست) تحویل بیمه می‌دهد تا سابقه بیمه‌ای ثبت شود.</p>
+          <div class="pros-cons">
+            <div class="pro-box"><strong>مزیت:</strong> <span id="style-pro">سادگی پیاده‌سازی و عدم نیاز به اتصال شبکه زنده بین دو سامانه.</span></div>
+            <div class="con-box"><strong>چالش:</strong> <span id="style-con">تأخیر زمانی بالا (غیرلحظه‌ای بودن)، نیاز به توافق دقیق روی فرمت فایل و پردازش دستی یا دوره‌ای.</span></div>
+          </div>
+        </div>
+        <div class="svg-stage note-diagram-scroll" id="style-svg-stage" tabindex="0" role="region" aria-label="شماتیک معماری سبک انتخاب‌شده">
+          <!-- Rendered cleanly by JS -->
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>سبک یکپارچه‌سازی</th>
+              <th>مکانیزم تبادل</th>
+              <th>به‌روزبودن داده</th>
+              <th>نقطه ضعف یا ریسک اصلی</th>
+              <th>مثال مطرح‌شده در کلاس</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>انتقال فایل</strong></td>
+              <td>خروجی <bdi dir="ltr">Export</bdi> و ورودی <bdi dir="ltr">Import</bdi> فایلی</td>
+              <td>تأخیردار (دوره‌ای / پایان ماه)</td>
+              <td>نبود ارتباط برخط و ناسازگاری فرمت‌ها</td>
+              <td>لیست بیمه تأمین اجتماعی، خروجی اکسل شهرداری</td>
+            </tr>
+            <tr>
+              <td><strong>پایگاه داده مشترک</strong></td>
+              <td>اتصال مستقیم چند اپلیکیشن به یک دیتابیس واحد</td>
+              <td>لحظه‌ای (همیشه آخرین داده)</td>
+              <td>نقطه شکست واحد؛ خرابی دیتابیس همه را متوقف می‌کند</td>
+              <td><bdi dir="ltr">CRM</bdi> متصل به دیتابیس راهکاران، الگوی تجمیع شاپرک</td>
+            </tr>
+            <tr>
+              <td><strong>فراخوانی رویه (<bdi dir="ltr">RPC / API</bdi>)</strong></td>
+              <td>فراخوانی مستقیم تابع یا سرویس در سامانه مقصد</td>
+              <td>برخط و هم‌زمان (<bdi dir="ltr">Synchronous</bdi>)</td>
+              <td>وابستگی به زنده بودن شبکه و گیرنده در همان لحظه</td>
+              <td>وب‌سرویس‌ها و <bdi dir="ltr">API</bdi>های استعلام برخط</td>
+            </tr>
+            <tr>
+              <td><strong>پیام‌رسانی (<bdi dir="ltr">Messaging</bdi>)</strong></td>
+              <td>ارسال و دریافت بسته پیام از طریق گذرگاه مستقل (<bdi dir="ltr">ESB</bdi>)</td>
+              <td>غیرهم‌زمان و قابل اطمینان</td>
+              <td>پیچیدگی بیشتر در زیرساخت، مسیریابی و تبدیل پیام</td>
+              <td>پنجره دولت من (<bdi dir="ltr">e-Gov</bdi>) بین بانک و ثبت احوال</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-footer">
+        <span class="dossier-meta">چهار معضل شبکه‌های واقعی: کندی، غیرقابل اعتماد بودن، ناهمگونی برنامه‌ها و تغییرات اجتناب‌ناپذیر</span>
+      </div>
+    </section>
+
+    <!-- SECTION 4: ESB & PIPE AND FILTERS -->
+    <section id="esb" class="content-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۴</span>
+          <span class="dossier-meta">میان افزار مبتنی بر پیام · <bdi dir="ltr">ESB</bdi> و <bdi dir="ltr">Pipe &amp; Filters</bdi></span>
+        </div>
+        <span class="tag-chip">شبیه‌ساز گام‌به‌گام جریان پیام</span>
+      </div>
+
+      <h2 class="section-heading">معماری گذرگاه سرویس سازمانی (<bdi dir="ltr">ESB</bdi>) و لوله‌ها و فیلترها</h2>
+      <p class="section-lede">وقتی بیش از دو یا سه سامانه باید با هم ارتباط برقرار کنند، فراخوانی نقطه‌ای شکننده می‌شود؛ مثلاً اگر سرویس ثبت احوال از کار بیفتد، سرویس بانک هم متوقف می‌شود. راه‌حل مدرن، استفاده از <strong>گذرگاه سرویس سازمانی (<bdi dir="ltr">Enterprise Service Bus</bdi>)</strong> است: گذرگاهی مستقل از برنامه‌ها، غیرهم‌زمان و قابل اطمینان. در دل این مسیر، الگوی <strong>لوله‌ها و فیلترها (<bdi dir="ltr">Pipe and Filters</bdi>)</strong> یک پردازش بزرگ را به گام‌های کوچک مستقل (رمزگذاری، غنی‌سازی یا رقیق‌سازی پیام) می‌شکند.</p>
+
+      <div class="esb-controls">
+        <div class="field-group">
+          <label for="esb-scenario-select">سناریوی تبادل پیام در گذرگاه را انتخاب کنید:</label>
+          <select id="esb-scenario-select" onchange="changeEsbScenario(this.value)">
+            <option value="sabt">استعلام هویت بانکی از ثبت احوال (دولت من)</option>
+            <option value="credit">بررسی اعتبار بانکی متقاضی تسهیلات</option>
+            <option value="tuition">تأیید پرداخت شهریه دانشگاه در انتخاب واحد</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" onclick="stepEsb(-1)">گام قبل</button>
+          <button type="button" class="btn-primary" onclick="stepEsb(1)">گام بعدی پیام</button>
+        </div>
+      </div>
+
+      <div class="esb-pipeline" id="esb-pipeline">
+        <button type="button" class="pipe-node active" onclick="setEsbStep(0)">
+          <span class="pipe-step-num">۰۱</span>
+          <span class="pipe-title">سامانه فرستنده</span>
+          <span class="pipe-sub">ایجاد داده خام</span>
+        </button>
+        <button type="button" class="pipe-node" onclick="setEsbStep(1)">
+          <span class="pipe-step-num">۰۲</span>
+          <span class="pipe-title"><bdi dir="ltr">Endpoint</bdi> مبدأ</span>
+          <span class="pipe-sub">تولید بسته پیام</span>
+        </button>
+        <button type="button" class="pipe-node" onclick="setEsbStep(2)">
+          <span class="pipe-step-num">۰۳</span>
+          <span class="pipe-title"><bdi dir="ltr">Pipe &amp; Filter</bdi></span>
+          <span class="pipe-sub">رمزنگاری و پالایش</span>
+        </button>
+        <button type="button" class="pipe-node" onclick="setEsbStep(3)">
+          <span class="pipe-step-num">۰۴</span>
+          <span class="pipe-title">مسیریاب (<bdi dir="ltr">Router</bdi>)</span>
+          <span class="pipe-sub">تعیین مقصد درست</span>
+        </button>
+        <button type="button" class="pipe-node" onclick="setEsbStep(4)">
+          <span class="pipe-step-num">۰۵</span>
+          <span class="pipe-title">مبدل (<bdi dir="ltr">Translator</bdi>)</span>
+          <span class="pipe-sub">تبدیل فرمت پیام</span>
+        </button>
+        <button type="button" class="pipe-node" onclick="setEsbStep(5)">
+          <span class="pipe-step-num">۰۶</span>
+          <span class="pipe-title">گیرنده و پاسخ</span>
+          <span class="pipe-sub">کد رهگیری و نتیجه</span>
+        </button>
+      </div>
+
+      <div class="esb-readout" id="esb-readout">
+        <div>
+          <span class="tag-chip" id="esb-step-tag">گام ۰۱ از ۰۶ · فرستنده (<bdi dir="ltr">Consumer</bdi>)</span>
+          <h3 id="esb-step-title" style="margin-top: var(--space-xs);">ایجاد درخواست در سامانه بانک</h3>
+          <p id="esb-step-desc">مشتری برای افتتاح حساب به بانک مراجعه کرده و کد ملی خود را ارائه می‌دهد. سامانه بانک به عنوان مصرف‌کننده (<bdi dir="ltr">Consumer</bdi>) این داده را آماده ارسال روی گذرگاه دولت من می‌کند.</p>
+        </div>
+        <div>
+          <div style="font-size: var(--label-size); font-weight: 700; color: var(--secondary); margin-bottom: var(--space-xs);">وضعیت بسته اتمی پیام (<bdi dir="ltr">Message Payload</bdi>)</div>
+          <pre class="payload-code" id="esb-step-payload"></pre>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top: var(--space-md);">
+        <div class="deep-dive">
+          <h4>چرا <bdi dir="ltr">ESB</bdi> در برابر تغییرات مقاوم است؟</h4>
+          <p>اگر برنامه A تغییر کند یا حتی موقتاً از کار بیفتد، گذرگاه سر جای خود می‌ماند و ارتباط برنامه‌های B و C مختل نمی‌شود؛ برخلاف معماری دیتابیس مشترک که با خرابی دیتابیس، کل سامانه‌ها متوقف می‌شوند.</p>
+        </div>
+        <div class="deep-dive">
+          <h4>عملکرد دقیق فیلترها در <bdi dir="ltr">Pipe &amp; Filters</bdi></h4>
+          <p>پیام لزوماً به همان شکل خام به مقصد نمی‌رسد: در مسیر می‌تواند <strong>کدگذاری و رمزگشایی (<bdi dir="ltr">Encode/Decode</bdi>)</strong> شود، با داده‌های کمکی <strong>غنی‌سازی (<bdi dir="ltr">Enrich</bdi>)</strong> گردد یا اطلاعات اضافی آن برای امنیت <strong>رقیق (<bdi dir="ltr">Filter</bdi>)</strong> شود.</p>
+        </div>
+      </div>
+
+      <div class="section-footer">
+        <span class="dossier-meta">پیام (<bdi dir="ltr">Message</bdi>): کوچک‌ترین بسته اتمی از داده که از طریق کانال منتقل می‌شود</span>
+      </div>
+    </section>
+
+    <!-- SECTION 5: 65 EIP PATTERNS & CHANNEL SIMULATOR -->
+    <section id="eip" class="content-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۵</span>
+          <span class="dossier-meta">دسته‌بندی ۶۵ الگوی یکپارچه‌سازی سازمانی</span>
+        </div>
+        <span class="tag-chip">۶ گروه الگو · شبیه‌ساز کانال‌ها</span>
+      </div>
+
+      <h2 class="section-heading">ساختار ۶ گروه الگوی پیام‌رسانی و مقایسه کانال <bdi dir="ltr">Point-to-Point</bdi> در برابر <bdi dir="ltr">Publish-Subscribe</bdi></h2>
+      <p class="section-lede">تمام ۶۵ الگوی کتاب مرجع در ۶ گروه متوالی سازمان‌دهی شده‌اند. در ادامه جلسه، گروه نخست یعنی <strong>کانال‌های پیام‌رسانی</strong> و دو الگوی بنیادین آن تشریح شد. در شبیه‌ساز زیر تفاوت رفتار صف <bdi dir="ltr">FIFO</bdi> در کانال نقطه به نقطه و پخش چندگانه در انتشار-اشتراک را آزمایش کنید.</p>
+
+      <!-- Interactive Channel Simulator -->
+      <div class="channel-sim">
+        <div class="channel-header">
+          <div>
+            <h3 style="margin-bottom: 2px;">شبیه‌ساز کانال‌های پیام‌رسانی</h3>
+            <span class="dossier-meta" id="channel-mode-caption">حالت نقطه به نقطه: انتقال پیام به همان ترتیب دریافت (<bdi dir="ltr">FIFO</bdi>) به یک گیرنده</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center;">
+            <div class="mode-switch" role="group" aria-label="نوع کانال پیام‌رسانی">
+              <button type="button" class="mode-btn active" id="btn-mode-p2p" onclick="setChannelMode('p2p')">Point-to-Point</button>
+              <button type="button" class="mode-btn" id="btn-mode-pubsub" onclick="setChannelMode('pubsub')">Publish-Subscribe</button>
+            </div>
+            <button type="button" class="btn-primary" onclick="sendChannelMessage()">ارسال پیام سفارش جدید</button>
+            <button type="button" class="btn-secondary" onclick="clearChannelSim()">پاک کردن</button>
+          </div>
+        </div>
+
+        <div class="channel-lanes">
+          <div class="lane-box">
+            <div class="lane-title">۱. فرستنده / ناشر (<bdi dir="ltr">Sender / Publisher</bdi>)</div>
+            <p style="font-size: 0.88rem; color: var(--on-surface-variant);">سفارش‌ها به ترتیب <bdi dir="ltr">Order 1, Order 2, Order 3</bdi> تولید می‌شوند.</p>
+            <div id="sim-sender-log" style="display: flex; flex-direction: column; gap: var(--space-xs);"></div>
+          </div>
+
+          <div class="lane-box">
+            <div class="lane-title">۲. کانال پیام (<bdi dir="ltr">Message Channel</bdi>)</div>
+            <p id="sim-channel-desc" style="font-size: 0.88rem; color: var(--on-surface-variant);">مانند صف <bdi dir="ltr">First-In, First-Out (FIFO)</bdi> در درس سیستم‌عامل: اولین پیام ورودی، اولین پیام خروجی به گیرنده است.</p>
+            <div id="sim-channel-queue" style="display: flex; flex-direction: column; gap: var(--space-xs);"></div>
+          </div>
+
+          <div class="lane-box">
+            <div class="lane-title">۳. گیرنده / مشترکین (<bdi dir="ltr">Receiver / Subscribers</bdi>)</div>
+            <div class="receiver-card" id="sim-recv-1">
+              <strong>گیرنده / مشترک ۱: سامانه پردازش سفارش</strong>
+              <div id="sim-recv-1-msgs" style="display: flex; flex-wrap: wrap; gap: 4px;"></div>
+            </div>
+            <div class="receiver-card inactive" id="sim-recv-2">
+              <strong>مشترک ۲: سامانه مالی و حسابداری</strong>
+              <div id="sim-recv-2-msgs" style="display: flex; flex-wrap: wrap; gap: 4px;"></div>
+            </div>
+            <div class="receiver-card inactive" id="sim-recv-3">
+              <strong>مشترک ۳: سرویس اطلاع‌رسانی پیامک</strong>
+              <div id="sim-recv-3-msgs" style="display: flex; flex-wrap: wrap; gap: 4px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 EIP Groups -->
+      <div class="card-grid">
+        <article class="eip-group-card">
+          <div class="eip-group-top">
+            <span class="index-num">GROUP 01</span>
+            <span class="tag-chip">کانال‌های پیام‌رسانی</span>
+          </div>
+          <h3>کانال‌های پیام‌رسانی (<bdi dir="ltr">Messaging Channels</bdi>)</h3>
+          <p>زیرساخت انتقال پیام بین فرستنده و گیرنده؛ برنامه‌ها به جای اتصال مستقیم، پیام را روی کانال می‌گذارند.</p>
+          <ul class="eip-list">
+            <li><strong><bdi dir="ltr">Point-to-Point</bdi>:</strong> یک فرستنده و یک گیرنده با ترتیب صف <bdi dir="ltr">FIFO</bdi>.</li>
+            <li><strong><bdi dir="ltr">Publish-Subscribe</bdi>:</strong> یک ناشر و ارسال چندپخشی (<bdi dir="ltr">Multicast</bdi>) به چندین مشترک هم‌زمان.</li>
+          </ul>
+        </article>
+
+        <article class="eip-group-card">
+          <div class="eip-group-top">
+            <span class="index-num">GROUP 02</span>
+            <span class="tag-chip">ساخت پیام</span>
+          </div>
+          <h3>الگوهای ساخت پیام (<bdi dir="ltr">Message Construction</bdi>)</h3>
+          <p>پس از وجود کانال، داده باید در قالب یک بسته اتمی استاندارد بسته‌بندی شود تا مقصد معنای آن را بفهمد.</p>
+          <ul class="eip-list">
+            <li>بسته‌بندی داده در قالب پیام (<bdi dir="ltr">Document / Command</bdi>).</li>
+            <li>افزودن شناسه همبستگی یا کد رهگیری برای تطبیق پاسخ با درخواست اصلی.</li>
+          </ul>
+        </article>
+
+        <article class="eip-group-card">
+          <div class="eip-group-top">
+            <span class="index-num">GROUP 03</span>
+            <span class="tag-chip">مسیریابی پیام</span>
+          </div>
+          <h3>الگوهای مسیریابی پیام (<bdi dir="ltr">Message Routing</bdi>)</h3>
+          <p>تعیین مسیر هوشمند در گذرگاه: پیام از مبدأ باید دقیقاً به دست کدام سامانه هدف برسد؟</p>
+          <ul class="eip-list">
+            <li>هدایت استعلام کد ملی از بانک به سامانه ثبت احوال.</li>
+            <li>هدایت درخواست تسهیلات به سامانه اعتبارسنجی بانک مرکزی.</li>
+          </ul>
+        </article>
+
+        <article class="eip-group-card">
+          <div class="eip-group-top">
+            <span class="index-num">GROUP 04</span>
+            <span class="tag-chip">تبدیل پیام</span>
+          </div>
+          <h3>الگوهای تبدیل پیام (<bdi dir="ltr">Message Transformation</bdi>)</h3>
+          <p>چون سامانه‌های مبدأ و مقصد ناهمگن‌اند، یک مبدل (<bdi dir="ltr">Translator</bdi>) در میانه راه فرمت‌ها را هم‌ساز می‌کند.</p>
+          <ul class="eip-list">
+            <li>تغییر قالب داده بین سامانه‌های متفاوت (<bdi dir="ltr">Data Format Translation</bdi>).</li>
+            <li>رمزنگاری، غنی‌سازی و پالایش محتوای پیام پیش از تحویل.</li>
+          </ul>
+        </article>
+
+        <article class="eip-group-card">
+          <div class="eip-group-top">
+            <span class="index-num">GROUP 05</span>
+            <span class="tag-chip">نقاط پایانی</span>
+          </div>
+          <h3>الگوهای نقاط پایانی پیام (<bdi dir="ltr">Messaging Endpoints</bdi>)</h3>
+          <p>نقطه اتصال (<bdi dir="ltr">Endpoint</bdi>) در لبه برنامه‌های کاربردی A و B که امکان ارسال و دریافت پیام روی کانال را فراهم می‌کند.</p>
+          <ul class="eip-list">
+            <li>ایجاد بسته پیام از داده‌های درون سامانه فرستنده.</li>
+            <li>دریافت پیام از کانال و تحویل به منطق پردازشی سامانه گیرنده.</li>
+          </ul>
+        </article>
+
+        <article class="eip-group-card">
+          <div class="eip-group-top">
+            <span class="index-num">GROUP 06</span>
+            <span class="tag-chip">مدیریت سیستم</span>
+          </div>
+          <h3>الگوهای مدیریت سیستم (<bdi dir="ltr">System Management</bdi>)</h3>
+          <p>بخش نظارتی (<bdi dir="ltr">Monitor</bdi>) برای کنترل جریان، کشف گلوگاه‌ها و اطمینان از سلامت تبادل پیام در کل گذرگاه.</p>
+          <ul class="eip-list">
+            <li>پایش و مانیتورینگ عبور پیام‌ها و ثبت خطاها.</li>
+            <li>ردیابی و مدیریت ترافیک در چرخه رفت‌وبرگشت بین اپلیکیشن‌ها.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="section-footer">
+        <span class="dossier-meta">چرخه کامل در گذرگاه: Endpoint مبدأ ← Channel ← Router ← Translator ← Monitor ← Endpoint مقصد</span>
+      </div>
+    </section>
+
+    <!-- SECTION 6: INTERACTIVE SELF-CHECK QUIZ -->
+    <section id="quiz" class="content-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۶</span>
+          <span class="dossier-meta">خودآزمایی مفاهیم کلیدی جلسه سوم</span>
+        </div>
+        <span class="tag-chip">۵ پرسش تحلیلی با بازخورد آنی</span>
+      </div>
+
+      <h2 class="section-heading">ارزیابی تسلط بر مباحث یکپارچه‌سازی</h2>
+      <p class="section-lede">پاسخ‌های شما به صورت خودکار ذخیره می‌شوند تا در مراجعه‌های بعدی نیز وضعیت آمادگی خود را مشاهده کنید.</p>
+
+      <div id="quiz-container"></div>
+
+      <div class="quiz-summary-bar">
+        <div>
+          <strong>امتیاز فعلی شما:</strong>
+          <span id="quiz-score-text" style="color: var(--secondary); font-weight: 700;">۰ از ۵ پرسش</span>
+        </div>
+        <span class="dossier-meta" id="quiz-status-msg">برای ثبت پاسخ، روی یکی از گزینه‌های هر پرسش کلیک کنید.</span>
+      </div>
+
+      <div class="section-footer">
+        <span class="dossier-meta">پایان جزوه جلسه سوم — آماده برای ادامه الگوهای کانال در جلسه بعد</span>
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      <span>منبع محتوا: متن سخنرانی درس الگوهای یکپارچه‌سازی سازمانی — دانشگاه آزاد اسلامی واحد ساوه (جلسه سوم، هفته هشتم و نهم)</span>
+      <span>کتاب مرجع تدریس: Enterprise Integration Patterns</span>
+    </footer>
+
+  </main>
+
+  <api-shim></api-shim>
+  <script>
+    // --- Persistent Application State ---
+    var appState = {
+      quizAnswers: {},
+      selectedCase: `azad`,
+      selectedStyle: `file`,
+      esbScenario: `sabt`,
+      esbStep: 0,
+      channelMode: `p2p`
+    };
+
+    var caseStudies = {
+      azad: {
+        tag: `مطالعه موردی ۰۱ · آموزش عالی`,
+        title: `جزایر سامانه‌ای در دانشگاه آزاد اسلامی`,
+        desc: `در دانشگاه چندین سامانه مستقل وجود دارد: «آموزشیار» برای ورودی‌های پیش از ۱۴۰۵، «معیار» برای ورودی‌های ۱۴۰۵ به بعد، «پژوهشیار» برای فرآیندهای پایان‌نامه و شورای پژوهشی، و «ساجد» برای امور و مجوزهای هیئت علمی. به دلیل نبود یکپارچگی کامل، ممکن است در ساعت ۸ صبح پنجشنبه در سامانه معیار درس تحلیل کلان‌داده و در آموزشیار درس دیگری برای همان استاد ثبت شده باشد.`,
+        insight: `<strong>نیاز واقعی از دید کاربر:</strong> استاد و دانشجو باید تنها با ورود به یک پنجره واحد، در هر لحظه آخرین داده درست، برنامه کلاسی، امور پژوهشی، حقوق و مرخصی را یکجا ببینند.`,
+        systems: `آموزشیار، معیار، پژوهشیار، ساجد`,
+        bottleneck: `جدایی ورودی‌های قبل و بعد از ۱۴۰۵ و پراکنده بودن امور پژوهشی و هیئت علمی`,
+        goal: `استخراج آخرین داده معتبر در هر لحظه از طریق یک سامانه واحد`
+      },
+      shahrdari: {
+        tag: `مطالعه موردی ۰۲ · مدیریت شهری`,
+        title: `سامانه‌های جزیره‌ای در شهرداری`,
+        desc: `در شهرداری سامانه‌هایی مثل «شهروندسپاری» برای دریافت پروانه و پایان‌کار، «اتوماسیون اداری» و «سیستم مالی و حسابداری» هر کدام پایگاه داده مستقل خود را دارند. وقتی شهروند هزینه ماده ۱۰ و پروانه را در سامانه شهروندسپاری پرداخت می‌کند، بخش حسابداری مجبور است خروجی اکسل بگیرد و دستی وارد نرم‌افزار مالی کند تا درآمد و هزینه مشخص شود.`,
+        insight: `<strong>نشانه‌شناسی جزیره کامل:</strong> هر نرم‌افزار به تنهایی بدون خطا کار می‌کند، اما برای انتقال اطلاعات مالی بین بخش‌ها هنوز به فایل اکسل و دخالت نیروی انسانی نیاز است.`,
+        systems: `شهروندسپاری، صدور پروانه، اتوماسیون اداری، سیستم مالی`,
+        bottleneck: `دیتابیس‌های مجزا و انتقال دستی درآمدهای ماده ۱۰ با خروجی اکسل`,
+        goal: `اتصال خودکار فرآیند صدور مجوز و پرداخت به سیستم حسابداری`
+      },
+      shetab: {
+        tag: `مطالعه موردی ۰۳ · شبکه بانکی`,
+        title: `شبکه شتاب و تجربه خودپرداز (<bdi dir="ltr">ATM</bdi>)`,
+        desc: `پیش‌تر دارنده کارت یک بانک فقط باید به خودپرداز همان بانک مراجعه می‌کرد. شبکه شتاب بانک‌ها را یکپارچه کرد تا با کارت هر بانکی از هر ATM پول برداشت شود (هرچند هنوز عملیات خاصی مثل تغییر رمز نیازمند ATM بانک مبدأ است). از دید کاربر نهایی—مثل ماجرای طنز مراجعه به بانک سامان برای موجودی ۱۰۰۰ تومانی—مشتری فقط نتیجه را می‌خواهد و نیازی ندارد مکانیزم ارتباط بین‌بانکی را بداند.`,
+        insight: `<strong>مزیت یکپارچه‌سازی شبکه‌ای:</strong> هر بانک پایگاه داده خاص خود را حفظ می‌کند، اما از طریق شبکه واسط شتاب با سایر بانک‌ها تبادل تراکنش امن دارد.`,
+        systems: `بانک مبدأ، شبکه شتاب، خودپرداز بانک مقصد`,
+        bottleneck: `برخی سرویس‌ها (مثل تغییر رمز) هنوز در سطح کامل یکپارچه نشده‌اند`,
+        goal: `ارائه سرویس شفاف به مشتری صرف‌نظر از بانک صادرکننده کارت`
+      },
+      erp: {
+        tag: `مطالعه موردی ۰۴ · صنایع بزرگ و ERP`,
+        title: `سیستم‌های جامع <bdi dir="ltr">ERP</bdi> مثل <bdi dir="ltr">SAP</bdi> در خودروسازی`,
+        desc: `در صنایع بزرگی مثل خودروسازی تلاش شد از صفر تا صد زنجیره—از قرارداد با قطعه‌ساز تا تولید، تضمین کیفیت و خدمات پس از فروش—در یک سامانه <bdi dir="ltr">ERP</bdi> (معروف‌ترین نمونه: <bdi dir="ltr">SAP</bdi>) تجمیع شود. اما حتی این سامانه‌ها هم در گذر زمان با تغییر کارکردها و نیازهای جدید کسب‌وکار، به تنهایی پاسخگو نیستند.`,
+        insight: `<strong>درس کلیدی معماری:</strong> به دلیل تغییر دائمی وظایف و ماهیت حرفه، هیچ نرم‌افزار یکپارچه ایستایی تا ابد بی‌نیاز از اتصال به سامانه‌های تازه باقی نمی‌ماند.`,
+        systems: `هسته ERP، تأمین قطعات، خط تولید، تضمین کیفیت، خدمات پس از فروش`,
+        bottleneck: `تغییر سریع نیازهای صنعتی و دشواری گنجاندن همه نیازهای آینده در یک بسته`,
+        goal: `آمادگی برای الحاق سامانه‌های جدید و توسعه تدریجی پیرامون هسته ERP`
+      },
+      mygov: {
+        tag: `مطالعه موردی ۰۵ · دولت الکترونیک`,
+        title: `پنجره «دولت من»، سنجش و ثبت احوال`,
+        desc: `پلتفرم دولت من تلاش کرده خدمات دستگاه‌های مختلف را یکپارچه کند (برای نمونه اتصال بخش سنجش، هرچند گاهی پس از لاگین دسترسی به کارنامه ممکن است محدود شود). همچنین در سامانه بانکی، وقتی برای افتتاح حساب کد ملی را می‌زنید، استعلام هویتی باید از ثبت احوال برگردد. اگر سرویس ثبت احوال از کار بیفتد، سرویس بانک هم متوقف می‌شود.`,
+        insight: `<strong>چالش قابلیت اطمینان:</strong> در یکپارچه‌سازی نقطه‌به‌نقط هم‌زمان، قطعی یک سرویس بالادستی (ثبت احوال) کل فرآیند سازمان پایین‌دستی (بانک) را مختل می‌کند.`,
+        systems: `دولت من، سازمان ثبت احوال، سازمان سنجش، بانک‌ها`,
+        bottleneck: `وابستگی مستقیم به زنده بودن لحظه‌ای سرویس استعلامی و سطح دسترسی‌ها`,
+        goal: `ایجاد گذرگاه پیام دولت الکترونیک (<bdi dir="ltr">e-Government</bdi>) با تاب‌آوری بالا`
+      }
+    };
+
+    var integrationStyles = {
+      file: {
+        badge: `سبک اول · ساده‌ترین و قدیمی‌ترین روش`,
+        name: `۱. انتقال فایل (<bdi dir="ltr">File Transfer</bdi>)`,
+        summary: `برنامه A داده‌های مورد نیاز مشترک را استخراج (<bdi dir="ltr">Export</bdi>) کرده و در قالب یک فایل خروجی می‌گیرد؛ سپس برنامه B این فایل را وارد (<bdi dir="ltr">Import</bdi>) و پردازش می‌کند.`,
+        example: `<strong>مثال کلاس:</strong> لیست بیمه تأمین اجتماعی که کارفرما در پایان ماه از نرم‌افزار حقوق خروجی می‌گیرد و (قبلاً روی دیسکت/CD و اکنون با نرم‌افزار لیست) تحویل سازمان بیمه می‌دهد تا سابقه بیمه‌ای ثبت شود.`,
+        pro: `سادگی پیاده‌سازی و عدم نیاز به ارتباط برخط یا هم‌زمانی دو سامانه.`,
+        con: `تأخیر زمانی (به‌روز نبودن لحظه‌ای داده) و وابستگی به فرمت مشترک فایل.`,
+        svg: `<svg viewBox="0 0 420 180" aria-hidden="true">
+          <rect x="16" y="45" width="110" height="90" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="71" y="86" text-anchor="middle" fill="var(--on-surface)" font-size="13" font-weight="700">برنامه A</text>
+          <text x="71" y="106" text-anchor="middle" fill="var(--on-surface-variant)" font-size="11">Export داده</text>
+          <rect x="165" y="58" width="90" height="64" rx="4" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="210" y="88" text-anchor="middle" fill="var(--on-primary-container)" font-size="12" font-weight="700">فایل مشترک</text>
+          <text x="210" y="106" text-anchor="middle" fill="var(--on-primary-container)" font-size="10">لیست بیمه / اکسل</text>
+          <rect x="294" y="45" width="110" height="90" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="349" y="86" text-anchor="middle" fill="var(--on-surface)" font-size="13" font-weight="700">برنامه B</text>
+          <text x="349" y="106" text-anchor="middle" fill="var(--on-surface-variant)" font-size="11">Import داده</text>
+          <line x1="126" y1="90" x2="160" y2="90" stroke="var(--secondary)" stroke-width="2.5"/>
+          <polygon points="160,85 168,90 160,95" fill="var(--secondary)"/>
+          <line x1="255" y1="90" x2="289" y2="90" stroke="var(--secondary)" stroke-width="2.5"/>
+          <polygon points="289,85 297,90 289,95" fill="var(--secondary)"/>
+        </svg>`
+      },
+      db: {
+        badge: `سبک دوم · اشتراک‌گذاری سطح ذخیره`,
+        name: `۲. پایگاه داده مشترک (<bdi dir="ltr">Shared Database</bdi>)`,
+        summary: `یک مخزن ذخیره‌سازی داده واحد وجود دارد که چند برنامه کاربردی مختلف همگی مستقیماً به همان دیتابیس متصل می‌شوند و از آن می‌خوانند و می‌نویسند.`,
+        example: `<strong>مثال کلاس:</strong> نرم‌افزار <bdi dir="ltr">CRM</bdi> که دیتابیس مجزا ندارد و مستقیماً از دیتابیس <bdi dir="ltr">ERP</bdi> راهکاران می‌خواند، یا تجمیع اطلاعات بانکی در الگوی شاپرک (در مقایسه با دیتابیس‌های مجزای شبکه شتاب).`,
+        pro: `دسترسی فوری به آخرین اطلاعات؛ چون داده فقط در یک جا ذخیره می‌شود، دوگانگی رخ نمی‌دهد.`,
+        con: `نقطه شکست واحد (<bdi dir="ltr">Single Point of Failure</bdi>): اگر این پایگاه داده خراب شود، هر سه اپلیکیشن از کار می‌افتند.`,
+        svg: `<svg viewBox="0 0 420 190" aria-hidden="true">
+          <rect x="20" y="18" width="104" height="46" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="72" y="46" text-anchor="middle" fill="var(--on-surface)" font-size="12" font-weight="700">اپلیکیشن A</text>
+          <rect x="158" y="18" width="104" height="46" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="210" y="46" text-anchor="middle" fill="var(--on-surface)" font-size="12" font-weight="700">اپلیکیشن B</text>
+          <rect x="296" y="18" width="104" height="46" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="348" y="46" text-anchor="middle" fill="var(--on-surface)" font-size="12" font-weight="700">اپلیکیشن C</text>
+          <rect x="130" y="114" width="160" height="58" rx="8" fill="var(--secondary)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="210" y="141" text-anchor="middle" fill="var(--on-primary)" font-size="13" font-weight="700">پایگاه داده مشترک</text>
+          <text x="210" y="159" text-anchor="middle" fill="var(--primary-container)" font-size="10">آخرین داده واحد (ریسک توقف کل)</text>
+          <line x1="72" y1="64" x2="165" y2="114" stroke="var(--secondary)" stroke-width="2"/>
+          <line x1="210" y1="64" x2="210" y2="114" stroke="var(--secondary)" stroke-width="2"/>
+          <line x1="348" y1="64" x2="255" y2="114" stroke="var(--secondary)" stroke-width="2"/>
+        </svg>`
+      },
+      rpc: {
+        badge: `سبک سوم · فراخوانی هم‌زمان سرویس`,
+        name: `۳. فراخوانی رویه از راه دور (<bdi dir="ltr">RPC / API</bdi>)`,
+        summary: `برنامه A هر زمان اطلاعاتی نیاز داشته باشد، مستقیماً یک تابع یا سرویس را روی برنامه B فراخوانی می‌کند و برنامه B نتیجه را در همان لحظه برمی‌گرداند.`,
+        example: `<strong>مثال کلاس:</strong> وب‌سرویس‌ها و <bdi dir="ltr">API</bdi>های امروزی که جای انتقال فایل را گرفته‌اند؛ مثلاً ارسال کد ملی و دریافت فوری نام و نام خانوادگی از سرویس مقابل.`,
+        pro: `کپسوله‌سازی داده‌های هر سامانه و تبادل برخط از طریق واسط (<bdi dir="ltr">API</bdi>) تعریف‌شده.`,
+        con: `وابستگی زمانی و شبکه‌ای: اگر شبکه کند یا قطع باشد یا برنامه B از کار بیفتد، برنامه A معطل و متوقف می‌شود.`,
+        svg: `<svg viewBox="0 0 420 180" aria-hidden="true">
+          <rect x="24" y="45" width="125" height="90" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="86" y="84" text-anchor="middle" fill="var(--on-surface)" font-size="13" font-weight="700">برنامه A</text>
+          <text x="86" y="106" text-anchor="middle" fill="var(--secondary)" font-size="11">درخواست تابع</text>
+          <rect x="271" y="45" width="125" height="90" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="333" y="84" text-anchor="middle" fill="var(--on-surface)" font-size="13" font-weight="700">برنامه B</text>
+          <text x="333" y="106" text-anchor="middle" fill="var(--secondary)" font-size="11">ارائه API / پاسخ</text>
+          <line x1="149" y1="74" x2="265" y2="74" stroke="var(--data-1)" stroke-width="2.5"/>
+          <polygon points="265,69 273,74 265,79" fill="var(--data-1)"/>
+          <text x="210" y="64" text-anchor="middle" fill="var(--data-1)" font-size="11" font-weight="700">فراخوانی مستقیم (Call)</text>
+          <line x1="271" y1="108" x2="155" y2="108" stroke="var(--data-2)" stroke-width="2.5"/>
+          <polygon points="155,103 147,108 155,113" fill="var(--data-2)"/>
+          <text x="210" y="128" text-anchor="middle" fill="var(--tertiary)" font-size="11" font-weight="700">بازگشت نتیجه (Return)</text>
+        </svg>`
+      },
+      msg: {
+        badge: `سبک چهارم · کامل‌ترین معماری توزیع‌شده`,
+        name: `۴. پیام‌رسانی (<bdi dir="ltr">Messaging</bdi>)`,
+        summary: `سامانه‌ها به جای تماس مستقیم، داده را در قالب بسته پیام (<bdi dir="ltr">Message</bdi>) روی یک گذرگاه مستقل (<bdi dir="ltr">ESB</bdi>) می‌گذارند و پاسخ را هم از طریق پیام دریافت می‌کنند.`,
+        example: `<strong>مثال کلاس:</strong> گذرگاه سرویس سازمانی در دولت من (ایران در سال‌های اخیر): ارسال کد ملی از بانک به ثبت احوال و دریافت پاسخ هویتی همراه با کد رهگیری.`,
+        pro: `جداسازی زمانی و مکانی (<bdi dir="ltr">Decoupling</bdi>)، قابلیت اطمینان بالا و تاب‌آوری در برابر تغییر یا توقف موقت سامانه‌ها.`,
+        con: `نیازمند طراحی دقیق الگوهای پیام‌رسانی (مسیریابی، تبدیل پیام، نقاط پایانی و مدیریت سیستم).`,
+        svg: `<svg viewBox="0 0 420 185" aria-hidden="true">
+          <rect x="18" y="22" width="106" height="48" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="71" y="51" text-anchor="middle" fill="var(--on-surface)" font-size="12" font-weight="700">اپلیکیشن A</text>
+          <rect x="296" y="22" width="106" height="48" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="349" y="51" text-anchor="middle" fill="var(--on-surface)" font-size="12" font-weight="700">اپلیکیشن B</text>
+          <rect x="157" y="124" width="106" height="46" rx="6" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="210" y="152" text-anchor="middle" fill="var(--on-surface)" font-size="12" font-weight="700">اپلیکیشن C</text>
+          <rect x="24" y="84" width="372" height="28" rx="4" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="210" y="103" text-anchor="middle" fill="var(--on-primary-container)" font-size="12" font-weight="700">گذرگاه سرویس سازمانی (ESB / Message Channel)</text>
+          <line x1="71" y1="70" x2="71" y2="84" stroke="var(--secondary)" stroke-width="2.5"/>
+          <line x1="349" y1="70" x2="349" y2="84" stroke="var(--secondary)" stroke-width="2.5"/>
+          <line x1="210" y1="112" x2="210" y2="124" stroke="var(--secondary)" stroke-width="2.5"/>
+        </svg>`
+      }
+    };
+
+    var esbScenarios = {
+      sabt: [
+        {
+          tag: `گام ۰۱ از ۰۶ · فرستنده (Consumer)`,
+          title: `ایجاد درخواست در سامانه بانک`,
+          desc: `مشتری برای افتتاح حساب به بانک مراجعه کرده و کد ملی خود را ارائه می‌دهد. سامانه بانک به عنوان مصرف‌کننده این داده را آماده ارسال روی گذرگاه دولت من می‌کند.`,
+          payload: `{
+  "source": "Bank_System",
+  "nationalId": "0012345678",
+  "claimedName": "Shahrozi",
+  "status": "RAW_DATA"
+}`
+        },
+        {
+          tag: `گام ۰۲ از ۰۶ · نقطه پایانی مبدأ (Endpoint)`,
+          title: `بسته‌بندی داده در قالب پیام اتمی`,
+          desc: `نقطه پایانی (<bdi dir="ltr">Endpoint</bdi>) در لبه سامانه بانک، داده خام را گرفته و به شکل یک پیام استاندارد با شناسه ردیابی می‌سازد تا قابل انتقال روی کانال باشد.`,
+          payload: `{
+  "messageId": "MSG-90421",
+  "correlationId": "REQ-778",
+  "endpoint": "Bank_Outbound",
+  "body": { "nationalId": "0012345678" }
+}`
+        },
+        {
+          tag: `گام ۰۳ از ۰۶ · الگو و سبک Pipe & Filters`,
+          title: `عبور از فیلترهای رمزنگاری و پالایش`,
+          desc: `در میان‌افزار پیام، پیام از فیلترهای مستقل عبور می‌کند: اطلاعات حساس رمزگذاری (<bdi dir="ltr">Encode</bdi>) می‌شوند و فیلدهای غیرضروری برای امنیت رقیق یا حذف می‌شوند.`,
+          payload: `{
+  "messageId": "MSG-90421",
+  "filtersApplied": ["StripExtraFields", "EncryptPayload"],
+  "cipherText": "a8f3#k92!pQ==",
+  "channel": "eGov_Secure_Pipe"
+}`
+        },
+        {
+          tag: `گام ۰۴ از ۰۶ · مسیریاب (Router)`,
+          title: `تعیین مقصد درست روی گذرگاه`,
+          desc: `مسیریاب (<bdi dir="ltr">Router</bdi>) بر اساس نوع سرویس درخواستی (استعلام هویت)، پیام را میان ده‌ها سازمان متصل به دولت من، دقیقاً به سمت کانال ثبت احوال هدایت می‌کند.`,
+          payload: `{
+  "routeDecision": "SabtAhval_Identity_Service",
+  "targetChannel": "CH-SABT-01",
+  "monitored": true
+}`
+        },
+        {
+          tag: `گام ۰۵ از ۰۶ · مبدل (Translator)`,
+          title: `تبدیل فرمت پیام برای سامانه مقصد`,
+          desc: `چون سامانه بانک و ثبت احوال ممکن است ساختار داده یا پلتفرم متفاوتی داشته باشند، مبدل (<bdi dir="ltr">Translator</bdi>) پیام را رمزگشایی و به فرمت قابل فهم برای سامانه ثبت احوال ترجمه می‌کند.`,
+          payload: `{
+  "translatedFor": "SabtAhval_Core",
+  "query": "GET_PERSON_BY_NID",
+  "nid": "0012345678"
+}`
+        },
+        {
+          tag: `گام ۰۶ از ۰۶ · گیرنده و بازگشت کد رهگیری`,
+          title: `استعلام از ثبت احوال و صدور کد رهگیری`,
+          desc: `نقطه پایانی ثبت احوال پیام را تحویل می‌گیرد، نام و نام خانوادگی را استخراج کرده و پاسخ را با <strong>کد رهگیری معتبر</strong> از همین مسیر معکوس به بانک برمی‌گرداند.`,
+          payload: `{
+  "status": "VERIFIED",
+  "trackingCode": "TRK-1405-88391",
+  "fullName": "مهدی شهروزی",
+  "validForTransaction": true
+}`
+        }
+      ],
+      credit: [
+        {
+          tag: `گام ۰۱ از ۰۶ · فرستنده (Consumer)`,
+          title: `درخواست تسهیلات و آغاز اعتبارسنجی`,
+          desc: `متقاضی درخواست وام ثبت کرده است؛ سامانه تسهیلات نیاز دارد پیش از پرداخت، اعتبار بانکی او را از سامانه اعتبارسنجی استعلام کند.`,
+          payload: `{
+  "source": "Loan_Portal",
+  "applicantId": "0087654321",
+  "requestType": "CREDIT_SCORE"
+}`
+        },
+        {
+          tag: `گام ۰۲ از ۰۶ · نقطه پایانی مبدأ`,
+          title: `تولید پیام استاندارد درخواست اعتبار`,
+          desc: `نقطه پایانی (<bdi dir="ltr">Endpoint</bdi>) بسته پیام را با سرآیند امنیتی و شناسه درخواست آماده ورود به کانال پیام‌رسانی می‌کند.`,
+          payload: `{
+  "messageId": "MSG-33108",
+  "endpoint": "Loan_Outbound",
+  "replyTo": "CH-LOAN-REPLY"
+}`
+        },
+        {
+          tag: `گام ۰۳ از ۰۶ · Pipe & Filters`,
+          title: `غنی‌سازی و رمزگذاری بسته پیام`,
+          desc: `فیلتر اول تاریخ و شناسه شعبه را به پیام اضافه (<bdi dir="ltr">Enrich</bdi>) می‌کند و فیلتر دوم بدنه پیام را پیش از ورود به شبکه رمزگذاری می‌نماید.`,
+          payload: `{
+  "filtersApplied": ["EnrichBranchMeta", "EncodeAES"],
+  "branchCode": "SAVEH-104",
+  "encrypted": true
+}`
+        },
+        {
+          tag: `گام ۰۴ از ۰۶ · مسیریاب (Router)`,
+          title: `هدایت به سامانه اعتبارسنجی بانک مرکزی`,
+          desc: `مسیریاب با بررسی نوع درخواست، پیام را به سمت سامانه اعتبارسنجی بانکی هدایت می‌کند تا تداخل با سرویس‌های هویتی پیش نیاید.`,
+          payload: `{
+  "routeDecision": "CentralBank_Credit_Check",
+  "priority": "NORMAL"
+}`
+        },
+        {
+          tag: `گام ۰۵ از ۰۶ · مبدل (Translator)`,
+          title: `هم‌سان‌سازی قالب داده ناهمگن`,
+          desc: `پیام از فرمت <bdi dir="ltr">JSON</bdi> سامانه مدرن وام به ساختار مورد انتظار سامانه موروثی اعتبارسنجی تبدیل می‌شود.`,
+          payload: `{
+  "formatConversion": "JSON -> Legacy_XML",
+  "recordCode": "0087654321"
+}`
+        },
+        {
+          tag: `گام ۰۶ از ۰۶ · گیرنده و پاسخ`,
+          title: `بازگشت وضعیت اعتبار بانکی با کد رهگیری`,
+          desc: `پاسخ اعتبارسنجی به عنوان یک پیام برگشتی از کانال عبور کرده و به سامانه متقاضی می‌رسد تا تصمیم اعطای تسهیلات گرفته شود.`,
+          payload: `{
+  "creditGrade": "A",
+  "bouncedCheques": 0,
+  "trackingCode": "CRD-992014",
+  "approved": true
+}`
+        }
+      ],
+      tuition: [
+        {
+          tag: `گام ۰۱ از ۰۶ · فرستنده (آموزشیار)`,
+          title: `شروع فرآیند پرداخت شهریه در انتخاب واحد`,
+          desc: `دانشجو در دانشگاه آزاد قصد انتخاب واحد دارد؛ سامانه دانشگاه تنها حداقل داده لازم (مبلغ و شناسه پرداخت) را بدون افشای کل سوابق تحصیلی آماده ارسال به بانک می‌کند (اصل کمترین وابستگی).`,
+          payload: `{
+  "source": "University_Portal",
+  "paymentRef": "PAY-1405-412",
+  "amountIRR": 45000000
+}`
+        },
+        {
+          tag: `گام ۰۲ از ۰۶ · نقطه پایانی دانشگاه`,
+          title: `ساخت پیام پرداخت امن`,
+          desc: `نقطه پایانی دانشگاه داده شهریه را در قالب بسته اتمی پیام قرار داده و به گذرگاه تحویل می‌دهد.`,
+          payload: `{
+  "messageId": "MSG-6502",
+  "endpoint": "Edu_Payment_EP",
+  "lowCoupling": true
+}`
+        },
+        {
+          tag: `گام ۰۳ از ۰۶ · Pipe & Filters`,
+          title: `پالایش اطلاعات دانشجو و امضای دیجیتال`,
+          desc: `فیلتر امنیتی اطمینان می‌دهد اطلاعات درسی دانشجو به بانک نشت نکند (حفظ مرز سازمانی) و امضای دیجیتال را اضافه می‌کند.`,
+          payload: `{
+  "filtersApplied": ["StripAcademicRecords", "SignMessage"],
+  "signature": "SIG-VALID-991"
+}`
+        },
+        {
+          tag: `گام ۰۴ از ۰۶ · مسیریاب (Router)`,
+          title: `مسیریابی به درگاه بانک عامل`,
+          desc: `روتر بر اساس کد بانک انتخابی دانشجو، پیام را روی کانال بانک مربوطه قرار می‌دهد.`,
+          payload: `{
+  "routeDecision": "Bank_Payment_Gateway",
+  "channel": "CH-BANK-SETTLE"
+}`
+        },
+        {
+          tag: `گام ۰۵ از ۰۶ · مبدل (Translator)`,
+          title: `تطبیق فرمت دانشگاه با پروتکل بانکی`,
+          desc: `مبدل شناسه پرداخت دانشگاهی را به فیلدهای استاندارد تراکنش بانکی ترجمه می‌کند.`,
+          payload: `{
+  "translatedFormat": "ISO-8583-Bridge",
+  "billId": "PAY-1405-412"
+}`
+        },
+        {
+          tag: `گام ۰۶ از ۰۶ · گیرنده و بازگشت تأیید`,
+          title: `تأیید تراکنش و باز شدن انتخاب واحد`,
+          desc: `بانک پیام تأیید کسر وجه و کد رهگیری را برمی‌گرداند؛ سامانه دانشگاه وضعیت مالی دانشجو را به‌روز کرده و فرآیند انتخاب واحد تکمیل می‌شود.`,
+          payload: `{
+  "paymentStatus": "SETTLED",
+  "bankRef": "SHETAB-774120",
+  "courseRegistrationUnlocked": true
+}`
+        }
+      ]
+    };
+
+    var quizData = [
+      {
+        id: `q1`,
+        question: `۱. تفاوت بنیادین «الگو (Pattern)» با «سبک (Style)» در چیست؟`,
+        options: [
+          `الگو فقط در خیاطی کاربرد دارد و سبک مخصوص برنامه‌نویسی است.`,
+          `هر دو بهینه‌سازی شده‌اند، اما سبک هنوز استاندارد عمومی نشده است و تا زمانی که استاندارد نشود الگو نیست.`,
+          `سبک همیشه باگ دارد ولی الگو بدون اجرا نوشته می‌شود.`
+        ],
+        correctIdx: 1,
+        rationale: `دقیق است: هم سبک و هم الگو از تکرار و تجربه به حالت بهینه می‌رسند، اما تفاوت اصلی استاندارد شدن الگوست؛ تا پیش از استاندارد شدن به آن «سبک» می‌گوییم.`
+      },
+      {
+        id: `q2`,
+        question: `۲. بر اساس اصل انسجام و وابستگی (Cohesion & Coupling)، ارتباط سامانه دانشگاه و سامانه بانک هنگام پرداخت شهریه چگونه باید باشد؟`,
+        options: [
+          `بیشترین ارتباط ممکن تا بانک به همه اطلاعات درسی دانشجو دسترسی داشته باشد.`,
+          `کمترین ارتباط ممکن (حداقلی)؛ فقط ردوبدل شدن داده‌های ضروری مثل شناسه پرداخت و تأیید تراکنش.`,
+          `اتصال مستقیم هر دو به یک پایگاه داده مشترک بدون واسط.`
+        ],
+        correctIdx: 1,
+        rationale: `صحیح: اجزای درون یک سازمان باید بیشترین ارتباط (Cohesion بالا) و دو سازمان مستقل باید کمترین وابستگی ممکن (Coupling پایین) را داشته باشند.`
+      },
+      {
+        id: `q3`,
+        question: `۳. بزرگ‌ترین ریسک سبک «پایگاه داده مشترک (Shared Database)» چیست؟`,
+        options: [
+          `داده‌ها در آن همیشه قدیمی و با تأخیر یک‌ماهه هستند.`,
+          `امکان خواندن داده توسط چند برنامه در آن وجود ندارد.`,
+          `نقطه شکست واحد: با خرابی آن پایگاه داده، تمام اپلیکیشن‌های متصل از کار می‌افتند.`
+        ],
+        correctIdx: 2,
+        rationale: `درست است: مزیت دیتابیس مشترک دسترسی به آخرین داده است، اما عیب بزرگ آن این است که خرابی دیتابیس کل سامانه‌های متصل (مثلاً هر ۳ اپلیکیشن) را متوقف می‌کند.`
+      },
+      {
+        id: `q4`,
+        question: `۴. در ساختار معماری Pipe and Filters، وظیفه «فیلترها» در مسیر عبور پیام چیست؟`,
+        options: [
+          `تقسیم وظیفه پردازشی بزرگ به گام‌های کوچک مستقل مانند رمزگذاری، غنی‌سازی یا رقیق‌سازی پیام.`,
+          `ذخیره‌سازی دائمی فایل‌های اکسل شهرداری به جای دیتابیس.`,
+          `جلوگیری از اتصال سامانه‌های لینوکسی به سامانه‌های ویندوزی.`
+        ],
+        correctIdx: 0,
+        rationale: `عالی: سبک Pipe and Filters پردازش بزرگ را به گام‌های کوچک و مستقل (فیلتر) تقسیم می‌کند که از طریق کانال‌ها (لوله) به هم متصل‌اند.`
+      },
+      {
+        id: `q5`,
+        question: `۵. کانال Point-to-Point در الگوهای پیام‌رسانی معادل کدام مفهوم در درس سیستم‌عامل است و چه تفاوتی با Publish-Subscribe دارد؟`,
+        options: [
+          `معادل صف FIFO (اولین ورودی، اولین خروجی) به یک گیرنده است؛ در حالی که Publish-Subscribe یک پیام را به چندین مشترک هم‌زمان (Multicast) می‌فرستد.`,
+          `معادل حافظه تصادفی است و پیام را به صورت هم‌زمان به صدها سامانه می‌فرستد.`,
+          `هر دو الگوی کانال فقط با انتقال فایل کار می‌کنند.`
+        ],
+        correctIdx: 0,
+        rationale: `کاملاً درست: در کانال نقطه به نقطه، پیام‌ها با همان ترتیب دریافت (FIFO) به یک گیرنده تحویل می‌شوند، ولی در Publish-Subscribe ناشر پیام را برای چندین مشترک ارسال می‌کند.`
+      }
+    ];
+
+    var simOrderCounter = 0;
+    var simMessages = [];
+
+    // --- Persistence Helpers ---
+    async function saveAppState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        // Safe fallback in standalone preview
+      }
+    }
+
+    async function loadAndApplyState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          var saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            if (saved.quizAnswers && typeof saved.quizAnswers === `object`) appState.quizAnswers = saved.quizAnswers;
+            if (typeof saved.selectedCase === `string` && caseStudies[saved.selectedCase]) appState.selectedCase = saved.selectedCase;
+            if (typeof saved.selectedStyle === `string` && integrationStyles[saved.selectedStyle]) appState.selectedStyle = saved.selectedStyle;
+            if (typeof saved.esbScenario === `string` && esbScenarios[saved.esbScenario]) appState.esbScenario = saved.esbScenario;
+            if (typeof saved.esbStep === `number`) appState.esbStep = saved.esbStep;
+            if (saved.channelMode === `p2p` || saved.channelMode === `pubsub`) appState.channelMode = saved.channelMode;
+          }
+        }
+      } catch (err) {
+        // Safe fallback
+      }
+    }
+
+    // --- Case Study Selector ---
+    function selectCaseStudy(key, clickedBtn) {
+      var data = caseStudies[key];
+      if (!data) return;
+      appState.selectedCase = key;
+
+      var allBtns = document.querySelectorAll(`.case-btn`);
+      allBtns.forEach(function (b) {
+        b.classList.remove(`active`);
+        b.setAttribute(`aria-selected`, `false`);
+      });
+      if (clickedBtn) {
+        clickedBtn.classList.add(`active`);
+        clickedBtn.setAttribute(`aria-selected`, `true`);
+      }
+
+      var tagEl = document.getElementById(`case-tag`);
+      var titleEl = document.getElementById(`case-title`);
+      var descEl = document.getElementById(`case-desc`);
+      var insightEl = document.getElementById(`case-insight`);
+      var sysEl = document.getElementById(`case-systems`);
+      var botEl = document.getElementById(`case-bottleneck`);
+      var goalEl = document.getElementById(`case-goal`);
+
+      if (tagEl) tagEl.textContent = data.tag;
+      if (titleEl) titleEl.innerHTML = data.title;
+      if (descEl) descEl.textContent = data.desc;
+      if (insightEl) insightEl.innerHTML = data.insight;
+      if (sysEl) sysEl.textContent = data.systems;
+      if (botEl) botEl.textContent = data.bottleneck;
+      if (goalEl) goalEl.innerHTML = data.goal;
+
+      saveAppState();
+    }
+
+    // --- Integration Style Inspector ---
+    function selectStyle(styleKey, clickedBtn) {
+      var st = integrationStyles[styleKey];
+      if (!st) return;
+      appState.selectedStyle = styleKey;
+
+      var allBtns = document.querySelectorAll(`.style-tab-btn`);
+      allBtns.forEach(function (b) {
+        b.classList.remove(`active`);
+        b.setAttribute(`aria-selected`, `false`);
+      });
+      if (clickedBtn) {
+        clickedBtn.classList.add(`active`);
+        clickedBtn.setAttribute(`aria-selected`, `true`);
+      }
+
+      var badgeEl = document.getElementById(`style-badge`);
+      var nameEl = document.getElementById(`style-name`);
+      var sumEl = document.getElementById(`style-summary`);
+      var exEl = document.getElementById(`style-example`);
+      var proEl = document.getElementById(`style-pro`);
+      var conEl = document.getElementById(`style-con`);
+      var svgEl = document.getElementById(`style-svg-stage`);
+
+      if (badgeEl) badgeEl.textContent = st.badge;
+      if (nameEl) nameEl.innerHTML = st.name;
+      if (sumEl) sumEl.innerHTML = st.summary;
+      if (exEl) exEl.innerHTML = st.example;
+      if (proEl) proEl.innerHTML = st.pro;
+      if (conEl) conEl.innerHTML = st.con;
+      if (svgEl) svgEl.innerHTML = st.svg;
+
+      saveAppState();
+    }
+
+    // --- ESB & Pipe-Filters Simulator ---
+    function changeEsbScenario(val) {
+      if (!esbScenarios[val]) return;
+      appState.esbScenario = val;
+      appState.esbStep = 0;
+      renderEsbStep();
+      saveAppState();
+    }
+
+    function setEsbStep(idx) {
+      var steps = esbScenarios[appState.esbScenario];
+      if (!steps) return;
+      if (idx < 0) idx = 0;
+      if (idx >= steps.length) idx = steps.length - 1;
+      appState.esbStep = idx;
+      renderEsbStep();
+      saveAppState();
+    }
+
+    function stepEsb(delta) {
+      var steps = esbScenarios[appState.esbScenario];
+      if (!steps) return;
+      var next = (appState.esbStep + delta + steps.length) % steps.length;
+      setEsbStep(next);
+    }
+
+    function renderEsbStep() {
+      var steps = esbScenarios[appState.esbScenario];
+      if (!steps) return;
+      var cur = steps[appState.esbStep] || steps[0];
+
+      var nodes = document.querySelectorAll(`#esb-pipeline .pipe-node`);
+      nodes.forEach(function (node, i) {
+        if (i === appState.esbStep) {
+          node.classList.add(`active`);
+        } else {
+          node.classList.remove(`active`);
+        }
+      });
+
+      var tagEl = document.getElementById(`esb-step-tag`);
+      var titleEl = document.getElementById(`esb-step-title`);
+      var descEl = document.getElementById(`esb-step-desc`);
+      var payloadEl = document.getElementById(`esb-step-payload`);
+
+      if (tagEl) tagEl.innerHTML = cur.tag;
+      if (titleEl) titleEl.innerHTML = cur.title;
+      if (descEl) descEl.innerHTML = cur.desc;
+      if (payloadEl) payloadEl.textContent = cur.payload;
+    }
+
+    // --- Channel Simulator (P2P vs Pub-Sub) ---
+    function setChannelMode(mode) {
+      if (mode !== `p2p` && mode !== `pubsub`) return;
+      appState.channelMode = mode;
+
+      var p2pBtn = document.getElementById(`btn-mode-p2p`);
+      var pubBtn = document.getElementById(`btn-mode-pubsub`);
+      var capEl = document.getElementById(`channel-mode-caption`);
+      var descEl = document.getElementById(`sim-channel-desc`);
+      var r2 = document.getElementById(`sim-recv-2`);
+      var r3 = document.getElementById(`sim-recv-3`);
+
+      if (p2pBtn) p2pBtn.classList.toggle(`active`, mode === `p2p`);
+      if (pubBtn) pubBtn.classList.toggle(`active`, mode === `pubsub`);
+
+      if (mode === `p2p`) {
+        if (capEl) capEl.innerHTML = `حالت نقطه به نقطه: انتقال پیام به همان ترتیب دریافت (<bdi dir="ltr">FIFO</bdi>) به یک گیرنده`;
+        if (descEl) descEl.innerHTML = `مانند صف <bdi dir="ltr">First-In, First-Out (FIFO)</bdi> در درس سیستم‌عامل: اولین پیام ورودی، اولین پیام خروجی به گیرنده است.`;
+        if (r2) r2.classList.add(`inactive`);
+        if (r3) r3.classList.add(`inactive`);
+      } else {
+        if (capEl) capEl.innerHTML = `حالت انتشار-اشتراک (<bdi dir="ltr">Pub-Sub</bdi>): ارسال چندپخشی (<bdi dir="ltr">Multicast</bdi>) یک پیام به همه مشترکین`;
+        if (descEl) descEl.innerHTML = `ناشر پیام را روی کانال قرار می‌دهد و کانال به صورت هم‌زمان آن را برای تمام مشترکین ثبت‌نام‌شده پخش می‌کند.`;
+        if (r2) r2.classList.remove(`inactive`);
+        if (r3) r3.classList.remove(`inactive`);
+      }
+
+      clearChannelSim();
+      saveAppState();
+    }
+
+    function sendChannelMessage() {
+      simOrderCounter += 1;
+      var msgLabel = `Order #` + simOrderCounter;
+      simMessages.push(msgLabel);
+      if (simMessages.length > 5) {
+        simMessages.shift();
+      }
+      renderChannelSim();
+    }
+
+    function clearChannelSim() {
+      simOrderCounter = 0;
+      simMessages = [];
+      renderChannelSim();
+    }
+
+    function renderChannelSim() {
+      var senderEl = document.getElementById(`sim-sender-log`);
+      var queueEl = document.getElementById(`sim-channel-queue`);
+      var r1El = document.getElementById(`sim-recv-1-msgs`);
+      var r2El = document.getElementById(`sim-recv-2-msgs`);
+      var r3El = document.getElementById(`sim-recv-3-msgs`);
+
+      if (!senderEl || !queueEl || !r1El || !r2El || !r3El) return;
+
+      if (simMessages.length === 0) {
+        senderEl.innerHTML = `<span style="font-size: 0.84rem; color: var(--on-surface-variant);">برای مشاهده جریان، دکمه «ارسال پیام سفارش جدید» را بزنید.</span>`;
+        queueEl.innerHTML = `<span style="font-size: 0.84rem; color: var(--on-surface-variant);">کانال در انتظار دریافت پیام…</span>`;
+        r1El.innerHTML = ``;
+        r2El.innerHTML = ``;
+        r3El.innerHTML = ``;
+        return;
+      }
+
+      senderEl.innerHTML = simMessages.map(function (m) {
+        return `<div class="msg-chip"><bdi dir="ltr">${m}</bdi><span>تولید شد</span></div>`;
+      }).join(``);
+
+      if (appState.channelMode === `p2p`) {
+        queueEl.innerHTML = simMessages.map(function (m, idx) {
+          return `<div class="msg-chip"><bdi dir="ltr">${m}</bdi><span>ترتیب صف ${toPersianDigits(idx + 1)}</span></div>`;
+        }).join(``);
+        r1El.innerHTML = simMessages.map(function (m) {
+          return `<span class="msg-chip delivered"><bdi dir="ltr">${m}</bdi></span>`;
+        }).join(``);
+        r2El.innerHTML = `<span style="font-size: 0.8rem; color: var(--on-surface-variant);">در حالت P2P فقط یک گیرنده فعال است</span>`;
+        r3El.innerHTML = `<span style="font-size: 0.8rem; color: var(--on-surface-variant);">در حالت P2P فقط یک گیرنده فعال است</span>`;
+      } else {
+        var latest = simMessages[simMessages.length - 1];
+        queueEl.innerHTML = `<div class="msg-chip"><bdi dir="ltr">${latest}</bdi><span>پخش Multicast به ۳ مشترک</span></div>`;
+        var chips = simMessages.map(function (m) {
+          return `<span class="msg-chip delivered"><bdi dir="ltr">${m}</bdi></span>`;
+        }).join(``);
+        r1El.innerHTML = chips;
+        r2El.innerHTML = chips;
+        r3El.innerHTML = chips;
+      }
+    }
+
+    // --- Quiz Renderer & Handler ---
+    function selectQuizOption(qId, optIdx) {
+      appState.quizAnswers[qId] = optIdx;
+      renderQuiz();
+      saveAppState();
+    }
+
+    function renderQuiz() {
+      var container = document.getElementById(`quiz-container`);
+      if (!container) return;
+
+      var correctCount = 0;
+      var answeredCount = 0;
+
+      var html = quizData.map(function (q) {
+        var chosen = appState.quizAnswers[q.id];
+        var hasAnswered = typeof chosen === `number`;
+        if (hasAnswered) {
+          answeredCount += 1;
+          if (chosen === q.correctIdx) correctCount += 1;
+        }
+
+        var optionsHtml = q.options.map(function (optText, idx) {
+          var cls = `quiz-opt`;
+          var badge = ``;
+          if (hasAnswered) {
+            if (idx === q.correctIdx) {
+              cls += ` correct`;
+              badge = `<span>پاسخ درست</span>`;
+            } else if (idx === chosen) {
+              cls += ` wrong`;
+              badge = `<span>انتخاب شما</span>`;
+            }
+          }
+          return `<button type="button" class="${cls}" onclick="selectQuizOption('${q.id}', ${idx})"><span>${optText}</span>${badge}</button>`;
+        }).join(``);
+
+        var fbClass = `quiz-feedback`;
+        var fbText = ``;
+        if (hasAnswered) {
+          fbClass += chosen === q.correctIdx ? ` show ok` : ` show err`;
+          fbText = q.rationale;
+        }
+
+        return `<article class="quiz-card">
+          <h3>${q.question}</h3>
+          <div class="quiz-options">${optionsHtml}</div>
+          <div class="${fbClass}">${fbText}</div>
+        </article>`;
+      }).join(``);
+
+      container.innerHTML = html;
+
+      var scoreEl = document.getElementById(`quiz-score-text`);
+      var statusEl = document.getElementById(`quiz-status-msg`);
+      if (scoreEl) {
+        scoreEl.textContent = toPersianDigits(correctCount) + ` از ` + toPersianDigits(quizData.length) + ` پرسش`;
+      }
+      if (statusEl) {
+        if (answeredCount === 0) {
+          statusEl.textContent = `برای ثبت پاسخ، روی یکی از گزینه‌های هر پرسش کلیک کنید.`;
+        } else if (answeredCount < quizData.length) {
+          statusEl.textContent = toPersianDigits(answeredCount) + ` پرسش پاسخ داده شده است.`;
+        } else {
+          statusEl.textContent = `تمام پرسش‌ها پاسخ داده شدند!`;
+        }
+      }
+    }
+
+    // --- Scroll Spy for TOC ---
+    function initScrollSpy() {
+      var sections = document.querySelectorAll(`header[id], section[id]`);
+      var links = document.querySelectorAll(`.toc-link`);
+      if (!(`IntersectionObserver` in window)) return;
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.getAttribute(`id`);
+            links.forEach(function (link) {
+              var href = link.getAttribute(`href`);
+              link.classList.toggle(`active`, href === `#` + id);
+            });
+          }
+        });
+      }, { rootMargin: `-25% 0px -65% 0px` });
+
+      sections.forEach(function (sec) { observer.observe(sec); });
+    }
+
+    function toPersianDigits(n) {
+      var digits = [`۰`, `۱`, `۲`, `۳`, `۴`, `۵`, `۶`, `۷`, `۸`, `۹`];
+      return String(n).replace(/\d/g, function (d) { return digits[Number(d)]; });
+    }
+
+    // --- Initialize Application ---
+    async function initApp() {
+      await loadAndApplyState();
+
+
+      // Restore case study tab
+      var caseKeys = [`azad`, `shahrdari`, `shetab`, `erp`, `mygov`];
+      var caseBtns = document.querySelectorAll(`.case-btn`);
+      var cIdx = caseKeys.indexOf(appState.selectedCase);
+      selectCaseStudy(appState.selectedCase, caseBtns[cIdx >= 0 ? cIdx : 0]);
+
+      // Restore integration style tab
+      var styleKeys = [`file`, `db`, `rpc`, `msg`];
+      var styleBtns = document.querySelectorAll(`.style-tab-btn`);
+      var sIdx = styleKeys.indexOf(appState.selectedStyle);
+      selectStyle(appState.selectedStyle, styleBtns[sIdx >= 0 ? sIdx : 0]);
+
+      // Restore ESB simulator
+      var esbSelect = document.getElementById(`esb-scenario-select`);
+      if (esbSelect) esbSelect.value = appState.esbScenario;
+      renderEsbStep();
+
+      // Restore Channel simulator
+      setChannelMode(appState.channelMode);
+
+      // Render Quiz
+      renderQuiz();
+
+      // Scroll Spy
+      initScrollSpy();
+
+      // Render Lucide Icons
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+
+      // Notify Notebook Host
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#faf9f5">
+  <title>Requirement Engineering — Sessions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: light; --background:#faf9f5; --surface:#fff; --paper:#f1efe8; --ink:#17181a; --muted:#56585c; --line:#dedad0; --gold:#f2b705; --teal:#1f4e5f; --mono:'Geist Mono',monospace; --body:'Vazirmatn','Helvetica Neue',sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--background); color:var(--ink); font-family:var(--body); line-height:1.7; }
+    nav { padding:.8rem max(1.25rem,calc((100vw - 820px)/2)); border-bottom:1px solid var(--line); }
+    nav a { color:var(--teal); text-decoration:none; }
+    main { width:min(820px,calc(100% - 2.5rem)); margin:0 auto; }
+    header { padding:clamp(3rem,8vw,5.5rem) 0 2rem; }
+    .eyebrow { color:var(--teal); font:600 .72rem var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+    h1 { margin:.55rem 0 .5rem; font-size:clamp(2rem,6vw,3.5rem); line-height:1.15; letter-spacing:-.04em; }
+    header p { max-width:620px; color:var(--muted); }
+    .heading { display:flex; justify-content:space-between; align-items:end; gap:1rem; margin:1.5rem 0 1rem; padding-bottom:.7rem; border-bottom:1.5px solid var(--ink); }
+    h2 { margin:0; font-size:1.5rem; }
+    .count { color:var(--muted); font:500 .72rem var(--mono); }
+    .session { display:grid; grid-template-columns:minmax(125px, .65fr) 2fr auto; align-items:center; gap:1.25rem; padding:1.2rem 1.25rem; background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--gold); text-decoration:none; transition:transform 150ms ease,box-shadow 150ms ease; }
+    .session:hover,.session:focus-visible { transform:translateY(-2px); box-shadow:0 8px 22px rgb(23 24 26 / 8%); outline:none; }
+    .date { font:600 .85rem var(--mono); }
+    .day { display:block; color:var(--muted); font:400 .73rem var(--body); }
+    .session-title { font-weight:600; }
+    .open { color:var(--teal); font-size:1.2rem; }
+    footer { margin-top:3rem; padding:1rem 0 2rem; border-top:1px solid var(--line); color:var(--muted); font-size:.8rem; }
+    @media(max-width:560px) { .session { grid-template-columns:1fr auto; gap:.25rem 1rem; } .session-title { grid-column:1; grid-row:2; } .open { grid-column:2; grid-row:1 / span 2; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important; } }
+  </style>
+</head>
+<body>
+  <nav><a href="../../../index.html">← Semester one</a></nav>
+  <main>
+    <header>
+      <span class="eyebrow">Semester 01 · Class notes</span>
+      <h1>Requirement Engineering</h1>
+      <p>Sessions on discovering, analyzing, documenting, and validating software needs.</p>
+    </header>
+    <section aria-labelledby="sessions-title">
+      <div class="heading"><h2 id="sessions-title">Sessions</h2><span class="count">01 SESSION</span></div>
+      <a class="session" href="2026-11-19.html">
+        <span class="date">2026-11-19<span class="day">Thursday · 19 November 2026</span></span>
+        <span class="session-title">Open session notes</span>
+        <span class="open" aria-hidden="true">↗</span>
+      </a>
+    </section>
+    <footer>Master Class Notes · Semester One</footer>
+  </main>
+</body>
+</html>

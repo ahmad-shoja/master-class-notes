@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf9f5">
+  <title>عنوان جلسه — نام درس</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap">
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #faf9f5;
+      --surface: #fff;
+      --paper: #f1efe8;
+      --ink: #17181a;
+      --muted: #56585c;
+      --line: #dedad0;
+      --gold: #f2b705;
+      --teal: #1f4e5f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--ink);
+      font: 1rem/1.8 Vazirmatn, Tahoma, sans-serif;
+    }
+    .container { width: min(920px, calc(100% - 2rem)); margin-inline: auto; }
+    .masthead, footer { padding-block: .85rem; border-block-end: 1px solid var(--line); }
+    a { color: var(--teal); }
+    a:focus-visible, summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+    .toc {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 1;
+      background: var(--paper);
+      border-block-end: 1px solid var(--line);
+    }
+    .toc ol {
+      display: flex;
+      gap: 1rem;
+      margin-block: 0;
+      padding: .65rem .35rem;
+      overflow-x: auto;
+      list-style: none;
+    }
+    .toc li { flex: none; }
+    .toc a { display: block; padding: .15rem .45rem; text-decoration: none; }
+    .toc a:hover, .toc a[aria-current="location"] { background: var(--gold); color: var(--ink); }
+    header { padding-block: clamp(2rem, 7vw, 4.5rem) 1rem; }
+    .metadata { color: var(--muted); }
+    h1 { margin-block: .25rem .75rem; font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.25; }
+    h2 { margin-block: 0 .75rem; padding-block-end: .5rem; border-block-end: 2px solid var(--ink); }
+    main section { margin-block: 2.5rem; scroll-margin-block-start: 5rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-inline-start: 4px solid var(--gold);
+      padding: 1rem;
+    }
+    .card h3 { margin-block-start: 0; }
+    .card p:last-child { margin-block-end: 0; }
+    summary { cursor: pointer; font-weight: 600; color: var(--teal); }
+    footer { border-block-start: 1px solid var(--line); color: var(--muted); }
+  </style>
+</head>
+<body>
+  <!-- Copy into the class folder as YYYY-MM-DD.html. Then uncomment the class index link.
+       Set the title, class name, visible date and ISO datetime. Add the note to the class index.
+       Keep one h2 and a unique id per top-level section. The contents follow those headings.
+       The case study and review blocks are optional. -->
+  <div class="masthead">
+    <div class="container">
+      <!-- <a href="index.html">فهرست جلسات</a> · -->
+      نام درس
+    </div>
+  </div>
+  <nav class="toc" aria-label="فهرست مطالب" hidden>
+    <ol class="container"></ol>
+  </nav>
+  <main class="container">
+    <header>
+      <p class="metadata"><time datetime="2026-11-19">پنجشنبه، ۱۹ نوامبر ۲۰۲۶</time></p>
+      <h1>عنوان جلسه</h1>
+      <p>موضوع جلسه و آنچه دانشجو در پایان آن یاد می‌گیرد.</p>
+    </header>
+    <section id="overview">
+      <h2>خلاصه جلسه</h2>
+      <ul>
+        <li>نکته اصلی جلسه</li>
+      </ul>
+    </section>
+    <section id="concepts">
+      <h2>مفاهیم اصلی</h2>
+      <p>مفاهیم درس را همراه با تعریف و مثال توضیح دهید.</p>
+      <aside class="card">
+        <h3>مطالعه موردی</h3>
+        <p>مسئله، تصمیم و نتیجه را شرح دهید.</p>
+      </aside>
+    </section>
+    <section id="review">
+      <h2>مرور جلسه</h2>
+      <details class="card">
+        <summary>پرسش مرور</summary>
+        <p>پاسخ و دلیل آن را بنویسید.</p>
+      </details>
+    </section>
+  </main>
+  <footer><div class="container">یادداشت‌های درسی</div></footer>
+  <script>
+    const contents = document.querySelector('.toc');
+    const list = contents.querySelector('ol');
+    const sections = document.querySelectorAll('main > section[id]');
+    const numbering = new Intl.NumberFormat(document.documentElement.lang);
+    const links = new Map();
+
+    for (const section of sections) {
+      const heading = section.querySelector('h2');
+      if (!heading) continue;
+
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = '#' + encodeURIComponent(section.id);
+      link.textContent = numbering.format(links.size + 1) + '. ' + heading.textContent.trim();
+      item.append(link);
+      list.append(item);
+      links.set(section, link);
+    }
+
+    if (links.size) {
+      contents.hidden = false;
+
+      const highlightCurrentSection = () => {
+        const threshold = contents.getBoundingClientRect().bottom + 24;
+        let current = null;
+        for (const section of links.keys()) {
+          if (section.getBoundingClientRect().top <= threshold) current = section;
+        }
+
+        for (const [section, link] of links) {
+          if (section === current) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        }
+      };
+
+      window.addEventListener('scroll', highlightCurrentSection, { passive: true });
+      window.addEventListener('resize', highlightCurrentSection);
+      highlightCurrentSection();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="briefing">
+  <title>معماری سازمانی؛ از نقشه ساختمان تا راهبری فناوری اطلاعات — دانشگاه آزاد واحد ساوه</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Briefing / Editorial Warm Paper Palette */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      /* Ink & Typography */
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      /* Borders & Rules */
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+
+      /* Accents */
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --on-secondary: #ffffff;
+      --tertiary: #785008;
+      --tag-bg: #f5e6c4;
+
+      /* Semantic UI States */
+      --positive: #1f6b48;
+      --positive-bg: #eaf5ef;
+      --warning: #8a5600;
+      --warning-bg: #fbf2de;
+      --error: #b42318;
+      --error-bg: #fceceb;
+      --on-error: #ffffff;
+
+      /* Data Series Visualization */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Fonts (Non-Latin RTL priority + Latin fallback) */
+      --font-headline: 'Vazirmatn', 'Source Serif 4', serif;
+      --font-body: 'Vazirmatn', 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Vazirmatn', 'Geist Mono', monospace;
+      --font-mono-ltr: 'Geist Mono', monospace;
+
+      /* Shape & Rules */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --badge-radius: 2px;
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --accent-border-gold: 4px solid var(--primary-container);
+      --accent-border-teal: 4px solid var(--secondary);
+      --accent-border-error: 4px solid var(--error);
+      --accent-border-positive: 4px solid var(--positive);
+      --focus: var(--secondary);
+      --focus-ring: 0 0 0 3px var(--primary-container);
+      --shadow-subtle: 0 2px 10px var(--surface-container-high);
+
+      /* Type Scale (Narrative) */
+      --display-size: clamp(1.95rem, 1.35rem + 2.4vw, 3.1rem);
+      --headline-size: clamp(1.375rem, 1.15rem + 1.1vw, 1.9rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+      --kpi-size: clamp(1.65rem, 1.35rem + 1.1vw, 2.25rem);
+
+      /* Spacing Scale */
+      --space-2xs: 0.125rem;
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: clip;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: clip;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      position: static !important;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+      box-shadow: var(--focus-ring);
+    }
+
+    /* Editorial Container */
+    .editorial-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+    }
+
+    .editorial-shell * {
+      min-width: 0;
+    }
+
+    /* Dossier Header */
+    .dossier-header {
+      padding-top: var(--space-md);
+      padding-bottom: var(--space-lg);
+    }
+
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .dossier-bar-start {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .dossier-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 500;
+      color: var(--on-surface-variant);
+      letter-spacing: 0;
+    }
+
+    .title {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm) 0;
+      letter-spacing: 0;
+    }
+
+    .standfirst {
+      font-family: var(--font-body);
+      font-size: var(--subhead-size);
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--secondary);
+      max-width: 72ch;
+      margin: 0 0 var(--space-md) 0;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background-color: var(--tag-bg);
+      color: var(--tertiary);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      letter-spacing: 0;
+    }
+
+    .tag-chip--teal {
+      background-color: var(--surface-container-low);
+      color: var(--secondary);
+      border-color: var(--secondary);
+    }
+
+    /* Sticky Top TOC Navigation Strip */
+
+
+    .toc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded);
+      color: var(--on-surface-variant);
+      text-decoration: none;
+      font-size: var(--label-size);
+      font-weight: 600;
+      white-space: nowrap;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+
+    .toc-link:hover {
+      background-color: var(--surface-container);
+      color: var(--on-surface);
+    }
+
+    .toc-link.is-active {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+
+    .toc-num {
+      font-family: var(--font-mono-ltr);
+      font-size: var(--label-size);
+      opacity: 0.8;
+      direction: ltr;
+    }
+
+    /* Main Grid & Sections */
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-2xl);
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-2xl);
+    }
+
+    .narrative-section {
+      scroll-margin-top: 76px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .section-head-main {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+
+    .index-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.25rem;
+      height: 1.85rem;
+      padding: 0 var(--space-xs);
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--badge-radius);
+      font-family: var(--font-mono-ltr);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--secondary);
+      direction: ltr;
+    }
+
+    .section-title {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .section-lead {
+      font-size: var(--subhead-size);
+      color: var(--secondary);
+      font-weight: 600;
+      margin: 0 0 var(--space-md) 0;
+      max-width: 68ch;
+      line-height: 1.65;
+    }
+
+    .prose {
+      max-width: 68ch;
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-surface);
+    }
+
+    /* KPI Summary Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .kpi-card {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-top: var(--accent-border-teal);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .kpi-card--gold {
+      border-top: var(--accent-border-gold);
+    }
+
+    .kpi-card--alert {
+      border-top: var(--accent-border-error);
+    }
+
+    .kpi-value {
+      font-family: var(--font-headline);
+      font-size: var(--kpi-size);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .kpi-note {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* Cards & Grids */
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .even-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    .figure-card {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+
+    .figure-card h3,
+    .payload-box h3,
+    .payload-box h4,
+    .deep-dive h3,
+    .deep-dive h4 {
+      margin-top: 0;
+      margin-bottom: var(--space-sm);
+      font-family: var(--font-headline);
+      font-weight: 700;
+      color: var(--on-surface);
+      line-height: 1.4;
+    }
+
+    /* Callout & Payload Boxes */
+    .payload-box {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-inline-start: var(--accent-border-gold);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .payload-box--teal {
+      border-inline-start: var(--accent-border-teal);
+    }
+
+    .payload-box--error {
+      border-inline-start: var(--accent-border-error);
+      background-color: var(--error-bg);
+    }
+
+    .payload-box--positive {
+      border-inline-start: var(--accent-border-positive);
+      background-color: var(--positive-bg);
+    }
+
+    .deep-dive {
+      background-color: var(--surface-container);
+      border-top: var(--section-rule);
+      border-inline-start: var(--accent-border-teal);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .aside-box {
+      background-color: var(--surface-container);
+      border-top: var(--section-rule);
+      padding: var(--space-lg);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+    }
+
+    /* Structured Lists */
+    .dossier-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .dossier-list li {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-sm);
+      align-items: start;
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+    }
+
+    .dossier-list-plain li {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid var(--outline-variant);
+      border-radius: 0;
+      padding: var(--space-sm) 0;
+    }
+
+    .dossier-list-plain li:last-child {
+      border-bottom: none;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 0.9375rem;
+    }
+
+    .matrix-table thead th {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+      font-weight: 700;
+      padding: var(--space-md);
+      border-bottom: var(--section-rule);
+      white-space: nowrap;
+    }
+
+    .matrix-table tbody tr:nth-child(even) {
+      background-color: var(--surface-container);
+    }
+
+    .matrix-table tbody td {
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+
+    .matrix-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Interactive Modules */
+    .interactive-panel {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-top: 3px solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .panel-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+
+    .panel-title {
+      margin: 0;
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .btn-tab {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: var(--label-size);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .btn-tab:hover {
+      background-color: var(--surface-container);
+      border-color: var(--secondary);
+    }
+
+    .btn-tab.is-selected {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .btn-tab--gold.is-selected {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--outline);
+    }
+
+    .sim-output {
+      background-color: var(--surface-container);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin-top: var(--space-md);
+      border: var(--card-border);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      font-size: var(--label-size);
+      font-weight: 700;
+    }
+
+    .status-badge--positive {
+      background-color: var(--positive-bg);
+      color: var(--positive);
+      border: 1px solid var(--positive);
+    }
+
+    .status-badge--warning {
+      background-color: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid var(--warning);
+    }
+
+    .status-badge--error {
+      background-color: var(--error-bg);
+      color: var(--error);
+      border: 1px solid var(--error);
+    }
+
+    /* Lens Explorer */
+    .lens-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+
+    .lens-buttons {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .lens-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      min-height: 48px;
+      padding: var(--space-sm) var(--space-md);
+      text-align: right;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .lens-btn:hover {
+      background-color: var(--surface-container);
+    }
+
+    .lens-btn.is-selected {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+      border-color: var(--secondary);
+    }
+
+    .lens-btn.is-selected .lens-sub {
+      color: var(--primary-container);
+    }
+
+    .lens-sub {
+      font-family: var(--font-mono-ltr);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      direction: ltr;
+    }
+
+    .lens-stage {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    /* Case Comparison Bars */
+    .bar-chart-box {
+      display: grid;
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .bar-row {
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .bar-row-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-sm);
+      font-size: var(--label-size);
+      font-weight: 600;
+    }
+
+    .bar-track {
+      height: 28px;
+      background-color: var(--surface-container);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      overflow: hidden;
+      display: flex;
+    }
+
+    .bar-fill {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-sm);
+      font-family: var(--font-mono-ltr);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-secondary);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+
+    .bar-fill--winchester {
+      background-color: var(--data-4);
+    }
+
+    .bar-fill--florence {
+      background-color: var(--data-1);
+    }
+
+    .bar-fill--gold {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    /* Readiness Assessment Sliders */
+    .criteria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .criteria-item {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .criteria-label {
+      font-weight: 700;
+      font-size: var(--label-size);
+      color: var(--on-surface);
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+
+    .criteria-select {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: var(--label-size);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* SVG Diagram Container */
+    .schematic-box {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+
+    /* Goal Ladder */
+    .ladder-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+
+    .ladder-step {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-bottom: 4px solid var(--data-context);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      cursor: pointer;
+      text-align: right;
+      min-height: 44px;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .ladder-step:hover {
+      background-color: var(--surface-container);
+    }
+
+    .ladder-step.is-selected {
+      background-color: var(--surface-container);
+      border-bottom-color: var(--primary-container);
+      border-color: var(--outline);
+    }
+
+    /* Footer */
+    .dossier-footer {
+      border-top: var(--section-rule);
+      padding: var(--space-lg) 0 var(--space-xl);
+      color: var(--on-surface-variant);
+      font-size: var(--label-size);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .ltr-inline {
+      direction: ltr;
+      unicode-bidi: isolate;
+      font-family: var(--font-mono-ltr);
+      font-size: 0.9em;
+    }
+
+    /* Container Query Adaptation */
+    .card-wrapper {
+      container-type: inline-size;
+    }
+
+    @container (max-width: 520px) {
+      .lens-layout,
+      .split-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Mobile Breakpoint */
+    @media (max-width: 640px) {
+      .editorial-shell {
+        padding: var(--space-md);
+      }
+
+
+      .split-grid,
+      .lens-layout,
+      .ladder-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .figure-card,
+      .payload-box,
+      .deep-dive,
+      .interactive-panel {
+        padding: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="../../session-note.css">
+</head>
+<body>
+  <div class="note-masthead">
+    <a href="index.html">فهرست جلسات</a>
+    <span>معماری سازمانی</span>
+    <time datetime="2026-11-19">پنجشنبه، ۱۹ نوامبر ۲۰۲۶</time>
+  </div>
+  <nav class="note-toc" aria-label="فهرست مطالب">
+    <div class="note-toc-list">
+      <a href="#alignment" class="toc-link is-active">۱. چارچوب درس</a>
+      <a href="#definitions" class="toc-link">۲. تعاریف بنیادین</a>
+      <a href="#vmodel" class="toc-link">۳. مدل V و تصمیم‌گیری</a>
+      <a href="#perspectives" class="toc-link">۴. نگرش کلان و ۵ عینک</a>
+      <a href="#casestudies" class="toc-link">۵. مطالعات موردی</a>
+      <a href="#criteria" class="toc-link">۶. معیارها و ترندها</a>
+      <a href="#benefits" class="toc-link">۷. دستاوردها و قانون</a>
+    </div>
+  </nav>
+
+
+  <div class="editorial-shell">
+    <header class="dossier-header">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">پرونده درسی | COURSE BRIEFING</span>
+          <span class="dossier-meta">دانشگاه آزاد اسلامی واحد ساوه • مقطع کارشناسی ارشد</span>
+        </div>
+        <span class="dossier-meta">جلسه چهارم • ساعت <bdi dir="ltr">08:00–11:00</bdi></span>
+      </div>
+
+      <h1 class="title">معماری سازمانی؛ از نقشه ساختمان تا راهبری هوشمند فناوری اطلاعات</h1>
+      <p class="standfirst">
+        مروری جامع و تحلیلی بر جلسه درس معماری سازمانی: چرا خرید نرم‌افزار بدون نقشه به اتلاف میلیاردی می‌انجامد، چگونه مدل <bdi dir="ltr">V</bdi> فلسفه وجودی سامانه‌ها را می‌آزماید، و عمارت وینچستر چه درسی در برابر کلیسای فلورانس به مدیران <bdi dir="ltr">IT</bdi> می‌دهد.
+      </p>
+
+      <div class="tag-row">
+        <span class="tag-chip">معماری سازمانی | <bdi dir="ltr">Enterprise Architecture</bdi></span>
+        <span class="tag-chip">مدل دوگانه | <bdi dir="ltr">V-Model</bdi></span>
+        <span class="tag-chip tag-chip--teal">نگرش کلان | <bdi dir="ltr">Macro View</bdi></span>
+        <span class="tag-chip tag-chip--teal">طرح اجرایی | <bdi dir="ltr">Implementation Plan</bdi></span>
+      </div>
+    </header>
+  </div>
+
+  
+
+  <main class="editorial-shell">
+    <div class="page-grid">
+
+      <!-- KPI & Metric Summary Grid -->
+      <section aria-label="شاخص‌های کلیدی جلسه">
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-card--alert">
+            <div class="kpi-value">۳۸ سال / ۱۶۰ اتاق</div>
+            <div class="kpi-label">عمارت بی‌نقشه وینچستر</div>
+            <p class="kpi-note">ساخت ۲۴ ساعته در ۷ روز هفته با ۲۰۰۰ در، ۱۰۰۰ پنجره، ۴۷ راهپله و هزینه ۵.۵ میلیون دلاری بدون نقشه فنی.</p>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value">۱۴۰ سال / ۴ معمار</div>
+            <div class="kpi-label">کلیسای جامع فلورانس</div>
+            <p class="kpi-note">ارتفاع ۱۱۴.۵ متر و مساحت ۸۳۰۰ متر مربع؛ تداوم یکپارچه در چهار نسل به پشتوانه نقشه معماری واحد.</p>
+          </div>
+          <div class="kpi-card kpi-card--gold">
+            <div class="kpi-value">۱۰ بار خرید</div>
+            <div class="kpi-label">موازی‌کاری در یک سازمان</div>
+            <p class="kpi-note">خرید تکراری یک اپلیکیشن واحد با ده نام متفاوت در شرکتی که نقشه معماری نداشت.</p>
+          </div>
+          <div class="kpi-card kpi-card--alert">
+            <div class="kpi-value">۵۰ میلیون تومان</div>
+            <div class="kpi-label">سرورهای زیرپایی در همراه اول</div>
+            <p class="kpi-note">ارزش هر سرور خریداری‌شده اما بلااستفاده در ساختمان کردستان که به دلیل نبود طرح قبلی زیر پای تیم توسعه قرار گرفت.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 01: Course Alignment -->
+      <section id="alignment" class="narrative-section">
+        <div class="section-head">
+          <div class="section-head-main">
+            <span class="index-num">01</span>
+            <h2 class="section-title">هماهنگی اداری، تجمیع درس و انضباط کارشناسی ارشد</h2>
+          </div>
+          <span class="dossier-pill">شروع جلسه | <bdi dir="ltr">KICKOFF</bdi></span>
+        </div>
+
+        <div class="split-grid">
+          <div>
+            <p class="section-lead">
+              درس حاضر با هدف توانمندسازی دانشجویان کارشناسی ارشد برای ورود به مرحله پایان‌نامه، مباحث «معماری سازمانی» را در کانون برنامه ساعت ۸ تا ۱۱ صبح واحد ساوه قرار داده است.
+            </p>
+            <p class="prose">
+              در آغاز جلسه، استاد با بررسی وضعیت برنامه کلاسی (ساعت <bdi dir="ltr">08:00</bdi> تا <bdi dir="ltr">11:00</bdi> صبح) بر حل تداخل ساعتی احتمالی با سایر دروس تأکید کرد تا حضور تمام دانشجویان در این ساعت تضمین شود. همچنین مقرر شد گروه ارتباطی جدیدی (ایجادشده توسط آقای شریعت) جایگزین گروه قبلی شود و دانشجویان غایب یا جاافتاده از جمله خانم صیاد و آقای حقیقی به گروه جدید منتقل شوند.
+            </p>
+            <p class="prose">
+              به دلیل آنکه بخشی از دروس مشابه پیش‌تر توسط دانشجویان گذرانده شده بود و امکان معادل‌سازی مستقیم وجود نداشت، محتوای علمی این کلاس بر <strong>معماری سازمانی</strong> متمرکز شده است تا دانشجویان پیش از آغاز کارنامه و پایان‌نامه پژوهشی، دید کلان و مهندسی به سازمان پیدا کنند.
+            </p>
+          </div>
+
+          <aside class="aside-box">
+            <h3>توصیه صریح استاد درباره تعهد حرفه‌ای و شغلی</h3>
+            <p class="prose">
+              استاد در پاسخ به دانشجویان شاغل (از جمله معلمان و دبیرانی که کلاس خصوصی صبحگاهی داشتند) تصریح کرد که در مقطع کارشناسی ارشد باید میان <strong>زندگی، شغل و تحصیل</strong> تفکیک قائل شد و زمان کلاس را آزاد نگه داشت؛ در غیر این صورت، دانشجو پس از صرف هزینه و انرژی زیاد ناچار به رها کردن تحصیل خواهد شد.
+            </p>
+            <h4>نقشه راه شش‌محوری این جلسه</h4>
+            <ul class="dossier-list dossier-list-plain">
+              <li><span class="index-num">۱</span><span>تعریف مفهوم «سازمان» و اجزای آن</span></li>
+              <li><span class="index-num">۲</span><span>تعریف مفهوم «معماری» و ریشه‌های ساختمانی آن</span></li>
+              <li><span class="index-num">۳</span><span>تعریف جامع «معماری سازمانی»</span></li>
+              <li><span class="index-num">۴</span><span>بررسی لایه‌ها و انواع معماری در سازمان</span></li>
+              <li><span class="index-num">۵</span><span>تبیین وابستگی‌ها میان معماری‌های مختلف</span></li>
+              <li><span class="index-num">۶</span><span>تحلیل نتایج و دستاوردهای معماری سازمانی</span></li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Section 02: Fundamental Definitions -->
+      <section id="definitions" class="narrative-section">
+        <div class="section-head">
+          <div class="section-head-main">
+            <span class="index-num">02</span>
+            <h2 class="section-title">تعاریف بنیادین: از نقشه ساختمان تا معماری فناوری اطلاعات</h2>
+          </div>
+          <span class="dossier-pill">مبانی | <bdi dir="ltr">FOUNDATIONS</bdi></span>
+        </div>
+
+        <p class="section-lead">
+          همان‌گونه که احداث یک ساختمان بدون نقشه و پلان غیرقابل تصور است، استقرار فناوری اطلاعات کارآمد در سازمان نیز بدون نقشه معماری ناممکن است.
+        </p>
+
+        <div class="even-grid">
+          <div class="payload-box">
+            <h3>تعریف فنی معماری (<bdi dir="ltr">Architecture</bdi>)</h3>
+            <p class="prose">
+              معماری عبارت است از <strong>ارائه توصیف فنی از یک سیستم</strong> که موارد زیر را به روشنی نشان می‌دهد:
+            </p>
+            <ul class="dossier-list dossier-list-plain">
+              <li><span class="index-num">A</span><span><strong>ساختار اجزا و مؤلفه‌ها:</strong> سیستم دقیقاً چه بخش‌هایی دارد؟</span></li>
+              <li><span class="index-num">B</span><span><strong>ارتباطات:</strong> تعامل میان این ساختارها به چه صورتی است؟</span></li>
+              <li><span class="index-num">C</span><span><strong>اصول مهندسی و تکامل:</strong> چه قواعدی هنگام طراحی، تکمیل و بهره‌برداری در گذر زمان بر آن حاکم است؟</span></li>
+            </ul>
+          </div>
+
+          <div class="payload-box payload-box--teal">
+            <h3>معماری سازمانی (<bdi dir="ltr">Enterprise Architecture</bdi>)</h3>
+            <p class="prose">
+              ترکیب دو مفهوم «معماری» و «سازمان» است و در عمل به معنای <strong>معماری فناوری اطلاعات سازمان</strong> به کار می‌رود: مجموعه‌ای از نقشه‌های فنی که هر یک از منظری خاص به اجزای سازمان می‌نگرند.
+            </p>
+            <p class="prose">
+              <strong>اصل طلایی حداقل نرم‌افزار:</strong> هدف ما «تزریق نرم‌افزار» به سازمان نیست. نرم‌افزار تنها زمانی وارد سازمان می‌شود که برای پشتیبانی از فرایندها و داده‌ها به آن نیاز واقعی داشته باشیم.
+            </p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>مفهوم</th>
+                <th>معادل انگلیسی</th>
+                <th>تعریف عملیاتی در درس</th>
+                <th>مثال ملموس در سخنرانی استاد</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>معماری</strong></td>
+                <td><span class="ltr-inline">Architecture</span></td>
+                <td>توصیف فنی اجزا، روابط و اصول طراحی و تکامل سیستم در گذر زمان</td>
+                <td>نقشه و پلان طراحی خودرو یا ساختمان پیش از اجرا</td>
+              </tr>
+              <tr>
+                <td><strong>مجموعه نقشه‌های فنی</strong></td>
+                <td><span class="ltr-inline">Technical Blueprints</span></td>
+                <td>نگاه کردن به یک سیستم واحد از منظرهای گوناگون با عینک‌های تخصصی</td>
+                <td>پلان طبقات، نمای داخلی، نمای بیرونی، لوله‌کشی و سیم‌کشی ساختمان</td>
+              </tr>
+              <tr>
+                <td><strong>معماری سازمانی</strong></td>
+                <td><span class="ltr-inline">Enterprise Architecture</span></td>
+                <td>نقشه جامع فناوری اطلاعات برای هدایت حداقل نرم‌افزار جهت پشتیبانی از فرایندها و داده‌ها</td>
+                <td>تشخیص دقیق اینکه کدام بخش سرامیک و کدام بخش کاشی (یا کدام سامانه) لازم است</td>
+              </tr>
+              <tr>
+                <td><strong>طرح اجرایی</strong></td>
+                <td><span class="ltr-inline">Implementation Plan</span></td>
+                <td>ترجمه نقشه معماری به اولویت، زمان‌بندی، بودجه و شیوه تأمین واقعی (دور از تخیل)</td>
+                <td>پروژه ۱ با بودجه ۶ میلیارد (ساخت درون‌سازمانی، ۱۲ ماه) و پروژه ۲ با بودجه ۱۰ میلیارد</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 03: V-Model & IT Decision Making -->
+      <section id="vmodel" class="narrative-section">
+        <div class="section-head">
+          <div class="section-head-main">
+            <span class="index-num">03</span>
+            <h2 class="section-title">سناریوی سامانه ۲ میلیاردی و آزمون دوگانه مدل <bdi dir="ltr">V</bdi></h2>
+          </div>
+          <span class="dossier-pill">تصمیم‌گیری | <bdi dir="ltr">V-MODEL</bdi></span>
+        </div>
+
+        <p class="section-lead">
+          وقتی معاون سازمان درخواست خرید یک سامانه ۲ میلیارد تومانی را می‌آورد، پرسش نخست این نیست که «چطور بخریم یا آیا نرم‌افزار خوبی است؟»؛ پرسش نخست این است: «آیا اساساً باید این سامانه وجود داشته باشد یا نه؟»
+        </p>
+
+        <div class="split-grid">
+          <div>
+            <p class="prose">
+              استاد در کلاس سناریویی را پیش روی دانشجویان (آقای شهبازی و سایر حاضران) گذاشت: فرض کنید مدیر <bdi dir="ltr">IT</bdi> سازمان هستید و یکی از معاونان درخواست خرید نرم‌افزاری به ارزش ۲ میلیارد تومان را دارد. پاسخ‌های اولیه دانشجویان شامل بررسی نیازمندی‌ها، جلسه با درخواست‌کننده، بازدید از سازمان‌های استفاده‌کننده، و بررسی زیرساخت و بودجه بود.
+            </p>
+            <p class="prose">
+              نکته کلیدی استاد این بود که همه این بررسی‌ها متعلق به مرحله بعد است! در مهندسی نرم‌افزار و سیستم، ما دو آزمون <bdi dir="ltr">V</bdi> داریم:
+            </p>
+            <ul class="dossier-list">
+              <li>
+                <span class="index-num">V1</span>
+                <div>
+                  <strong>آزمون درست ساختن (<bdi dir="ltr">Verification</bdi>):</strong> فرض کنید یک میز یا نرم‌افزار خریداری شده و یک سرور عالی هم به درستی کار می‌کند. این نشان می‌دهد سیستم <em>درست ساخته یا خریداری شده</em> است.
+                </div>
+              </li>
+              <li>
+                <span class="index-num">V2</span>
+                <div>
+                  <strong>آزمون ساختن چیز درست / فلسفه وجودی (<bdi dir="ltr">Validation</bdi>):</strong> «بودن یا نبودن؛ مسئله این است!» آیا اصلاً باید آن میز را می‌ساختیم یا آن سامانه ۲ میلیاردی را می‌خریدیم؟ پاسخ این سؤال فقط در <strong>نقشه معماری سازمانی</strong> است.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="figure-card">
+            <h3>تبدیل معماری از تخیل به «طرح اجرایی»</h3>
+            <p class="prose">
+              یک توصیف معماری هرگز نباید تخیلی و فضایی باشد؛ شرط اول آن <strong>قابلیت اجرا</strong> است. طرح اجرایی باید برای هر پروژه چهار متغیر را دقیق روشن کند:
+            </p>
+            <ul class="dossier-list dossier-list-plain">
+              <li><span class="index-num">۰۱</span><span><strong>اولویت‌بندی:</strong> مثلاً پروژه ۱ (سامانه <bdi dir="ltr">X</bdi>) با اولویت بالا</span></li>
+              <li><span class="index-num">۰۲</span><span><strong>زمان‌بندی:</strong> مثلاً حداکثر ۱۲ ماه برای پیاده‌سازی</span></li>
+              <li><span class="index-num">۰۳</span><span><strong>تخصیص بودجه:</strong> مثلاً ۶ میلیارد برای پروژه اول و ۱۰ میلیارد برای پروژه دوم</span></li>
+              <li><span class="index-num">۰۴</span><span><strong>مرز تولید:</strong> تولید در دل سازمان (<bdi dir="ltr">In-house</bdi>) یا برون‌سپاری خارج از سازمان</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Interactive Simulator 1: IT Manager Decision & V-Model -->
+        <div class="interactive-panel" id="vmodel-simulator">
+          <div class="panel-header">
+            <h3 class="panel-title">شبیه‌ساز تصمیم‌گیری مدیر فناوری اطلاعات (مقایسه رفتار سنتی و معمارانه)</h3>
+            <span class="tag-chip">تمرین تعاملی کلاسی</span>
+          </div>
+
+          <div class="btn-row" role="tablist" aria-label="انتخاب سناریوی تصمیم‌گیری">
+            <button type="button" class="btn-tab btn-tab--gold is-selected" onclick="selectScenario(0, this)">سناریوی ۱: درخواست ۲ میلیاردی معاون</button>
+            <button type="button" class="btn-tab btn-tab--gold" onclick="selectScenario(1, this)">سناریوی ۲: پروژه اولویت‌دار ۶ میلیاردی</button>
+            <button type="button" class="btn-tab btn-tab--gold" onclick="selectScenario(2, this)">سناریوی ۳: پروژه ۱۰ میلیاردی برون‌سازمانی</button>
+          </div>
+
+          <div class="sim-output" id="scenario-output" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- Section 04: Macro vs Micro & 5 Lenses -->
+      <section id="perspectives" class="narrative-section">
+        <div class="section-head">
+          <div class="section-head-main">
+            <span class="index-num">04</span>
+            <h2 class="section-title">نگرش کلان معمار در برابر جزءنگری و عینک‌های پنج‌گانه سازمان</h2>
+          </div>
+          <span class="dossier-pill">منظرها | <bdi dir="ltr">VIEWS &amp; LENSES</bdi></span>
+        </div>
+
+        <p class="section-lead">
+          برنامه‌نویس همچون بنّایی است که آجرها را کنار هم می‌چیند و یک دیوار می‌سازد؛ اما معمار چند قدم عقب‌تر می‌ایستد تا اول کل سازمان را ببیند و سپس جزء را طراحی کند.
+        </p>
+
+        <div class="even-grid">
+          <div class="figure-card">
+            <h3>تفاوت بنّا (نگرش جزئی) و معمار (نگرش کلان)</h3>
+            <p class="prose">
+              تمرکز صرف بر یادگیری ابزارهایی چون پایتون یا برنامه‌نویسی در صنعت بازی‌سازی، نماد <strong>نگرش جزئی (<bdi dir="ltr">Micro</bdi>)</strong> است. یک دانش‌آموخته کارشناسی ارشد باید بتواند چند قدم عقب‌تر برود و با <strong>نگرش کلان (<bdi dir="ltr">Macro</bdi>)</strong> تشخیص دهد که کل سازمان مثلاً به ۵۰ یا ۶۰ اپلیکیشن نیاز دارد — نه کمتر و نه بیشتر.
+            </p>
+            <p class="prose">
+              معمار به جای سخنرانی، از طریق <strong>مدل (<bdi dir="ltr">Model</bdi>)</strong> زبان مشترک می‌سازد؛ درست همان‌طور که معمار ساختمان از روی نقشه، مقدار دقیق میلگرد، آجر، سیمان، آهک و تیرآهن را محاسبه می‌کند.
+            </p>
+          </div>
+
+          <div class="figure-card">
+            <h3>وابستگی نقشه معماری به سطح هدف‌گذاری</h3>
+            <p class="prose">
+              نقشه معماری فناوری اطلاعات بدون هدف‌گذاری روشن بی‌معناست. استاد این موضوع را با سطوح چهارگانه هدف در دانشگاه آزاد اسلامی واحد ساوه مثال زد — روی هر سطح کلیک کنید تا تغییر مقیاس را ببینید:
+            </p>
+            <div class="ladder-row" role="tablist" aria-label="سطوح هدف‌گذاری دانشگاه">
+              <button type="button" class="ladder-step is-selected" onclick="selectGoalLevel(0, this)">
+                <div class="kpi-label">سطح ۱</div>
+                <div>واحد برتر شهر ساوه</div>
+              </button>
+              <button type="button" class="ladder-step" onclick="selectGoalLevel(1, this)">
+                <div class="kpi-label">سطح ۲</div>
+                <div>واحد برتر کل کشور</div>
+              </button>
+              <button type="button" class="ladder-step" onclick="selectGoalLevel(2, this)">
+                <div class="kpi-label">سطح ۳</div>
+                <div>برترین دانشگاه ایران</div>
+              </button>
+              <button type="button" class="ladder-step" onclick="selectGoalLevel(3, this)">
+                <div class="kpi-label">سطح ۴</div>
+                <div>برترین در خاورمیانه</div>
+              </button>
+            </div>
+            <div id="goal-detail" class="payload-box payload-box--teal" style="margin-bottom: 0;" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- Interactive Explorer 2: 5 Architectural Lenses -->
+        <div class="interactive-panel card-wrapper">
+          <div class="panel-header">
+            <h3 class="panel-title">کاوشگر پنج «عینک معماری» روی یک سازمان واحد</h3>
+            <span class="tag-chip tag-chip--teal">تشبیه به نقشه‌های ساختمان</span>
+          </div>
+          <p class="prose">
+            یک ساختمان واحد دارای نقشه‌های گوناگون (نمای داخلی، پلان طبقات، نمای بیرونی، لوله‌کشی و سیم‌کشی) است. در فناوری اطلاعات سازمان نیز با زدن هر عینک، یکی از پنج لایه زیر را بررسی و طراحی می‌کنیم:
+          </p>
+
+          <div class="lens-layout">
+            <div class="lens-buttons" role="tablist" aria-label="انتخاب عینک معماری">
+              <button type="button" class="lens-btn is-selected" onclick="selectLens(0, this)">
+                <span>۱. عینک معماری فرایندها</span>
+                <span class="lens-sub">Process</span>
+              </button>
+              <button type="button" class="lens-btn" onclick="selectLens(1, this)">
+                <span>۲. عینک معماری داده‌ها</span>
+                <span class="lens-sub">Data</span>
+              </button>
+              <button type="button" class="lens-btn" onclick="selectLens(2, this)">
+                <span>۳. عینک معماری اپلیکیشن‌ها</span>
+                <span class="lens-sub">Application</span>
+              </button>
+              <button type="button" class="lens-btn" onclick="selectLens(3, this)">
+                <span>۴. عینک معماری زیرساخت</span>
+                <span class="lens-sub">Infrastructure</span>
+              </button>
+              <button type="button" class="lens-btn" onclick="selectLens(4, this)">
+                <span>۵. عینک معماری امنیت</span>
+                <span class="lens-sub">Security</span>
+              </button>
+            </div>
+
+            <div class="lens-stage" id="lens-stage" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 05: Case Studies -->
+      <section id="casestudies" class="narrative-section">
+        <div class="section-head">
+          <div class="section-head-main">
+            <span class="index-num">05</span>
+            <h2 class="section-title">مطالعات موردی: از عمارت وینچستر و کلیسای فلورانس تا همراه اول و ایمیدرو</h2>
+          </div>
+          <span class="dossier-pill">شواهد عینی | <bdi dir="ltr">CASE STUDIES</bdi></span>
+        </div>
+
+        <p class="section-lead">
+          تفاوت میان سازمان دارای نقشه و سازمان بی‌نقشه، در سرنوشت دو بنای مشهور جهان و تجارب واقعی صنعت فناوری اطلاعات ایران به روشنی آشکار است.
+        </p>
+
+        <!-- Winchester vs Florence Comparison -->
+        <div class="even-grid">
+          <div class="payload-box payload-box--error">
+            <h3>عمارت وینچستر (<bdi dir="ltr">Winchester Mystery House</bdi>) — نماد بی‌نقشگی</h3>
+            <p class="prose">
+              پس از درگذشت مالک کارخانه اسلحه‌سازی وینچستر در سن‌خوزه کالیفرنیا، بیوه او (سارا وینچستر) تحت تأثیر پیشگویان خرافی باور کرد که اگر ساخت عمارت متوقف شود، جان خود را از دست خواهد داد. او کارگران را در <strong>۳ شیفت (۲۴ ساعته در ۷ روز هفته)</strong> به مدت <strong>۳۸ سال</strong> فقط به ساختن واداشت — بدون آنکه کسی بداند چه می‌سازد یا نقشه‌ای روی کاغذ وجود داشته باشد.
+            </p>
+            <ul class="dossier-list dossier-list-plain">
+              <li><span><strong>آمار عجیب بنا:</strong> ۱۶۰ اتاق، ۲۰۰۰ در، ۱۰۰۰ پنجره، ۴۷ راهپله، ۳ آسانسور و ۴۷ بخاری (چوبی، گازی و زغالی).</span></li>
+              <li><span><strong>ناهنجاری معماری:</strong> راهپله‌هایی که به سقف می‌خورند، درهایی که به هیچ‌جا باز نمی‌شوند، پنجره‌های طبقه دوم رو به سقوط، و کمدهایی که به اتاقی دیگر راه دارند.</span></li>
+              <li><span><strong>پیامد:</strong> ۵.۵ میلیون دلار هزینه غیرمعقول، غیرقابل توسعه بودن بنا، و جذب سالانه حدود ۵ میلیون گردشگر برای تماشای این آشفتگی!</span></li>
+            </ul>
+          </div>
+
+          <div class="payload-box payload-box--positive">
+            <h3>کلیسای جامع فلورانس (<bdi dir="ltr">Florence Cathedral</bdi>) — نماد تداوم نقشه</h3>
+            <p class="prose">
+              در نقطه مقابل وینچستر، کلیسای فلورانس قرار دارد که ساخت آن <strong>۱۴۰ سال</strong> (از سال ۱۲۹۶ تا ۱۴۳۶ میلادی) به طول انجامید. در این مدت طولانی، <strong>۴ معمار</strong> پیاپی مسئولیت پروژه را بر عهده گرفتند؛ سه معمار نخست در طول ساخت درگذشتند اما بنا با انسجام کامل به پایان رسید.
+            </p>
+            <ul class="dossier-list dossier-list-plain">
+              <li><span><strong>ابعاد مهندسی:</strong> ارتفاع ۱۱۴.۵ متر و مساحت ۸۳۰۰ متر مربع با ساختار گنبد دوپوسته (لایه داخلی سبک و لایه خارجی سنگین و مقاوم).</span></li>
+              <li><span><strong>راز موفقیت:</strong> وجود نقشه و اصول معماری مدون از روز اول، که امکان تداوم دقیق کار را برای نسل‌های بعدی معماران فراهم کرد.</span></li>
+              <li><span><strong>تطبیق با سازمان‌ها:</strong> با تغییر مدیر <bdi dir="ltr">IT</bdi>، اگر نقشه معماری وجود داشته باشد، مدیر بعدی سامانه‌های قبلی را دور نمی‌ریزد و پروژه را روی همان ریل ادامه می‌دهد.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Direct Quantitative Comparison Visual -->
+        <div class="figure-card">
+          <h3>مقایسه کمّی تداوم و پیچیدگی: عمارت وینچستر در برابر کلیسای فلورانس</h3>
+          <div class="bar-chart-box">
+            <div class="bar-row">
+              <div class="bar-row-meta">
+                <span>مدت زمان ساخت (سال)</span>
+                <span>فلورانس: ۱۴۰ سال (تداوم برنامه‌ریزی‌شده) | وینچستر: ۳۸ سال (ساخت بی‌وقفه ۲۴/۷)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill bar-fill--florence" style="width: 100%;">۱۴۰ سال</div>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill bar-fill--winchester" style="width: 27.1%;">۳۸ سال</div>
+              </div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-row-meta">
+                <span>تعداد اجزای ناهماهنگ یا معماران متولی</span>
+                <span>وینچستر: ۴۷ راهپله و ۲۰۰۰ در بی‌منطق | فلورانس: ۴ معمار هم‌راستا بر ۱ نقشه</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill bar-fill--winchester" style="width: 92%;">۱۶۰ اتاق و ۴۷ راهپله بن‌بست</div>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill bar-fill--florence" style="width: 22%;">۴ معمار پیرو ۱ پلان</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Iranian Case Studies: Hamrah-e Aval & IMIDRO -->
+        <div class="even-grid">
+          <div class="payload-box">
+            <h4>پرونده پروژه همراه اول (ساختمان بزرگراه کردستان) و خریدهای تکراری</h4>
+            <p class="prose">
+              در پروژه توسعه نرم‌افزار همراه اول، تیم برنامه‌نویسی پشت میز دچار درد پا شد و از مدیران درخواست «زیرپایی اداری» کرد. یکی از مدیران پیشنهاد داد از سرورهای انبارشده اما بلااستفاده‌ای که در آن زمان هر دستگاه حدود <strong>۵۰ میلیون تومان</strong> قیمت داشت استفاده کنند و سرورها را زیر پای خود بخوابانند! دلیل خرید آن سرورها تنها سفارش فردی بدون نقشه قبلی بود.
+            </p>
+            <p class="prose">
+              در سازمانی دیگر نیز یک اپلیکیشن واحد <strong>۱۰ بار با نام‌های متفاوت</strong> خریداری شد، زیرا مدیران بدون نقشه و صرفاً بر اساس روابط با معاونان تصمیم می‌گرفتند — دقیقاً مثل شهرسازی بی‌نقشه‌ای که در آن یک تیر چراغ برق وسط خیابان ساخته شده قرار می‌گیرد!
+            </p>
+          </div>
+
+          <div class="deep-dive">
+            <h4>پرونده هلدینگ معادن ایمیدرو (<bdi dir="ltr">IMIDRO</bdi>) — نیاز به استانداردسازی توزیع‌شده</h4>
+            <p class="prose">
+              سازمان تجهیز و توسعه معادن کشور (ایمیدرو) یک هلدینگ عظیم با شرکت‌های تابعه متنوع است: برخی کار تجهیز معدن می‌کنند، برخی توسعه، چند شرکت متعدد در حوزه اکتشاف فعالند و معادن طلا و سایر صنایع در نقاط دوردست کشور پراکنده‌اند (مثلاً معدنی در خراسان شمالی که پس از سفر هوایی، ۵ ساعت فاصله زمینی تا مرکز استان دارد).
+            </p>
+            <p class="prose">
+              <strong>چالش کلیدی:</strong> شرکت‌های ۱، ۲ و ۳ هر یک فرایند تجهیز معدن را به شیوه <bdi dir="ltr">IT</bdi> اختصاصی خود اجرا کرده و گزارش‌های ناهمسان می‌فرستند، به طوری که نظارت مرکزی ممکن نیست. تدوین معماری سازمانی برای ایمیدرو با هدف یکسان‌سازی خروجی‌ها، کاهش هزینه‌ها و شفاف‌سازی وظیفه مدیر <bdi dir="ltr">IT</bdi> در حال پیگیری است.
+            </p>
+          </div>
+        </div>
+
+        <!-- Comprehensive Case Matrix Table -->
+        <div class="table-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>مطالعه موردی</th>
+                <th>وضعیت نقشه معماری</th>
+                <th>نشانه یا پیامد ملموس</th>
+                <th>درس کلیدی برای مدیر <bdi dir="ltr">IT</bdi></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>عمارت وینچستر</strong></td>
+                <td>فقدان کامل نقشه فنی</td>
+                <td>۳۸ سال ساخت مداوم، ۱۶۰ اتاق، راهپله به سقف، ۵.۵ میلیون دلار هزینه</td>
+                <td>کار و هزینه مداوم بدون نقشه، سازمان را غیرقابل توسعه می‌کند.</td>
+              </tr>
+              <tr>
+                <td><strong>کلیسای فلورانس</strong></td>
+                <td>نقشه و اصول واحد از روز اول</td>
+                <td>۱۴۰ سال ساخت موفق با ۴ معمار متوالی و گنبد دوپوسته مقاوم</td>
+                <td>تغییر مدیران با وجود نقشه، پیوستگی سیستم را نابود نمی‌کند.</td>
+              </tr>
+              <tr>
+                <td><strong>همراه اول (کردستان)</strong></td>
+                <td>خرید سفارشی بی‌طرح</td>
+                <td>استفاده از سرورهای ۵۰ میلیون تومانی بلااستفاده به عنوان زیرپایی</td>
+                <td>خرید سخت‌افزار ساده‌ترین کار است؛ بدون نقشه فقط اتلاف سرمایه می‌آفریند.</td>
+              </tr>
+              <tr>
+                <td><strong>سازمان دارای خرید تکراری</strong></td>
+                <td>تصمیم‌گیری رابطه‌ای</td>
+                <td>خرید ۱۰ باره یک اپلیکیشن یکسان تحت نام‌های مختلف</td>
+                <td>مدیر <bdi dir="ltr">IT</bdi> باید پاسخ «بله/نه» را از روی نقشه بدهد، نه رابطه با معاونان.</td>
+              </tr>
+              <tr>
+                <td><strong>هلدینگ ایمیدرو (<bdi dir="ltr">IMIDRO</bdi>)</strong></td>
+                <td>نیاز به معماری یکپارچه</td>
+                <td>روش‌های متفاوت تجهیز معدن در شرکت‌های تابعه تا ۵ ساعت خارج از مراکز استان</td>
+                <td>معماری سازمانی شرط لازم نظارت‌پذیری و کاهش هزینه در هلدینگ‌های توزیع‌شده است.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 06: Mandatory Criteria & Tech Trend Trap -->
+      <section id="criteria" class="narrative-section">
+        <div class="section-head">
+          <div class="section-head-main">
+            <span class="index-num">06</span>
+            <h2 class="section-title">معیارهای پنج‌گانه ضرورت معماری و تله موج‌سواری فناوری</h2>
+          </div>
+          <span class="dossier-pill">معیارها | <bdi dir="ltr">CRITERIA</bdi></span>
+        </div>
+
+        <p class="section-lead">
+          چه زمانی یک سازمان به طور قطعی به معماری سازمانی نیازمند است؟ و چرا تبعیت کورکورانه از ترندهای بازار، سازمان‌ها را به عمارت وینچستر تبدیل می‌کند؟
+        </p>
+
+        <div class="split-grid">
+          <div>
+            <h3>تله مدگرایی فناوری (<bdi dir="ltr">Trend Chasing</bdi>)</h3>
+            <p class="prose">
+              بسیاری از سازمان‌ها همواره درگیر کارند اما نمی‌دانند به کدام سمت می‌روند: یک روز ترند <strong><bdi dir="ltr">VoIP</bdi></strong> می‌آید و سراغ آن می‌روند؛ روز دیگر <strong>رایانش ابری (<bdi dir="ltr">Cloud Computing</bdi>)</strong> مطرح می‌شود؛ بعد <strong>اینترنت اشیا (<bdi dir="ltr">IoT</bdi>)</strong> و سپس <strong>وب‌سرویس</strong>؛ مقطعی هم <strong>متاورس (<bdi dir="ltr">Metaverse</bdi>)</strong> مد شد (به طوری که دوره‌هایش را در کشور برگزار می‌کردند پیش از آنکه حتی مؤسس فیس‌بوک تعریف نهایی آن را ببندد!) و امروز نوبت تب <strong>هوش مصنوعی (<bdi dir="ltr">AI</bdi>)</strong> است. فناوری بدون نقشه معماری فقط انباشت هزینه است.
+            </p>
+          </div>
+
+          <div class="payload-box payload-box--teal">
+            <h4>پنج نشانه الزام‌آور معماری در سازمان</h4>
+            <ul class="dossier-list dossier-list-plain">
+              <li><span class="index-num">۱</span><span><strong>ابعاد بزرگ:</strong> گستردگی ساختار، کارکنان و شعب</span></li>
+              <li><span class="index-num">۲</span><span><strong>پیچیدگی زیاد:</strong> تعدد فرایندها و وابستگی میان بخش‌ها</span></li>
+              <li><span class="index-num">۳</span><span><strong>نیازمندی‌های خاص:</strong> حساسیت عملیاتی یا مأموریت‌های ویژه</span></li>
+              <li><span class="index-num">۴</span><span><strong>طول عمر زیاد:</strong> سازمان‌هایی با افق ۱۰، ۲۰، ۳۰ یا ۱۰۰ ساله</span></li>
+              <li><span class="index-num">۵</span><span><strong>انعطاف در برابر تغییر:</strong> نیاز به تطبیق با تحولات محیطی</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Interactive Tool 3: Organizational Necessity Calculator -->
+        <div class="interactive-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">سنجش‌گر تعاملی ضرورت معماری سازمانی (بر اساس معیارهای پنج‌گانه کلاس)</h3>
+            <span class="tag-chip">تحلیل وضعیت سازمان</span>
+          </div>
+
+          <div class="criteria-grid">
+            <div class="criteria-item">
+              <label for="crit-scale" class="criteria-label"><span>۱. ابعاد و گستردگی سازمان</span><span id="val-scale">بالا</span></label>
+              <select id="crit-scale" class="criteria-select" onchange="evaluateCriteria()">
+                <option value="1">کوچک و متمرکز (۱)</option>
+                <option value="2">متوسط و چندواحدی (۲)</option>
+                <option value="3" selected>بزرگ یا هلدینگ توزیع‌شده (۳)</option>
+              </select>
+            </div>
+
+            <div class="criteria-item">
+              <label for="crit-complexity" class="criteria-label"><span>۲. پیچیدگی فرایندها</span><span id="val-complexity">بالا</span></label>
+              <select id="crit-complexity" class="criteria-select" onchange="evaluateCriteria()">
+                <option value="1">ساده و خطی (۱)</option>
+                <option value="2">چندلایه و نیمه‌پیچیده (۲)</option>
+                <option value="3" selected>بسیار پیچیده و درهم‌تنیده (۳)</option>
+              </select>
+            </div>
+
+            <div class="criteria-item">
+              <label for="crit-req" class="criteria-label"><span>۳. نیازمندی‌های خاص</span><span id="val-req">متوسط</span></label>
+              <select id="crit-req" class="criteria-select" onchange="evaluateCriteria()">
+                <option value="1">عمومی و استاندارد (۱)</option>
+                <option value="2" selected>تخصصی و بخشی (۲)</option>
+                <option value="3">حیاتی، ویژه و حساس (۳)</option>
+              </select>
+            </div>
+
+            <div class="criteria-item">
+              <label for="crit-life" class="criteria-label"><span>۴. طول عمر مورد انتظار</span><span id="val-life">بالا</span></label>
+              <select id="crit-life" class="criteria-select" onchange="evaluateCriteria()">
+                <option value="1">پروژه کوتاه‌مدت زیر ۳ سال (۱)</option>
+                <option value="2">میان‌مدت ۵ تا ۱۰ سال (۲)</option>
+                <option value="3" selected>بلندمدت ۱۰ تا ۱۰۰ سال (۳)</option>
+              </select>
+            </div>
+
+            <div class="criteria-item">
+              <label for="crit-change" class="criteria-label"><span>۵. فشار تغییرات محیطی</span><span id="val-change">بالا</span></label>
+              <select id="crit-change" class="criteria-select" onchange="evaluateCriteria()">
+                <option value="1">ایستا و کم‌تغییر (۱)</option>
+                <option value="2">تغییرات دوره‌ای (۲)</option>
+                <option value="3" selected>تحولات مداوم فناوری و قانون (۳)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="sim-output" id="criteria-result" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- Section 07: Benefits & Legal Mandate -->
+      <section id="benefits" class="narrative-section">
+        <div class="section-head">
+          <div class="section-head-main">
+            <span class="index-num">07</span>
+            <h2 class="section-title">نتایج معماری سازمانی، تغییر نقش مدیر <bdi dir="ltr">IT</bdi> و تکلیف قانونی</h2>
+          </div>
+          <span class="dossier-pill">دستاوردها | <bdi dir="ltr">OUTCOMES</bdi></span>
+        </div>
+
+        <p class="section-lead">
+          معمار باید دو دستاورد بنیادین را هم‌زمان برای سازمان محقق سازد: حداقل کردن زمان اجرا و حداقل کردن هزینه، در حالی که مدیر <bdi dir="ltr">IT</bdi> از یک تصمیم‌گیرنده سلیقه‌ای به مجری دقیق نقشه تبدیل می‌شود.
+        </p>
+
+        <div class="even-grid">
+          <div class="figure-card">
+            <h3>دو وظیفه اصلی معمار سازمانی</h3>
+            <ul class="dossier-list dossier-list-plain">
+              <li><span class="index-num">۰۱</span><span><strong>حداقل‌سازی زمان:</strong> انجام پروژه‌ها در بازه زمانی قابل قبول و تعریف‌شده بدون اتلاف در چرخه‌های آزمون‌وخطا.</span></li>
+              <li><span class="index-num">۰۲</span><span><strong>حداقل‌سازی هزینه:</strong> حذف خریدهای تکراری نرم‌افزار و جلوگیری از خرید سخت‌افزارهای بلااستفاده با بودجه‌ریزی معقول.</span></li>
+            </ul>
+          </div>
+
+          <div class="figure-card">
+            <h3>تحول جایگاه مدیر فناوری اطلاعات</h3>
+            <p class="prose">
+              در سازمان‌های فاقد معماری، مدیر <bdi dir="ltr">IT</bdi> بر مبنای سلیقه یا رابطه با معاونان تصمیم می‌گیرد؛ اما در سازمان معماری‌شده، مدیر <bdi dir="ltr">IT</bdi> یک <strong>مجری متکی بر نقشه</strong> است. او هنگام دریافت درخواست جدید به نقشه نگاه می‌کند و به روشنی اعلام می‌کند که آیا این سامانه ضروری است و در برنامه و بودجه سال جاری پیش‌بینی شده است یا خیر.
+            </p>
+          </div>
+
+          <div class="payload-box payload-box--positive">
+            <h3>الزام و تکلیف قانونی دولت</h3>
+            <p class="prose">
+              استخراج و تدوین معماری سازمانی صرفاً یک توصیه دانشگاهی نیست، بلکه <strong>جزء تکالیف قانونی دولت</strong> است و تمام سازمان‌های دولتی موظفند معماری سازمانی خود را استخراج کنند تا نظارت، یکپارچگی داده‌ها، حذف جزیره‌های نرم‌افزاری و شفافیت هزینه‌ها محقق شود.
+            </p>
+          </div>
+        </div>
+
+        <figure class="schematic-box note-figure">
+          <figcaption>زنجیره ارزش معماری سازمانی</figcaption>
+          <ol class="note-steps">
+            <li><strong>هدف‌گذاری کلان</strong> نگاه معمارانه و مدل V2 برای تصمیم درباره نیاز به سامانه</li>
+            <li><strong>نقشه‌های فنی (۵ عینک)</strong> فرایند، داده، نرم‌افزار، زیرساخت و امنیت یکپارچه</li>
+            <li><strong>طرح‌های اجرایی</strong> اولویت، زمان‌بندی و بودجه برای تولید داخلی یا برون‌سپاری</li>
+            <li><strong>دستاورد نهایی</strong> کاهش زمان و هزینه و اجرای تکلیف قانونی دولت</li>
+          </ol>
+        </figure>
+      </section>
+
+    </div>
+
+    <footer class="dossier-footer">
+      <span>منبع محتوا: فایل ضبط‌شده جلسه درس معماری سازمانی — دانشگاه آزاد اسلامی واحد ساوه (مقطع کارشناسی ارشد)</span>
+      <span>طراحی بر پایه نظام بصری کاغذ گرم تحریریه (<bdi dir="ltr">Editorial Warm Paper / Briefing</bdi>)</span>
+    </footer>
+  </main>
+
+  <script>
+    const SCENARIOS = [
+      {
+        title: `درخواست معاون سازمان برای خرید سامانه ۲ میلیارد تومانی`,
+        traditional: `بررسی سطحی جزئیات فنی نرم‌افزار، جلسه برای پرسیدن امکانات، پرس‌وجو از سازمان‌های مشابه، یا بررسی اینکه آیا سرور و پولش موجود است یا نه؛ و در نهایت خرید رابطه‌ای به خاطر نظر مساعد معاون.`,
+        architectural: `اعمال آزمون V دوم (فلسفه وجودی: بودن یا نبودن؟). مدیر IT پیش از بررسی امکانات نرم‌افزار، به نقشه معماری سازمانی نگاه می‌کند: آیا فرایند و داده ما چنین سامانه‌ای را می‌طلبد؟ آیا در برنامه امسال دیده شده است؟ اگر در نقشه نباشد، پاسخ شفاف «نه» است تا از تکرار فاجعه خرید ۱۰ باره یک اپلیکیشن جلوگیری شود.`,
+        verdict: `نیازمند بررسی انطباق با نقشه معماری (V2) پیش از امکان‌سنجی خرید`,
+        badgeClass: `status-badge--warning`
+      },
+      {
+        title: `پروژه اولویت‌دار اول: سامانه X با سقف ۱۲ ماه و بودجه ۶ میلیارد تومان`,
+        traditional: `شروع بدون زمان‌بندی دقیق و واگذاری پراکنده به پیمانکاران مختلف در طول زمان، مشابه ساخت عمارت وینچستر.`,
+        architectural: `این سامانه بر اساس نقشه کلان، بخشی ضروری برای پشتیبانی از فرایندهاست و مستقیماً وارد «طرح اجرایی» شده است: اولویت بالا، حداکثر مدت پیاده‌سازی ۱۲ ماه، سقف بودجه ۶ میلیارد تومان و تصمیم راهبردی برای تولید در دل سازمان (In-house).`,
+        verdict: `تأیید‌شده در نقشه معماری — آماده اجرا در دل سازمان`,
+        badgeClass: `status-badge--positive`
+      },
+      {
+        title: `پروژه دوم: سامانه ۱۰ میلیارد تومانی با نیاز به برون‌سپاری`,
+        traditional: `خرید ناگهانی سخت‌افزار و سرورهای گران‌قیمت پیش از تعیین تکلیف معماری اپلیکیشن (مشابه سرورهای ۵۰ میلیونی زیرپایی در همراه اول).`,
+        architectural: `بررسی وابستگی این پروژه با لایه داده و فرایند، تعیین سقف بودجه ۱۰ میلیارد تومانی و انتخاب راهبرد تأمین خارج از سازمان (Outsource) در چارچوب مشخصات فنی نقشه معماری، تا محصول نهایی بدون اصطکاک به بدنه سازمان متصل شود.`,
+        verdict: `برنامه‌ریزی‌شده با سقف بودجه و راهبرد برون‌سپاری شفاف`,
+        badgeClass: `status-badge--positive`
+      }
+    ];
+
+    const GOAL_LEVELS = [
+      {
+        title: `هدف‌گذاری سطح ۱: برترین واحد دانشگاهی در شهر ساوه`,
+        text: `نیازمندی‌های فناوری اطلاعات در این سطح محدودتر است؛ تمرکز بر سامانه‌های پایه آموزشی و اداری داخلی واحد ساوه بدون نیاز به یکپارچه‌سازی پیچیده فرااستانی.`
+      },
+      {
+        title: `هدف‌گذاری سطح ۲: برترین واحد دانشگاه آزاد در کل کشور`,
+        text: `معماری نیازمند استانداردسازی گزارش‌ها، شاخص‌های عملکردی و هم‌ترازی فرایندها با شبکه سراسری دانشگاه است تا برتری در مقیاس ملی قابل اندازه‌گیری باشد.`
+      },
+      {
+        title: `هدف‌گذاری سطح ۳: برترین دانشگاه ایران`,
+        text: `علاوه بر سامانه‌های آموزشی، معماری باید از زیرساخت‌های پژوهشی پیشرفته، تبادل داده بین‌دانشگاهی و چابکی فرایندها در تراز ملی پشتیبانی کند.`
+      },
+      {
+        title: `هدف‌گذاری سطح ۴: برترین دانشگاه خاورمیانه`,
+        text: `معماری کلان فناوری اطلاعات باید چندزبانه، بین‌المللی، فوق‌امن و مقیاس‌پذیر در تراز منطقه‌ای طراحی شود — هر قدر افق هدف بزرگ‌تر، نقشه معماری پیچیده‌تر و حیاتی‌تر است.`
+      }
+    ];
+
+    const LENSES = [
+      {
+        name: `معماری فرایندها (Process Architecture)`,
+        analogy: `مشابه نقشه کاربری فضاها و گردش حرکت در طبقات ساختمان`,
+        desc: `بررسی جریان واقعی انجام کارها در سازمان: چه فعالیت‌هایی انجام می‌شود، گلوگاه‌ها کجاست و چگونه واحدها با هم تعامل دارند. نرم‌افزار فقط برای پشتیبانی از همین فرایندها به کار گرفته می‌شود.`,
+        pitfall: `بدون شناخت فرایند، نرم‌افزارهای خریداری‌شده بلااستفاده می‌مانند یا کارمندان را مجبور به انجام کارهای تکراری می‌کنند.`
+      },
+      {
+        name: `معماری داده‌ها (Data Architecture)`,
+        analogy: `مشابه نقشه تأسیسات حیاتی و شبکه لوله‌کشی ساختمان`,
+        desc: `تعیین موجودیت‌های اطلاعاتی سازمان، مالکیت داده‌ها و نحوه جریان داده میان بخش‌ها. استاد تصریح کرد که در بسیاری از سازمان‌های ما در لایه‌های بالاتر مثل معماری داده کار خاصی انجام نشده است.`,
+        pitfall: `نبود معماری داده موجب می‌شود هر زیرمجموعه (مانند شرکت‌های تابعه ایمیدرو) خروجی متفاوت بفرستد و نظارت مرکزی غیرممکن شود.`
+      },
+      {
+        name: `معماری اپلیکیشن‌ها (Application Architecture)`,
+        analogy: `مشابه نقشه جانمایی اتاق‌ها و تجهیزات داخلی بنا`,
+        desc: `مشخص می‌کند سازمان دقیقاً به چند نرم‌افزار (مثلاً ۵۰ یا ۶۰ اپلیکیشن) نیاز دارد، هر سامانه چه مرزی دارد و ارتباط میان آن‌ها چگونه است تا حداقل نرم‌افزار لازم تأمین شود.`,
+        pitfall: `فقدان این نقشه سبب خرید ۱۰ باره یک اپلیکیشن با نام‌های مختلف در سازمان می‌شود.`
+      },
+      {
+        name: `معماری زیرساخت و فناوری (Infrastructure Architecture)`,
+        analogy: `مشابه اسکلت، مصالح پایه و سیم‌کشی فیزیکی ساختمان`,
+        desc: `شامل سرورها، شبکه، تجهیزات ارتباطی و بستر استقرار. به گفته استاد، این ساده‌ترین بخش کار در سازمان‌های دولتی است و اغلب با خرید مستقیم و بدون اتصال به لایه‌های بالا انجام می‌شود.`,
+        pitfall: `تمرکز صرف بر خرید زیرساخت بدون طرح بالا‌دستی، فاجعه سرورهای ۵۰ میلیون تومانی زیرپایی در همراه اول را رقم می‌زند.`
+      },
+      {
+        name: `معماری امنیت (Security Architecture)`,
+        analogy: `مشابه سیستم‌های حفاظتی، ایمنی سازه و کنترل دسترسی ساختمان`,
+        desc: `نظارت بر حفاظت یکپارچه از داده‌ها، فرایندها، نرم‌افزارها و زیرساخت‌های سازمان به صورت همه‌جانبه، نه به شکل وصله‌ای که پس از بروز بحران اضافه شود.`,
+        pitfall: `دیدن امنیت به عنوان یک خرید جداگانه پس از استقرار، حفره‌های ساختاری جبران‌ناپذیر ایجاد می‌کند.`
+      }
+    ];
+
+    function selectScenario(idx, btn) {
+      const buttons = document.querySelectorAll('#vmodel-simulator .btn-tab');
+      buttons.forEach(function (el) {
+        el.classList.remove('is-selected');
+      });
+      if (btn) btn.classList.add('is-selected');
+
+      const item = SCENARIOS[idx];
+      const out = document.getElementById('scenario-output');
+      if (!item || !out) return;
+
+      out.innerHTML = `
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-md);">
+          <h4 style="margin:0;">${item.title}</h4>
+          <span class="status-badge ${item.badgeClass}">${item.verdict}</span>
+        </div>
+        <div class="even-grid">
+          <div class="figure-card">
+            <div class="kpi-label" style="color:var(--error); margin-bottom:var(--space-xs);">واکنش سنتی / جزئی‌نگر (بدون نقشه)</div>
+            <p class="prose" style="margin:0;">${item.traditional}</p>
+          </div>
+          <div class="figure-card" style="border-inline-start:var(--accent-border-teal);">
+            <div class="kpi-label" style="color:var(--secondary); margin-bottom:var(--space-xs);">تصمیم مدیر IT بر پایه معماری سازمانی (مدل V)</div>
+            <p class="prose" style="margin:0;">${item.architectural}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectGoalLevel(idx, btn) {
+      const steps = document.querySelectorAll('.ladder-step');
+      steps.forEach(function (el) {
+        el.classList.remove('is-selected');
+      });
+      if (btn) btn.classList.add('is-selected');
+
+      const goal = GOAL_LEVELS[idx];
+      const out = document.getElementById('goal-detail');
+      if (!goal || !out) return;
+
+      out.innerHTML = `
+        <h4 style="margin:0 0 var(--space-xs) 0;">${goal.title}</h4>
+        <p class="prose" style="margin:0;">${goal.text}</p>
+      `;
+    }
+
+    function selectLens(idx, btn) {
+      const buttons = document.querySelectorAll('.lens-btn');
+      buttons.forEach(function (el) {
+        el.classList.remove('is-selected');
+      });
+      if (btn) btn.classList.add('is-selected');
+
+      const lens = LENSES[idx];
+      const stage = document.getElementById('lens-stage');
+      if (!lens || !stage) return;
+
+      stage.innerHTML = `
+        <div>
+          <span class="dossier-pill" style="margin-bottom:var(--space-sm);">عینک فعال</span>
+          <h4 style="margin:var(--space-sm) 0;">${lens.name}</h4>
+          <p class="kpi-label" style="margin:0 0 var(--space-md) 0;">تشبیه ساختمانی: ${lens.analogy}</p>
+          <p class="prose">${lens.desc}</p>
+        </div>
+        <div class="payload-box payload-box--error" style="margin:0;">
+          <div class="kpi-label" style="color:var(--error); margin-bottom:var(--space-xs);">پیامد غفلت از این عینک</div>
+          <p class="prose" style="margin:0;">${lens.pitfall}</p>
+        </div>
+      `;
+    }
+
+    function evaluateCriteria() {
+      const ids = ['scale', 'complexity', 'req', 'life', 'change'];
+      const labels = { '1': 'کم', '2': 'متوسط', '3': 'بالا' };
+      let total = 0;
+
+      ids.forEach(function (key) {
+        const sel = document.getElementById('crit-' + key);
+        const badge = document.getElementById('val-' + key);
+        if (sel) {
+          const val = parseInt(sel.value, 10) || 1;
+          total += val;
+          if (badge) badge.textContent = labels[String(val)] || 'متوسط';
+        }
+      });
+
+      const out = document.getElementById('criteria-result');
+      if (!out) return;
+
+      let statusText = ``;
+      let statusClass = `status-badge--warning`;
+      let advice = ``;
+
+      if (total >= 12) {
+        statusText = `ضرورت قطعی و فوری (${total} از ۱۵)`;
+        statusClass = `status-badge--error`;
+        advice = `سازمان شما دقیقاً در محدوده هشدار قرار دارد (مشابه هلدینگ ایمیدرو یا سازمان‌های بزرگ دولتی). ادامه فعالیت فناوری اطلاعات بدون تدوین نقشه معماری سازمانی منجر به اتلاف بودجه، خریدهای تکراری و سرنوشت عمارت وینچستر خواهد شد.`;
+      } else if (total >= 8) {
+        statusText = `ضرورت بالا (${total} از ۱۵)`;
+        statusClass = `status-badge--warning`;
+        advice = `پیش از ورود به خرید سامانه‌های جدید یا پیروی از ترندهای بازار (مثل هوش مصنوعی یا کلاد)، باید عینک‌های فرایند، داده و اپلیکیشن را تعریف کرده و برای پروژه‌ها طرح اجرایی با بودجه و زمان مشخص تدوین کنید.`;
+      } else {
+        statusText = `نیاز پایه و پیشگیرانه (${total} از ۱۵)`;
+        statusClass = `status-badge--positive`;
+        advice = `اگرچه ابعاد و پیچیدگی فعلی محدود است، تدوین یک نقشه سبک از فرایندها و داده‌ها مانع از جزیره‌ای شدن سامانه‌ها در آینده و هنگام رشد سازمان می‌شود.`;
+      }
+
+      out.innerHTML = `
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-sm);">
+          <strong>ارزیابی آمادگی و الزام معماری سازمانی</strong>
+          <span class="status-badge ${statusClass}">${statusText}</span>
+        </div>
+        <p class="prose" style="margin:0;">${advice}</p>
+      `;
+    }
+
+    function initTocObserver() {
+      const links = document.querySelectorAll('.toc-link');
+      const sections = document.querySelectorAll('.narrative-section');
+      if (!links.length || !sections.length || !('IntersectionObserver' in window)) return;
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            links.forEach(function (link) {
+              const href = link.getAttribute('href');
+              if (href === '#' + id) {
+                link.classList.add('is-active');
+              } else {
+                link.classList.remove('is-active');
+              }
+            });
+          }
+        });
+      }, { rootMargin: '-25% 0px -60% 0px', threshold: 0.05 });
+
+      sections.forEach(function (sec) {
+        observer.observe(sec);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const firstScenarioBtn = document.querySelector('#vmodel-simulator .btn-tab');
+      selectScenario(0, firstScenarioBtn);
+
+      const firstGoalBtn = document.querySelector('.ladder-step');
+      selectGoalLevel(0, firstGoalBtn);
+
+      const firstLensBtn = document.querySelector('.lens-btn');
+      selectLens(0, firstLensBtn);
+
+      evaluateCriteria();
+      initTocObserver();
+    });
+  </script>
+</body>
+</html>

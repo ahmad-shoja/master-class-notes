@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="artifact-type" content="narrative">
+<meta name="design-style" content="briefing">
+<title>مهندسی نیازمندی‌ها، معماری و اقتصاد نرم‌افزار — درس‌گفتار دکتر رضایی (واحد ساوه)</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  color-scheme: light;
+
+  /* 1. Editorial Warm Paper / Briefing palette */
+  --background: #faf9f5;
+  --surface-container-low: #ffffff;
+  --surface-container: #f1efe8;
+  --surface-container-high: #e6e2d6;
+
+  --on-surface: #17181a;
+  --on-surface-variant: #56585c;
+
+  --outline: #17181a;
+  --outline-variant: #dedad0;
+
+  --primary: #17181a;
+  --on-primary: #faf9f5;
+  --primary-container: #f2b705;
+  --on-primary-container: #17181a;
+  --secondary: #1f4e5f;
+  --tertiary: #785008;
+  --error: #b42318;
+  --on-error: #ffffff;
+
+  /* Data series */
+  --data-1: #1f4e5f;
+  --data-2: #d99000;
+  --data-3: #2b6e52;
+  --data-4: #b84a39;
+  --data-context: #c4bfb2;
+
+  /* Fonts (RTL Persian primary + Geist Mono for numeric/technical indices) */
+  --font-headline: 'Noto Naskh Arabic', 'Vazirmatn', serif;
+  --font-body: 'Vazirmatn', 'Noto Naskh Arabic', sans-serif;
+  --font-label: 'Vazirmatn', 'Geist Mono', monospace;
+  --font-mono: 'Geist Mono', 'Vazirmatn', monospace;
+
+  /* Shape & effects */
+  --rounded: 0.25rem;
+  --rounded-lg: 0.375rem;
+  --badge-radius: 2px;
+  --section-rule: 1.5px solid var(--outline);
+  --card-border: 1px solid var(--outline-variant);
+  --subtle-border: 1px solid var(--outline-variant);
+
+  /* Semantic UI States */
+  --positive: #1f6b48;
+  --positive-bg: #eaf5ef;
+  --warning: #8a5600;
+  --warning-bg: #fbf2de;
+  --error-bg: #fceceb;
+  --chip-bg: #f5e6c4;
+  --focus: #1f4e5f;
+
+  /* Type scale (Narrative RTL) */
+  --display-size: clamp(2rem, 1.4rem + 2.4vw, 3.1rem);
+  --headline-size: clamp(1.45rem, 1.15rem + 1.2vw, 2.05rem);
+  --subhead-size: clamp(1.125rem, 1rem + 0.45vw, 1.35rem);
+  --body-size: clamp(1rem, 0.96rem + 0.18vw, 1.09375rem);
+  --label-size: 0.8125rem;
+
+  /* Spacing scale (4pt base) */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+}
+
+/* Base reset */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body {
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--on-surface);
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+header { position: static !important; }
+button, input, select, textarea { font-family: inherit; }
+
+:focus-visible {
+  outline: 2.5px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Page container */
+.page-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+}
+.page-shell * { min-width: 0; }
+
+/* Dossier section bar */
+.dossier-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  border-bottom: var(--section-rule);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+.dossier-bar-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.dossier-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--badge-radius);
+  white-space: nowrap;
+}
+.dossier-meta {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  font-weight: 500;
+  color: var(--on-surface-variant);
+}
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--chip-bg);
+  color: var(--tertiary);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: var(--rounded);
+  white-space: nowrap;
+}
+
+/* Masthead / Hero */
+.hero {
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-xl);
+}
+.title {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: var(--display-size);
+  line-height: 1.28;
+  color: var(--on-surface);
+  margin: 0 0 var(--space-md);
+}
+.standfirst {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--subhead-size);
+  line-height: 1.65;
+  color: var(--secondary);
+  margin: 0 0 var(--space-lg);
+  max-width: 72ch;
+}
+
+/* KPI Grid */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+.kpi-card {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  border-top: 3px solid var(--secondary);
+}
+.kpi-card.highlight {
+  border-top-color: var(--primary-container);
+}
+.kpi-value {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem);
+  line-height: 1.2;
+  color: var(--on-surface);
+  font-variant-numeric: tabular-nums;
+}
+.kpi-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--secondary);
+}
+.kpi-sub {
+  font-size: 0.82rem;
+  color: var(--on-surface-variant);
+  line-height: 1.5;
+}
+
+/* Sticky TOC Strip */
+.toc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-decoration: none;
+  color: var(--on-surface-variant);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--rounded);
+  white-space: nowrap;
+  min-height: 44px;
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+}
+.toc-link:hover {
+  background: var(--surface-container);
+  color: var(--on-surface);
+}
+.toc-link.active {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.toc-link .index-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+/* Main Sections */
+.lecture-section {
+  margin-bottom: var(--space-2xl);
+  scroll-margin-top: 4.5rem;
+}
+.section-heading {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: var(--headline-size);
+  line-height: 1.35;
+  color: var(--on-surface);
+  margin: 0 0 var(--space-sm);
+}
+.section-lead {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--secondary);
+  margin: 0 0 var(--space-lg);
+  max-width: 72ch;
+}
+.prose {
+  max-width: 70ch;
+  margin: 0 0 var(--space-md);
+}
+.prose strong {
+  color: var(--on-surface);
+  font-weight: 700;
+}
+
+/* Grids and cards */
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+.figure-card {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+}
+.figure-card h3, .figure-card h4 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  margin: 0 0 var(--space-sm);
+  color: var(--on-surface);
+}
+.figure-card h3 { font-size: 1.2rem; }
+.figure-card h4 { font-size: 1.05rem; }
+
+/* Payload Deep-Dive & Callout Boxes */
+.payload-box {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-right: 4px solid var(--secondary);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+.payload-box.deep-dive {
+  background: var(--surface-container);
+  border-right-color: var(--primary-container);
+}
+.payload-box.alert-box {
+  border-right-color: var(--error);
+}
+.payload-box h4 {
+  font-family: var(--font-headline);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-sm);
+  color: var(--on-surface);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.payload-box p {
+  margin: 0 0 var(--space-sm);
+}
+.payload-box p:last-child {
+  margin-bottom: 0;
+}
+
+.aside-box {
+  background: var(--surface-container);
+  border-top: var(--section-rule);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+  margin: var(--space-lg) 0;
+}
+.aside-box h4 {
+  margin: 0 0 var(--space-xs);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+/* Numbered Index Items */
+.index-list {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+.index-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-md);
+  align-items: start;
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md) var(--space-lg);
+}
+.index-badge {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--secondary);
+  background: var(--surface-container);
+  border: var(--card-border);
+  border-radius: var(--rounded);
+  padding: 0.25rem 0.55rem;
+  line-height: 1.2;
+}
+.index-item h4 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-headline);
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+.index-item p {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font-size: 0.95rem;
+}
+
+/* Status badges */
+.state-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.18rem 0.55rem;
+  border-radius: var(--rounded);
+  white-space: nowrap;
+}
+.state-positive { background: var(--positive-bg); color: var(--positive); }
+.state-warning { background: var(--warning-bg); color: var(--warning); }
+.state-error { background: var(--error-bg); color: var(--error); }
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  margin: var(--space-lg) 0;
+}
+.briefing-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  font-size: 0.92rem;
+}
+.briefing-table th {
+  background: var(--surface-container);
+  border-bottom: var(--section-rule);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  white-space: nowrap;
+}
+.briefing-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: var(--card-border);
+  vertical-align: top;
+}
+.briefing-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Interactive Controls & Forms */
+.interactive-panel {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-top: 3px solid var(--primary);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+.panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  border-bottom: var(--card-border);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+.panel-header h3 {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  border: 1px solid var(--outline-variant);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+}
+.btn:hover {
+  background: var(--surface-container);
+}
+.btn.active, .btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+.btn.active:hover, .btn-primary:hover {
+  background: var(--secondary);
+  border-color: var(--secondary);
+}
+.btn-accent {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  border-color: var(--primary-container);
+  font-weight: 700;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.field-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+.field-input, .field-select {
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: var(--card-border);
+  border-radius: var(--rounded);
+  background: var(--background);
+  color: var(--on-surface);
+  font-size: 0.92rem;
+}
+.field-range {
+  width: 100%;
+  accent-color: var(--secondary);
+  min-height: 44px;
+  cursor: pointer;
+}
+.check-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: 0.75rem;
+  border: var(--card-border);
+  border-radius: var(--rounded);
+  background: var(--background);
+  cursor: pointer;
+  min-height: 44px;
+}
+.check-card input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--secondary);
+  flex-shrink: 0;
+}
+
+.result-banner {
+  background: var(--surface-container);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md) var(--space-lg);
+  display: grid;
+  gap: var(--space-sm);
+}
+
+/* Chart Container */
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  height: 320px;
+  margin: var(--space-md) 0;
+}
+
+/* Ecosystem Node Diagram */
+.eco-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(175px, 100%), 1fr));
+  gap: var(--space-sm);
+  margin: var(--space-md) 0;
+}
+.eco-node {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  transition: transform var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+}
+.eco-node.ok { border-top: 3px solid var(--positive); }
+.eco-node.warn { border-top: 3px solid var(--warning); background: var(--warning-bg); }
+.eco-node.down { border-top: 3px solid var(--error); background: var(--error-bg); }
+.eco-node.fallback { border-top: 3px solid var(--secondary); background: var(--surface-container); }
+
+/* NFR Filter Pills */
+.nfr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+.nfr-card {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.nfr-card.hidden { display: none; }
+
+/* Footer */
+.dossier-footer {
+  border-top: var(--section-rule);
+  padding-top: var(--space-lg);
+  margin-top: var(--space-2xl);
+  color: var(--on-surface-variant);
+  font-size: 0.88rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+/* Responsive breakpoint */
+@media (max-width: 640px) {
+  .page-shell {
+    padding: var(--space-md) var(--space-sm) var(--space-xl);
+  }
+  .figure-card, .interactive-panel, .payload-box {
+    padding: var(--space-md);
+  }
+  .index-item {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+  <link rel="stylesheet" href="../../session-note.css">
+</head>
+<body>
+  <div class="note-masthead">
+    <a href="index.html">فهرست جلسات</a>
+    <span>مهندسی نیازمندی‌ها</span>
+    <time datetime="2026-11-19">پنجشنبه، ۱۹ نوامبر ۲۰۲۶</time>
+  </div>
+  <nav class="note-toc" aria-label="فهرست مطالب">
+    <div class="note-toc-list">
+      <a href="#foundations" class="toc-link active">۱. مهندسی نیاز و تحلیل</a>
+      <a href="#feasibility" class="toc-link">۲. امکان‌سنجی و سیاست</a>
+      <a href="#nfr" class="toc-link">۳. نیازمندی‌های غیرعملکردی</a>
+      <a href="#economics" class="toc-link">۴. اقتصاد و قفل‌شدگی</a>
+      <a href="#performance" class="toc-link">۵. کارایی و مهندسی کلیک</a>
+      <a href="#resilience" class="toc-link">۶. تغییرپذیری و بحران سایبری</a>
+      <a href="#ecosystem" class="toc-link">۷. اکوسیستم و درس کرونا</a>
+      <a href="#logistics" class="toc-link">۸. جمع‌بندی و کلاس</a>
+    </div>
+  </nav>
+
+
+<main class="page-shell">
+
+  <!-- Masthead / Opening Header -->
+  <header class="hero">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">پرونده درس‌گفتار | DOSSIER</span>
+        <span class="dossier-meta">دانشگاه آزاد اسلامی واحد ساوه · استاد: دکتر رضایی</span>
+      </div>
+      <div class="dossier-bar-start">
+        <span class="tag-chip">معماری سازمانی</span>
+        <span class="tag-chip">مهندسی نیازمندی‌ها</span>
+      </div>
+    </div>
+
+    <h1 class="title">از کشف درد تا اکوسیستم‌های مقیاس‌پذیر: چرا پروژه‌های نرم‌افزاری شکست می‌خورند؟</h1>
+    <p class="standfirst">خلاصه تحلیلی و تعاملی دو جلسه درس‌گفتار دکتر رضایی درباره تفاوت بنیادین تحلیل و طراحی، امکان‌سنجی پیش از قرارداد، ویژگی‌های کیفی سیستم (<bdi dir="ltr">NFR</bdi>)، تله قفل‌شدگی فروشنده و گذار از سامانه‌های جزیره‌ای به اکوسیستم‌های ملی.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card highlight">
+        <div class="kpi-value"><bdi dir="ltr">۶۰×</bdi></div>
+        <div class="kpi-label">جهش هزینه پشتیبانی در قفل‌شدگی</div>
+        <div class="kpi-sub">پرونده واقعی همراه اول: از قرارداد ۳۰۰ میلیونی سال ۸۲ تا پشتیبانی ۱۸ میلیارد تومانی در سال و شرکت مشترک چند هزار میلیاردی.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value"><bdi dir="ltr">۲٬۰۰۰ ← ۴٬۰۰۰</bdi></div>
+        <div class="kpi-label">ظرفیت روزانه با کاهش کلیک</div>
+        <div class="kpi-sub">حذف ۲ کلیک زائد در سامانه تغییر آدرس دفاتر پیشخوان دولت، ظرفیت پردازش استانی را تا دو برابر افزایش داد.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value"><bdi dir="ltr">۵ دقیقه</bdi></div>
+        <div class="kpi-label">سقف تغییرپذیری در زمان اجرا</div>
+        <div class="kpi-sub">الزام <bdi dir="ltr">Modifiability</bdi> در سامانه‌های پرتراکنش مثل دیجی‌کالا؛ توقف یک‌روزه سایت برای تغییر جزئی قابل قبول نیست.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value"><bdi dir="ltr">۹۰٪</bdi></div>
+        <div class="kpi-label">بحران فرآیندهای دولتی</div>
+        <div class="kpi-sub">نبود شناخت از حالت بهینه وظایف؛ سازمان‌ها نمی‌دانند کدام گام‌ها باید حذف شوند تا به «فرآیند هدف» برسند.</div>
+      </div>
+    </div>
+  </header>
+
+  
+
+  <!-- SECTION 1: Requirements Engineering vs Coding & Analysis vs Design -->
+  <section id="foundations" class="lecture-section">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">بخش ۰۱ | FOUNDATIONS</span>
+        <span class="dossier-meta">مهندسی نیازمندی‌ها · فرآیندها · متدولوژی‌های تولید</span>
+      </div>
+      <span class="tag-chip">تحلیل در برابر طراحی</span>
+    </div>
+
+    <h2 class="section-heading">مهندسی نیازمندی‌ها پیش از برنامه‌نویسی: درد را بشناسید، سپس نسخه بپیچید</h2>
+    <p class="section-lead">مهندس نرم‌افزار صرفاً برنامه‌نویس نیست؛ خلأ اصلی کشور در حوزه مهندسی نیاز است، جایی که باید فرآیندهای تخصصی سازمان را کشف و بهینه‌سازی کرد.</p>
+
+    <p class="prose">در فضای صنعت و سازمان‌های دولتی ایران، با یک کمبود جدی روبه‌رو هستیم: تعداد متخصصانی که بتوانند از منظر مهندسی، نیاز واقعی مشتری را استخراج کنند بسیار اندک است. مشکل ۹۰ درصد سازمان‌های دولتی این نیست که کدنویسی بلد نیستند، بلکه این است که اصلاً نمی‌دانند <strong>بهترین حالت یک کار یا وظیفه اختصاصی (<bdi dir="ltr">Task</bdi>)</strong> در سازمان خودشان چیست؛ یعنی نمی‌دانند چه گام‌هایی باید حذف یا اضافه شود تا فرآیند به حالت بهینه برسد.</p>
+
+    <div class="two-col">
+      <div class="figure-card">
+        <h3>فرآیندهای اصلی و تخصصی (<bdi dir="ltr">Core</bdi>)</h3>
+        <p>مجموعه فعالیت‌هایی که هویت و مأموریت منحصربه‌فرد هر سازمان را می‌سازند و در جای دیگری عیناً تکرار نمی‌شوند:</p>
+        <ul>
+          <li><strong>در شهرداری:</strong> درخواست پروانه ساخت، صدور پایان کار، پرونده‌های ماده ۱۰.</li>
+          <li><strong>در دانشگاه:</strong> فرآیند ثبت‌نام، انتخاب واحد، حذف و اضافه و فارغ‌التحصیلی.</li>
+        </ul>
+      </div>
+      <div class="figure-card">
+        <h3>فرآیندهای پشتیبانی (<bdi dir="ltr">Supporting</bdi>)</h3>
+        <p>موارد اداری و مالی که در تقریباً همه سازمان‌ها مشترک‌اند و نقش پشتیبانی‌کننده از بدنه اصلی را دارند:</p>
+        <ul>
+          <li><strong>اداری و مالی:</strong> استخدام نیروی انسانی، ثبت مرخصی، امور پرسنلی و حقوقی.</li>
+          <li><strong>الزام معماری:</strong> نرم‌افزار باید بر پایه تفکیک دقیق نیازهای تخصصی از پشتیبانی طراحی شود.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="payload-box deep-dive">
+      <h4>تحلیل در برابر طراحی: استعاره «درد» و «درمان»</h4>
+      <p>در مهندسی نرم‌افزار، دو واژه <strong>تحلیل (<bdi dir="ltr">Analysis</bdi>)</strong> و <strong>طراحی (<bdi dir="ltr">Design</bdi>)</strong> غالباً با هم خلط می‌شوند، در حالی که مرز روشنی دارند. در مرحله <strong>تحلیل</strong>، ما با «درد» سر و کار داریم؛ یعنی صورت مسئله را باز می‌کنیم و تک‌تک نیازمندی‌های واقعی را کشف و شناسایی می‌کنیم. در مرحله <strong>طراحی</strong>، نوبت «درمان و پیچیدن نسخه» است؛ یعنی پس از شناخت دقیق مسئله، الگوریتم و معماری راه‌حل را طبق اصول مهندسی نرم‌افزار طراحی می‌کنیم.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="payload-box alert-box">
+        <h4>پرونده واقعی: فاجعه واژه «اتوماسیون» <span class="state-badge state-error">هزینه ۲ برابری (<bdi dir="ltr">2X</bdi>)</span></h4>
+        <p>حدود ۲۰ تا ۲۵ سال پیش، مشتری درخواست یک «سیستم اتوماسیون» داد. تیم پیمانکار به تصور اینکه منظور «اتوماسیون اداری» است، قیمت داد و قرارداد بست. اما هنگام استقرار مشخص شد مشتری به دلیل دانش نرم‌افزاری اندک، به <em>هر کاری که با نرم‌افزار انجام می‌شود</em> «اتومات» می‌گوید! به دلیل انجام ندادن تحلیل واقعی پیش از قرارداد، پیمانکار ناچار شد دو برابر (<bdi dir="ltr">2X</bdi>) مبلغ دریافتی هزینه کند تا خواسته‌های واقعی مشتری را پوشش دهد.</p>
+      </div>
+      <div class="payload-box">
+        <h4>کیفیت بالا بدون انطباق با نیاز: مثال میوه‌فروشی</h4>
+        <p>اگر مشتری سیستم ثبت‌نام و حذف و اضافه بخواهد، اما شما نرم‌افزاری بنویسید که ثبت‌نام و فارغ‌التحصیلی را بی‌نقص انجام می‌دهد، محصول شما مورد قبول نیست. درست مثل کسی که برای خرید گوجه به مغازه می‌رود و فروشنده بهترین سیب‌زمینی و پیاز را تحویلش می‌دهد؛ محصول ذاتاً خوب است، اما نیاز مشتری نیست.</p>
+      </div>
+    </div>
+
+    <div class="aside-box">
+      <h4>مروری بر متدولوژی‌های تولید نرم‌افزار و جایگاه آزمایش</h4>
+      <p>در مبانی کارشناسی، ساده‌ترین الگو <strong>مدل آبشاری (<bdi dir="ltr">Waterfall</bdi>)</strong> است که مراحل تجزیه و تحلیل، طراحی، پیاده‌سازی، آزمایش و نگهداری را طی می‌کند (با این یادآوری که آزمایش باید پیش از تحویل نهایی و تولید انبوه انجام شود، نه پس از آن). در پروژه‌های پیچیده‌تر از مدل‌های <strong>تکرار و توسعه تدریجی (<bdi dir="ltr">Iterative &amp; Incremental</bdi>)</strong> و <strong>مدل حلزونی (<bdi dir="ltr">Spiral</bdi>)</strong> استفاده می‌شود که در همه آن‌ها، کشف دقیق نیازمندی‌ها نقطه شروع حیاتی است.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Feasibility & Pre-Analysis -->
+  <section id="feasibility" class="lecture-section">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">بخش ۰۲ | FEASIBILITY</span>
+        <span class="dossier-meta">امکان‌سنجی پیش از قرارداد · ثبات مدیریتی · مقاومت سازمانی</span>
+      </div>
+      <span class="tag-chip">فاز پیش‌تحلیل</span>
+    </div>
+
+    <h2 class="section-heading">امکان‌سنجی پیش از تحلیل: چرا تیم‌های حرفه‌ای بیشتر «نه» می‌گویند؟</h2>
+    <p class="section-lead">یک تیم ناشی با شنیدن عدد قرارداد ده میلیاردی فوراً می‌پذیرد؛ اما یک تیم حرفه‌ای پیش از ورود به بازی، توان مالی، ثبات مدیران، جدول زمانی و مقاومت سازمان را می‌سنجد.</p>
+
+    <div class="index-list">
+      <div class="index-item">
+        <span class="index-badge">۰۱</span>
+        <div>
+          <h4>توان مالی و برش سازمانی کارفرما (فرهنگ مالی «همت»)</h4>
+          <p>باید از سمت مشتری نگاه کرد: آیا شخصی که سفارش پروژه ۱۰ میلیارد تومانی داده، واقعاً برش و اختیار هزینه کردن ۵ میلیارد تومان را در سازمان دارد؟ در سازمان‌های بزرگ مثل بنیاد مستضعفان و جانبازان، مقیاس بودجه اصلاً میلیارد نیست و همه چیز با واحد <strong>همت</strong> (<bdi dir="ltr">۱ همت = ۱٬۰۰۰ میلیارد تومان</bdi>؛ پروژه‌های ۱۰ و ۲۰ همتی) سنجیده می‌شود، اما در هر مقیاسی باید توان پرداخت واقعی کارفرما را احراز کرد.</p>
+        </div>
+      </div>
+      <div class="index-item">
+        <span class="index-badge">۰۲</span>
+        <div>
+          <h4>ثبات مدیران و حمایت مدیریت ارشد (تجربه وزارت راه و نهاد ریاست‌جمهوری)</h4>
+          <p>قرارداد بستن با مدیری که دو ماه دیگر جابه‌جا می‌شود ریسک مستقیم شکست است. در <strong>پروژه وزارت راه</strong>، تیم ۲۵ درصد پیش‌پرداخت گرفت و کار را شروع کرد، اما مدیر عوض شد و مدیر جدید گفت به پروژه اعتقادی ندارد و مبلغ باید برگردد. در <strong>پروژه نهاد ریاست‌جمهوری</strong> نیز ۶ ماه بدون دریافت پول کار پیش رفت تا با تغییر دولت و روی کار آمدن آقای احمدی‌نژاد، پروژه متوقف شد و ۶ ماه زحمت هدر رفت.</p>
+        </div>
+      </div>
+      <div class="index-item">
+        <span class="index-badge">۰۳</span>
+        <div>
+          <h4>واقع‌بینی جدول زمانی توسعه (مثال مسیر ساوه به تهران)</h4>
+          <p>برای رفتن از ساوه به تهران گزینه‌های پیاده، اتوبوس، سواری و هواپیما وجود دارد؛ اما سریع‌تر از هواپیما ممکن نیست! اگر حساب کرده‌اید که یک نرم‌افزار حتی با سه شیفت کار شبانه‌روزی حداقل به ۲ ماه زمان نیاز دارد، پذیرفتن سفارش با ضرب‌الاجل ۱۵ روزه، یک تعهد غیرممکن و محکوم به شکست است.</p>
+        </div>
+      </div>
+      <div class="index-item">
+        <span class="index-badge">۰۴</span>
+        <div>
+          <h4>مقاومت سازمانی در برابر تغییر (و حادثه ۰۹۱۲ / ۰۹۱۳ همراه اول)</h4>
+          <p>بسیاری از مدیران میانی و کارکنان صریحاً به مشاور می‌گویند: <em>«من ۲ سال اینجام، دست به سیستم‌های من نزن!»</em> تا دردسر جدیدی ایجاد نشود. حتی مشتریان بیرونی نیز مقاومت می‌کنند: در همراه اول، وقتی همه شماره‌ها ۰۹۱۱ بود و برای تفکیک استانی ۰۹۱۲ تهران تعریف شد، پس از جابه‌جایی دو رقم (۲ و ۳) در شماره‌های <bdi dir="ltr">۰۹۱۳</bdi>، بخشی از مشترکین با سنگ شیشه‌های ساختمان همراه اول را پایین آوردند! بدون همراهی قاطع مدیر ارشد سازمان، هر پروژه <bdi dir="ltr">IT</bdi> زیر فشار این مقاومت‌ها شکست می‌خورد.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Feasibility Simulator -->
+    <div class="interactive-panel" id="feasibility-tool">
+      <div class="panel-header">
+        <h3>ابزار ارزیابی امکان‌سنجی پیش از عقد قرارداد</h3>
+        <div class="btn-group">
+          <button type="button" class="btn" onclick="applyFeasibilityPreset('raah')">پرونده وزارت راه</button>
+          <button type="button" class="btn" onclick="applyFeasibilityPreset('rush')">سفارش ۱۵ روزه</button>
+          <button type="button" class="btn" onclick="applyFeasibilityPreset('ideal')">پروژه آماده اجرا</button>
+        </div>
+      </div>
+      <div class="controls-grid">
+        <label class="check-card">
+          <input type="checkbox" id="chk-sponsor" checked onchange="evaluateFeasibility()">
+          <span><strong>حمایت مدیریت ارشد سازمان</strong> (نه صرفاً مدیر <bdi dir="ltr">IT</bdi>) و ثبات مدیریتی در دوره قرارداد</span>
+        </label>
+        <label class="check-card">
+          <input type="checkbox" id="chk-budget" checked onchange="evaluateFeasibility()">
+          <span><strong>برش بودجه‌ای و توان پرداخت</strong> کارفرما متناسب با مقیاس پروژه</span>
+        </label>
+        <label class="check-card">
+          <input type="checkbox" id="chk-timeline" onchange="evaluateFeasibility()">
+          <span><strong>واقع‌بینی جدول زمانی</strong> (فراتر از حداقل زمان تولید با ۳ شیفت کاری)</span>
+        </label>
+        <label class="check-card">
+          <input type="checkbox" id="chk-scope" checked onchange="evaluateFeasibility()">
+          <span><strong>شفافیت نیازمندی‌ها</strong> و مدیریت مقاومت بدنه کارشناسی سازمان</span>
+        </label>
+      </div>
+      <div class="result-banner" id="feasibility-output"></div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: Non-Functional Requirements & Quality Attributes -->
+  <section id="nfr" class="lecture-section">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">بخش ۰۳ | QUALITY ATTRIBUTES</span>
+        <span class="dossier-meta">نیازمندی‌های غیرعملکردی (<bdi dir="ltr">NFR</bdi>) · ویژگی‌های کیفی سیستم</span>
+      </div>
+      <span class="tag-chip">معماری نرم‌افزار</span>
+    </div>
+
+    <h2 class="section-heading">نیازمندی‌های غیرعملکردی (<bdi dir="ltr">NFR</bdi>): ستون‌های نامرئی که سیستم را سرپا نگه می‌دارند</h2>
+    <p class="section-lead">در هیچ کجای سامانه کنترل ترافیک هوایی دکمه‌ای وجود ندارد که تیک بزنید و «کارایی» یا «دسترسی‌پذیری» را مشاهده کنید؛ با این حال کل سیستم از روی همین ویژگی‌های کیفی شکل می‌گیرد.</p>
+
+    <div class="payload-box alert-box">
+      <h4>پرونده شکست چندمیلیاردی به دلیل نادیده‌گرفتن <bdi dir="ltr">NFR</bdi> در تحلیل</h4>
+      <p>در یک پروژه عظیم نرم‌افزاری، پس از چند سال کار و صرف میلیاردها تومان هزینه، سازمان ناچار شد کل نرم‌افزار را کنار بگذارد. علت در جلسه بررسی روشن شد: در زمان تحلیل، نیازمندی‌های غیرعملکردی (<bdi dir="ltr">Non-Functional Requirements</bdi>) و ویژگی‌های کیفی (<bdi dir="ltr">Quality Attributes</bdi>) دیده نشده بود. با بزرگ شدن مقیاس سیستم (<bdi dir="ltr">Scale</bdi>)، کارایی افت کرد؛ تیم ابتدا سرور اضافه کرد، اما از یک نقطه‌ای به بعد، افزایش تعداد سرورها هم دیگر پاسخگو نبود و پروژه عملاً از رده خارج شد.</p>
+    </div>
+
+    <div class="panel-header" style="border-bottom: none; padding-bottom: 0; margin-top: var(--space-lg);">
+      <h3 style="margin: 0; font-family: var(--font-headline);">هفت بُعد کلیدی <bdi dir="ltr">NFR</bdi> در تدریس دکتر رضایی</h3>
+      <div class="btn-group" role="group" aria-label="فیلتر دسته‌بندی ویژگی‌های کیفی">
+        <button type="button" class="btn active" id="nfr-btn-all" onclick="filterNFR('all')">همه موارد (۷)</button>
+        <button type="button" class="btn" id="nfr-btn-ops" onclick="filterNFR('ops')">کارایی و امنیت</button>
+        <button type="button" class="btn" id="nfr-btn-biz" onclick="filterNFR('biz')">اقتصاد و بهره‌وری</button>
+      </div>
+    </div>
+
+    <div class="nfr-grid" id="nfr-grid">
+      <div class="nfr-card" data-cat="ops">
+        <span class="tag-chip">۰۱ · کارایی (<bdi dir="ltr">Performance</bdi>)</span>
+        <h4>زمان پاسخ و نرخ خروجی پذیرفتنی</h4>
+        <p>سامانه باید در چه بازه‌ای پاسخ دهد؟ زدن کد دانشجویی باید همان لحظه اطلاعات را بیاورد، نه پس از یک دقیقه انتظار. تعداد کلیک‌ها و تاخیر چندثانیه‌ای مستقیماً ظرفیت کار را تغییر می‌دهد.</p>
+      </div>
+      <div class="nfr-card" data-cat="ops">
+        <span class="tag-chip">۰۲ · صحت اطلاعات (<bdi dir="ltr">Accuracy</bdi>)</span>
+        <h4>درستی داده‌های بازگشتی</h4>
+        <p>آیا اطلاعات خروجی دقیق و معتبر است؟ در سامانه‌هایی مانند بازار بورس ایران یا پورتال دانشجویی، سیستم باید در هر لحظه اطلاعات کاملاً صحیح و منطبق با واقعیت را برگرداند.</p>
+      </div>
+      <div class="nfr-card" data-cat="biz">
+        <span class="tag-chip">۰۳ · اقتصاد (<bdi dir="ltr">Economics</bdi>)</span>
+        <h4>توجیه اقتصادی و نگهداری</h4>
+        <p>آیا نرم‌افزار تولیدی به‌صرفه است؟ هزینه تنها خرید اولیه نیست؛ آپدیت و نگهداری مداوم و نسبت آورده سالانه به سرمایه‌گذاری اولیه تعیین‌کننده است.</p>
+      </div>
+      <div class="nfr-card" data-cat="biz">
+        <span class="tag-chip">۰۴ · محدودیت‌ها (<bdi dir="ltr">Constraints</bdi>)</span>
+        <h4>سقف بودجه و جدول زمانی</h4>
+        <p>کارفرما بودجه ۱۰ میلیاردی دارد اما ۵۰ میلیارد سفارش می‌دهد، یا پروژه دوماهه را در ۱۵ روز می‌خواهد. شناخت محدودیت‌های وجودی و زمانی مرز واقع‌گرایی است.</p>
+      </div>
+      <div class="nfr-card" data-cat="ops">
+        <span class="tag-chip">۰۵ · کنترل و امنیت (<bdi dir="ltr">Security</bdi>)</span>
+        <h4>سطح دسترسی و بازیابی بحران</h4>
+        <p>تفکیک دسترسی مدیر و کارشناس، تایید امنیتی پرسنل شرکت پیمانکار در سازمان‌های دولتی، و توانمندی <bdi dir="ltr">Backup &amp; Recovery</bdi> برای بازگرداندن داده‌های ازدست‌رفته در زمان قابل قبول.</p>
+      </div>
+      <div class="nfr-card" data-cat="ops">
+        <span class="tag-chip">۰۶ · تغییرپذیری (<bdi dir="ltr">Modifiability</bdi>)</span>
+        <h4>بازیابی و تغییر در زمان اجرا</h4>
+        <p>توانایی اصلاح بخش‌هایی از نرم‌افزار در زمان اجرا (<bdi dir="ltr">Runtime</bdi>) بدون از کار انداختن سرویس، مانند سقف ۵ دقیقه‌ای تغییر در سایتی با درآمد لحظه‌ای چون دیجی‌کالا.</p>
+      </div>
+      <div class="nfr-card" data-cat="biz">
+        <span class="tag-chip">۰۷ · بهره‌وری (<bdi dir="ltr">Efficiency</bdi>)</span>
+        <h4>حذف گام‌های زائد تا فرآیند هدف</h4>
+        <p>آیا می‌توان گام‌های تکراری و غیرضروری را حذف کرد؟ بازبینی مستمر سیستم‌ها باید مراحل زائد را کم کند تا به حالت بهینه (<bdi dir="ltr">Target Process</bdi>) برسیم.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: Software Economics & Vendor Lock-in -->
+  <section id="economics" class="lecture-section">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">بخش ۰۴ | SOFTWARE ECONOMICS</span>
+        <span class="dossier-meta">توجیه اقتصادی · قفل‌شدگی فروشنده (<bdi dir="ltr">Vendor Lock-in</bdi>)</span>
+      </div>
+      <span class="tag-chip">پرونده همراه اول (۱۳۸۲)</span>
+    </div>
+
+    <h2 class="section-heading">اقتصاد نرم‌افزار و تله قفل‌شدگی: هر نرم‌افزار جدید، یک هزینه نگهداری دائمی است</h2>
+    <p class="section-lead">این باور که «سازمان خوب باید نرم‌افزارهای بیشتری بخرد یا تولید کند» کاملاً اشتباه است؛ تا جای ممکن باید تعداد نرم‌افزارها را کم نگه داشت و تنها برای مکانیزه‌سازی فرآیندهای ضروری سراغ نرم‌افزار رفت.</p>
+
+    <p class="prose">شرکت‌های نرم‌افزاری هنگام فروش اولیه، گاهی پایین‌ترین قیمت و حتی نصف هزینه واقعی را پیشنهاد می‌دهند یا از جیب خودشان هزینه می‌کنند. هدف چیست؟ <strong>«آلوده کردن» سازمان به آن نرم‌افزار</strong>؛ یعنی داده‌های سازمان وارد سیستم شود و سامانه عملیاتی (<bdi dir="ltr">Launch</bdi>) گردد. از آن لحظه به بعد، کارفرما دیگر به سادگی نمی‌تواند پیمانکار را کنار بگذارد و هزینه واقعی در سال‌های پشتیبانی سر بر می‌آورد.</p>
+
+    <!-- Chart + Interactive ROI & Lock-in Calculator -->
+    <div class="two-col">
+      <div class="figure-card">
+        <h3>روند تاریخی قفل‌شدگی در پروژه همراه اول (از ۱۳۸۲)</h3>
+        <p style="font-size: 0.9rem; color: var(--on-surface-variant); margin-bottom: var(--space-sm);">مقایسه مبلغ قرارداد اولیه، هزینه واقعی پیمانکار برای تصاحب دیتا و جهش هزینه‌های پشتیبانی سالانه (میلیارد تومان):</p>
+        <div class="chart-wrap" hidden>
+          <canvas id="mciChart" role="img" aria-label="مقایسه هزینه‌های پروژه همراه اول"></canvas>
+        </div>
+        <dl class="note-steps">
+          <div><dt>قرارداد اولیه</dt><dd>۰٫۳ میلیارد تومان</dd></div>
+          <div><dt>هزینه واقعی پیمانکار</dt><dd>۰٫۶ میلیارد تومان</dd></div>
+          <div><dt>سال دوم</dt><dd>۳ میلیارد تومان</dd></div>
+          <div><dt>پشتیبانی سالانه چند سال بعد</dt><dd>۱۸ میلیارد تومان</dd></div>
+        </dl>
+        <p style="font-size: 0.85rem; color: var(--on-surface-variant); margin: var(--space-sm) 0 0;">در ادامه این مسیر، شرکت مشترکی میان آن شرکت خصوصی و مخابرات تاسیس شد که امروز سالانه چندین هزار میلیارد تومان گردش نرم‌افزاری و سرویس‌دهی دارد.</p>
+      </div>
+
+      <div class="interactive-panel" style="margin: 0;">
+        <div class="panel-header">
+          <h3>محاسبه‌گر توجیه اقتصادی (<bdi dir="ltr">ROI</bdi>)</h3>
+          <div class="btn-group">
+            <button type="button" class="btn" onclick="setRoiPreset(10, 0.1, 1)">حالت ۱۰ میلیاردی بی‌توجیه</button>
+            <button type="button" class="btn" onclick="setRoiPreset(100, 5000, 100)">پشتیبانی ۱۰۰ میلیاردی موجه</button>
+          </div>
+        </div>
+        <div class="controls-grid" style="grid-template-columns: 1fr;">
+          <div class="field-group">
+            <label for="slider-capex">سرمایه‌گذاری اولیه تولید/خرید (میلیارد تومان): <strong id="lbl-capex">۱۰</strong></label>
+            <input type="range" class="field-range" id="slider-capex" min="1" max="150" step="1" value="10" oninput="syncCapexFromSlider(this.value)">
+          </div>
+          <div class="field-group">
+            <label for="input-capex">یا عدد دقیق سرمایه‌گذاری را وارد کنید (میلیارد تومان):</label>
+            <input type="number" class="field-input" id="input-capex" min="1" max="500" step="1" value="10" oninput="syncCapexFromNumber(this.value)">
+          </div>
+          <div class="field-group">
+            <label for="slider-benefit">آورده یا ارزش خدمت سالانه در سازمان (میلیارد تومان): <strong id="lbl-benefit">۰.۱</strong></label>
+            <input type="range" class="field-range" id="slider-benefit" min="0.1" max="500" step="0.5" value="0.1" oninput="syncBenefitFromSlider(this.value)">
+          </div>
+          <div class="field-group">
+            <label for="input-benefit">یا آورده دقیق سالانه را وارد کنید (میلیارد تومان):</label>
+            <input type="number" class="field-input" id="input-benefit" min="0.1" max="10000" step="0.1" value="0.1" oninput="syncBenefitFromNumber(this.value)">
+          </div>
+          <div class="field-group">
+            <label for="input-maint">هزینه نگهداری سالانه پس از قفل‌شدگی (میلیارد تومان):</label>
+            <input type="number" class="field-input" id="input-maint" min="0" max="1000" step="0.5" value="1" oninput="calculateROI()">
+          </div>
+        </div>
+        <div class="result-banner" id="roi-result"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: Performance & UI Optimization -->
+  <section id="performance" class="lecture-section">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">بخش ۰۵ | UX PERFORMANCE</span>
+        <span class="dossier-meta">زمان پاسخ · نرخ خروجی · کاهش ۳ کلیک به ۱ کلیک</span>
+      </div>
+      <span class="tag-chip">بهره‌وری عملیاتی</span>
+    </div>
+
+    <h2 class="section-heading">مهندسی کلیک و زمان پاسخ: چگونه حذف دو کلیک ظرفیت کشور را دو برابر کرد؟</h2>
+    <p class="section-lead">در مقیاس ملی و سازمانی، چند ثانیه تاخیر یا دو کلیک اضافه در رابط کاربری، یک ایراد سلیقه‌ای نیست؛ بلکه مستقیماً نرخ خروجی روزانه را ساقط می‌کند.</p>
+
+    <div class="two-col">
+      <div class="payload-box">
+        <h4>پرونده دفاتر پیشخوان دولت و تغییر آدرس همراه اول</h4>
+        <p>در سامانه تغییر آدرس همراه اول، کاربر باید آدرس قدیم و جدید را وارد می‌کرد، دکمه ثبت را می‌زد، پیام نمایش آدرس‌های قدیم و جدید را تایید می‌کرد، و در گام سوم به پرسش «آیا مطمئن هستید؟ بله» پاسخ می‌داد. کارفرما این سامانه را با وجود عملکرد فنی درست، رد کرد!</p>
+        <p><strong>استدلال کارفرما:</strong> اپراتورهای مراکز استان که درخواست‌های دستی دفاتر پیشخوان دولت را ثبت می‌کنند، با <strong>۳ کلیک</strong> روزانه حداکثر <strong>۲٬۰۰۰ درخواست</strong> را پوشش می‌دهند؛ اما با کاهش فرآیند به <strong>۱ کلیک</strong>، همین نیروی انسانی روزانه <strong>۳٬۰۰۰ تا ۴٬۰۰۰ درخواست</strong> را پردازش می‌کند.</p>
+      </div>
+      <div class="payload-box">
+        <h4>حساسیت زمان پاسخ در ۵۰۰ واحد دانشگاهی</h4>
+        <p>اگر دکمه ثبت نهایی در سامانه انتخاب واحد یا ثبت‌نام دانشگاه به جای <strong>۲ ثانیه</strong>، معادل <strong>۵ ثانیه</strong> طول بکشد (یا هر عملیات ۳ ثانیه مکث داشته باشد)، از نظر دانشگاه غیرقابل قبول است؛ زیرا این ۳ ثانیه تاخیر در مقیاس ۵۰۰ واحد دانشگاهی، زمان کل ثبت‌نام را بالا برده و ظرفیت ثبت‌نامی را کاهش می‌دهد.</p>
+      </div>
+    </div>
+
+    <!-- Interactive Click & Latency Lab -->
+    <div class="interactive-panel">
+      <div class="panel-header">
+        <h3>آزمایشگاه شبیه‌سازی کارایی رابط کاربری</h3>
+        <div class="btn-group">
+          <button type="button" class="btn active" id="btn-click-3" onclick="setClickMode(3)">فرآیند اولیه: ۳ کلیک (رد شده)</button>
+          <button type="button" class="btn" id="btn-click-1" onclick="setClickMode(1)">فرآیند بهینه: ۱ کلیک (تایید شده)</button>
+        </div>
+      </div>
+      <div class="controls-grid">
+        <div class="field-group">
+          <label for="slider-resp">زمان پاسخ سرور به ازای هر درخواست (ثانیه): <strong id="lbl-resp">۵ ثانیه</strong></label>
+          <input type="range" class="field-range" id="slider-resp" min="1" max="10" step="1" value="5" oninput="updatePerfLab()">
+        </div>
+        <div class="field-group">
+          <label for="select-scale">مقیاس عملیاتی مقایسه:</label>
+          <select class="field-select" id="select-scale" onchange="updatePerfLab()">
+            <option value="mci">دفاتر پیشخوان و مراکز استانی همراه اول</option>
+            <option value="uni">۵۰۰ واحد دانشگاهی (ثبت‌نام همزمان)</option>
+          </select>
+        </div>
+      </div>
+      <div class="result-banner" id="perf-lab-output"></div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: Runtime Modifiability & Cyber Crisis Resilience -->
+  <section id="resilience" class="lecture-section">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">بخش ۰۶ | RUNTIME &amp; CYBER</span>
+        <span class="dossier-meta">تغییرپذیری حین اجرا · مدیریت بحران سایبری</span>
+      </div>
+      <span class="tag-chip">دیجی‌کالا و بانک پاسارگاد</span>
+    </div>
+
+    <h2 class="section-heading">تغییرپذیری در لحظه و بقا در بحران سایبری: از دیجی‌کالا تا بانک پاسارگاد</h2>
+    <p class="section-lead">پایداری نرم‌افزار دو روی سکه دارد: یکی توانایی تغییر بدون توقف کسب‌وکار در زمان اجرا، و دیگری شجاعت قطع شبکه در لحظه حمله برای نجات داده‌های حیاتی.</p>
+
+    <div class="two-col">
+      <div class="payload-box deep-dive">
+        <h4>تغییرپذیری در زمان اجرا (<bdi dir="ltr">Runtime Modifiability</bdi>) — دیجی‌کالا</h4>
+        <p>پلتفرمی مانند <strong>دیجی‌کالا</strong> که در هر لحظه چندین میلیارد تومان تراکنش و درآمد دارد، هنگام نیاز به تغییر یک بخش از سایت نمی‌تواند یک روز کامل سیستم را از مدار خارج کند. معماری باید قابلیت تغییر در زمان اجرا (<bdi dir="ltr">Runtime</bdi>) را داشته باشد و زمان اعمال تغییر، در حدود مثلاً <strong>۵ دقیقه</strong> مدیریت شود.</p>
+      </div>
+      <div class="payload-box alert-box">
+        <h4>تاب‌آوری در جنگ ۱۲ روزه — بانک پاسارگاد</h4>
+        <p>در جریان جنگ ۱۲ روزه و حملات سایبری، <strong>بانک پاسارگاد</strong> تنها بانکی بود که هک نشد و جایزه امنیتی نیز دریافت کرد. راهکار مدیر مجموعه چه بود؟ در لحظه بحران دستور داد <em>تمام سرورها را از برق بکشند</em> و شبکه را کاملاً <bdi dir="ltr">Down</bdi> کنند. بانک از دسترس خارج شد، اما هیچ نفوذ و سرقت داده‌ای رخ نداد.</p>
+      </div>
+    </div>
+
+    <div class="aside-box">
+      <h4>واقعیت میدانی مدیریت <bdi dir="ltr">IT</bdi> و امنیت زیرساخت در ایران</h4>
+      <p>مدیریت فناوری اطلاعات در سازمان‌های داخلی با استرس دائمی همراه است: از محدودیت زمانی سرویس‌های ثبت احوال و ثبت اسناد (قطع دسترسی پس از ساعت ۱۸:۰۰) و پنجره شبکه دولت (ساعت ۸ تا ۱۲) گرفته تا بحران‌های نیمه‌شب ناشی از لو رفتن یا فروش اطلاعات اساتید و کارمندان دانشگاه‌ها در سطح وب و فشار همزمان معاونت‌های مختلف برای تضمین امنیت داده و اپلیکیشن.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 7: Ecosystems vs Isolated Systems & COVID Target Process -->
+  <section id="ecosystem" class="lecture-section">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">بخش ۰۷ | ECOSYSTEMS</span>
+        <span class="dossier-meta">سیستم‌های فوق‌مقیاس‌پذیر · فرآیند هدف (<bdi dir="ltr">Target Process</bdi>)</span>
+      </div>
+      <span class="tag-chip">مگاپروژه‌های ملی و درس کرونا</span>
+    </div>
+
+    <h2 class="section-heading">دیگر «سیستم» نداریم؛ «اکوسیستم» داریم: یکپارچه‌سازی خدمات و بازمهندسی فرآیند هدف</h2>
+    <p class="section-lead">از ۱۰ تا ۱۵ سال پیش، رویکرد جهانی از ساخت نرم‌افزارهای جزیره‌ای به طراحی اکوسیستم‌های به‌هم‌پیوسته تغییر کرده است؛ جایی که شهروند یک خدمت می‌خواهد و سامانه‌ها در پس‌زمینه با هم گفت‌وگو می‌کنند.</p>
+
+    <!-- Interactive Ecosystem Explorer -->
+    <div class="interactive-panel">
+      <div class="panel-header">
+        <h3>مقایسه‌گر تعاملی: سامانه‌های جزیره‌ای در برابر اکوسیستم (همراه با سناریوی بحران)</h3>
+        <div class="btn-group">
+          <button type="button" class="btn active" id="eco-case-payan" onclick="setEcoCase('payan')">پایان کار ساختمان</button>
+          <button type="button" class="btn" id="eco-case-pelak" onclick="setEcoCase('pelak')">تعویض پلاک خودرو</button>
+        </div>
+      </div>
+
+      <div class="btn-group" style="margin-bottom: var(--space-md);">
+        <button type="button" class="btn active" id="eco-mode-island" onclick="setEcoMode('island')">۱. وضعیت جزیره‌ای (مراجعه جداگانه شهروند)</button>
+        <button type="button" class="btn" id="eco-mode-eco" onclick="setEcoMode('eco')">۲. اکوسیستم یکپارچه (گفت‌وگوی سیستمی)</button>
+        <button type="button" class="btn" id="eco-mode-fallback" onclick="setEcoMode('fallback')">۳. قطعی ثبت‌احوال پس از ۱۸:۰۰ (نیاز به <bdi dir="ltr">Fallback</bdi>)</button>
+      </div>
+
+      <div class="eco-flow" id="eco-nodes"></div>
+      <div class="result-banner" id="eco-summary"></div>
+    </div>
+
+    <div class="payload-box deep-dive">
+      <h4>بازمهندسی فرآیند هدف (<bdi dir="ltr">Target Process</bdi>): چگونه کرونا افتتاح حساب بانکی را متحول کرد؟</h4>
+      <p>پیش از همه‌گیری کرونا، تصور عمومی و بانکی این بود که فرآیند حضوری — رفتن به شعبه با اصل شناسنامه و اصل کارت ملی و پر کردن فرم‌های کاغذی — مطلوب‌ترین حالت ممکن است. کرونا سازمان‌ها را مجبور به بازنگری کرد و نشان داد <strong>فرآیند هدف واقعی</strong> چیز دیگری است: مشتری اطلاعات خود را از طریق وب‌سایت یا اپلیکیشن وارد می‌کند، سامانه استعلام هویت را آنلاین از <strong>ثبت احوال</strong> و سابقه مالی را از <strong>بانک مرکزی</strong> می‌گیرد، و کارت بانکی به نشانی مشتری ارسال می‌شود. بسیاری از مراحل قبلی که به آن‌ها عادت کرده بودیم، عملاً زائد بودند.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 8: Class Logistics & Synthesis -->
+  <section id="logistics" class="lecture-section">
+    <div class="dossier-bar">
+      <div class="dossier-bar-start">
+        <span class="dossier-pill">بخش ۰۸ | LOGISTICS &amp; SUMMARY</span>
+        <span class="dossier-meta">جمع‌بندی نهایی · برنامه‌ریزی کلاس واحد ساوه</span>
+      </div>
+      <span class="tag-chip">مقطع تحصیلات تکمیلی</span>
+    </div>
+
+    <h2 class="section-heading">نقشه راه مهندس نرم‌افزار و هماهنگی‌های اجرایی کلاس</h2>
+
+    <div class="table-wrap">
+      <table class="briefing-table">
+        <thead>
+          <tr>
+            <th>محور تصمیم‌گیری</th>
+            <th>خطای رایج در صنعت</th>
+            <th>اصل مهندسی دکتر رضایی</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>شروع پروژه</strong></td>
+            <td>شروع مستقیم با کدنویسی یا قیمت‌گذاری روی کلمات مبهمی مثل «اتوماسیون»</td>
+            <td>امکان‌سنجی مالی، مدیریتی و زمانی پیش از تحلیل؛ شناخت درد پیش از تجویز درمان</td>
+          </tr>
+          <tr>
+            <td><strong>تعداد نرم‌افزارها</strong></td>
+            <td>خرید یا تولید سامانه جدید به عنوان نشانه سازمان مدرن</td>
+            <td>حداقل‌سازی تعداد نرم‌افزارها؛ کنترل هزینه نگهداری و پرهیز از قفل‌شدگی فروشنده</td>
+          </tr>
+          <tr>
+            <td><strong>معیار کیفیت</strong></td>
+            <td>بسنده کردن به صحت منطقی دکمه‌ها بدون توجه به مقیاس و <bdi dir="ltr">NFR</bdi></td>
+            <td>طراحی بر اساس کارایی، تغییرپذیری <bdi dir="ltr">Runtime</bdi>، امنیت دسترسی و <bdi dir="ltr">Fallback</bdi></td>
+          </tr>
+          <tr>
+            <td><strong>حاکمیت داده و خدمات</strong></td>
+            <td>وادار کردن شهروند به لاگین در چندین سامانه جزیره‌ای</td>
+            <td>حرکت به سمت اکوسیستم‌های یکپارچه و پالایش گام‌های زائد تا <bdi dir="ltr">Target Process</bdi></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="aside-box">
+      <h4>نکات اجرایی و کلاسی (دانشگاه آزاد اسلامی واحد ساوه)</h4>
+      <ul style="margin: var(--space-xs) 0 0; padding-right: 1.25rem;">
+        <li><strong>منبع مطالعه:</strong> همان اسلایدها و کلیدهایی که در گروه کلاسی ارسال می‌شود برای مطالعه و امتحان کفایت می‌کند.</li>
+        <li><strong>هماهنگی زمان کلاس:</strong> طبق توافق کلاسی برای جابه‌جایی جلسه چهارشنبه به پنجشنبه، ساعت شروع کلاس روی <strong>ساعت ۱ بعدازظهر (<bdi dir="ltr">۱۳:۰۰</bdi>)</strong> تنظیم شده است.</li>
+        <li><strong>توصیه استاد برای کلاس بعدازظهر:</strong> پس از ناهار با هوشیاری کامل سر کلاس معماری سازمانی حاضر شوید تا مباحث تخصصی نیازمندی‌ها و سیستم‌های فوق‌مقیاس‌پذیر با پرسش‌وپاسخ فعال پیش برود.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="dossier-footer">
+    <span>منبع محتوا: رونوشت صوتی دو جلسه تدریس دکتر رضایی — دانشگاه آزاد اسلامی واحد ساوه</span>
+    <span>قالب تحلیلی پرونده درس‌گفتار</span>
+  </footer>
+
+</main>
+
+<script>
+// 1. Defensive Chart Initialization (MCI Vendor Lock-in Timeline)
+function initMciChart() {
+  var canvas = document.getElementById('mciChart');
+  if (!canvas || typeof Chart === 'undefined') return;
+  canvas.parentElement.hidden = false;
+  var styles = getComputedStyle(document.documentElement);
+  var c1 = styles.getPropertyValue('--data-1').trim() || '#1f4e5f';
+  var c2 = styles.getPropertyValue('--data-2').trim() || '#d99000';
+  var c4 = styles.getPropertyValue('--data-4').trim() || '#b84a39';
+  var ink = styles.getPropertyValue('--on-surface').trim() || '#17181a';
+  var muted = styles.getPropertyValue('--on-surface-variant').trim() || '#56585c';
+  var grid = styles.getPropertyValue('--outline-variant').trim() || '#dedad0';
+
+  Chart.defaults.font.family = styles.getPropertyValue('--font-body').trim();
+  Chart.defaults.color = ink;
+
+  new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: [
+        `قرارداد اولیه (۱۳۸۲)`,
+        `هزینه واقعی پیمانکار`,
+        `سال دوم (شروع قفل‌شدگی)`,
+        `پشتیبانی سالانه چند سال بعد`
+      ],
+      datasets: [{
+        label: `مبلغ (میلیارد تومان)`,
+        data: [0.3, 0.6, 3, 18],
+        backgroundColor: [c1, c2, c1, c4],
+        borderRadius: 4,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          rtl: true,
+          callbacks: {
+            label: function(ctx) {
+              var v = ctx.raw;
+              if (v < 1) return ` ${Math.round(v * 1000)} میلیون تومان`;
+              return ` ${v} میلیارد تومان`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: grid },
+          ticks: {
+            color: muted,
+            callback: function(val) { return val + ' م'; }
+          }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: ink }
+        }
+      }
+    }
+  });
+}
+
+// 2. Feasibility Tool Handlers
+function applyFeasibilityPreset(preset) {
+  var s = document.getElementById('chk-sponsor');
+  var b = document.getElementById('chk-budget');
+  var t = document.getElementById('chk-timeline');
+  var sc = document.getElementById('chk-scope');
+  if (!s || !b || !t || !sc) return;
+
+  if (preset === 'raah') {
+    s.checked = false; b.checked = true; t.checked = true; sc.checked = false;
+  } else if (preset === 'rush') {
+    s.checked = true; b.checked = true; t.checked = false; sc.checked = true;
+  } else {
+    s.checked = true; b.checked = true; t.checked = true; sc.checked = true;
+  }
+  evaluateFeasibility();
+}
+
+function evaluateFeasibility() {
+  var s = document.getElementById('chk-sponsor');
+  var b = document.getElementById('chk-budget');
+  var t = document.getElementById('chk-timeline');
+  var sc = document.getElementById('chk-scope');
+  var out = document.getElementById('feasibility-output');
+  if (!s || !b || !t || !sc || !out) return;
+
+  var score = (s.checked ? 1 : 0) + (b.checked ? 1 : 0) + (t.checked ? 1 : 0) + (sc.checked ? 1 : 0);
+  var badgeClass = 'state-positive';
+  var verdict = 'آماده ورود به تحلیل نیازمندی‌ها';
+  var reason = `هر چهار پیش‌نیاز کلیدی (حمایت مدیر ارشد، برش بودجه، زمان‌بندی واقع‌بینانه و شفافیت دامنه) برقرار است.`;
+
+  if (!s.checked) {
+    badgeClass = 'state-error';
+    verdict = 'توقف قرارداد: خطر لغو با تغییر مدیر (مشابه وزارت راه و نهاد)';
+    reason = `بدون پشتوانه و ثبات مدیریت ارشد، پروژه با اولین جابه‌جایی مدیریتی یا مقاومت بدنه سازمان متوقف می‌شود و حتی ممکن است مجبور به عودت پیش‌پرداخت شوید.`;
+  } else if (!t.checked) {
+    badgeClass = 'state-error';
+    verdict = 'توصیه به «نه» گفتن: جدول زمانی غیرممکن';
+    reason = `مثل پیمودن مسیر ساوه تا تهران سریع‌تر از هواپیما، فشرده‌سازی زمان زیر حداقل فنی (حتی با ۳ شیفت) کیفیت و تحلیل را نابود می‌کند.`;
+  } else if (!b.checked || !sc.checked) {
+    badgeClass = 'state-warning';
+    verdict = 'نیاز به بازبینی پیش از امضا (ریسک هزینه ۲ برابری)';
+    reason = `ابهام در توان مالی کارفرما یا واژه‌های کلی مثل «اتوماسیون» باعث می‌شود پیمانکار ناچار به صرف هزینه‌ای دو برابر مبلغ قرارداد شود.`;
+  }
+
+  out.innerHTML = `
+    <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.5rem;">
+      <strong>نتیجه امکان‌سنجی: ${verdict}</strong>
+      <span class="state-badge ${badgeClass}">امتیاز آمادگی: ${score} از ۴</span>
+    </div>
+    <p style="margin:0; font-size:0.93rem;">${reason}</p>
+  `;
+}
+
+// 3. NFR Filter
+function filterNFR(cat) {
+  var cards = document.querySelectorAll('#nfr-grid .nfr-card');
+  cards.forEach(function(card) {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  var btns = ['all', 'ops', 'biz'];
+  btns.forEach(function(b) {
+    var el = document.getElementById('nfr-btn-' + b);
+    if (el) {
+      if (b === cat) el.classList.add('active');
+      else el.classList.remove('active');
+    }
+  });
+}
+
+// 4. Dual-input ROI Calculator Handlers
+function syncCapexFromSlider(val) {
+  var inp = document.getElementById('input-capex');
+  var lbl = document.getElementById('lbl-capex');
+  if (inp) inp.value = val;
+  if (lbl) lbl.textContent = val;
+  calculateROI();
+}
+function syncCapexFromNumber(val) {
+  var sld = document.getElementById('slider-capex');
+  var lbl = document.getElementById('lbl-capex');
+  if (sld) sld.value = Math.min(150, Math.max(1, Number(val) || 1));
+  if (lbl) lbl.textContent = val;
+  calculateROI();
+}
+function syncBenefitFromSlider(val) {
+  var inp = document.getElementById('input-benefit');
+  var lbl = document.getElementById('lbl-benefit');
+  if (inp) inp.value = val;
+  if (lbl) lbl.textContent = val;
+  calculateROI();
+}
+function syncBenefitFromNumber(val) {
+  var sld = document.getElementById('slider-benefit');
+  var lbl = document.getElementById('lbl-benefit');
+  if (sld) sld.value = Math.min(500, Math.max(0.1, Number(val) || 0.1));
+  if (lbl) lbl.textContent = val;
+  calculateROI();
+}
+
+function setRoiPreset(capex, benefit, maint) {
+  var ic = document.getElementById('input-capex');
+  var sc = document.getElementById('slider-capex');
+  var lc = document.getElementById('lbl-capex');
+  var ib = document.getElementById('input-benefit');
+  var sb = document.getElementById('slider-benefit');
+  var lb = document.getElementById('lbl-benefit');
+  var im = document.getElementById('input-maint');
+
+  if (ic) ic.value = capex;
+  if (sc) sc.value = Math.min(150, capex);
+  if (lc) lc.textContent = capex;
+  if (ib) ib.value = benefit;
+  if (sb) sb.value = Math.min(500, benefit);
+  if (lb) lb.textContent = benefit;
+  if (im) im.value = maint;
+  calculateROI();
+}
+
+function calculateROI() {
+  var ic = document.getElementById('input-capex');
+  var ib = document.getElementById('input-benefit');
+  var im = document.getElementById('input-maint');
+  var out = document.getElementById('roi-result');
+  if (!ic || !ib || !im || !out) return;
+
+  var capex = Math.max(0.1, parseFloat(ic.value) || 0);
+  var benefit = Math.max(0, parseFloat(ib.value) || 0);
+  var maint = Math.max(0, parseFloat(im.value) || 0);
+  var netAnnual = benefit - maint;
+
+  var badgeClass = 'state-positive';
+  var title = '';
+  var detail = '';
+
+  if (netAnnual <= 0) {
+    badgeClass = 'state-error';
+    title = `فاقد توجیه اقتصادی (زیان خالص سالانه: ${Math.abs(netAnnual).toFixed(1)} میلیارد تومان)`;
+    detail = `درآمد یا صرفه‌جویی سالانه حتی کفاف هزینه نگهداری و پشتیبانی را نمی‌دهد؛ دقیقاً مشابه سرمایه‌گذاری ۱۰ یا ۲۰ میلیاردی برای بازگشت سالی ۱۰۰ میلیون تومان.`;
+  } else {
+    var payback = capex / netAnnual;
+    if (payback > 8) {
+      badgeClass = 'state-warning';
+      title = `بازگشت سرمایه بسیار کند (${payback.toFixed(1)} سال)`;
+      detail = `تا زمان بازگشت سرمایه، ریسک منسوخ شدن فناوری یا تشدید هزینه قفل‌شدگی فروشنده بالا است.`;
+    } else {
+      badgeClass = 'state-positive';
+      title = `دارای توجیه اقتصادی (دوره بازگشت: ${payback.toFixed(1)} سال)`;
+      detail = `اگر ارزش خدمت ایجادشده (مانند عوارض جاده در ۵ سال یا ۵ هزار میلیارد خدمت در برابر ۱۰۰ میلیارد پشتیبانی) از هزینه‌های نگهداری پیشی بگیرد، سرمایه‌گذاری توجیه‌پذیر است.`;
+    }
+  }
+
+  out.innerHTML = `
+    <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.5rem;">
+      <strong>${title}</strong>
+      <span class="state-badge ${badgeClass}">خالص سالانه: ${netAnnual.toFixed(1)} میلیارد</span>
+    </div>
+    <p style="margin:0; font-size:0.9rem;">${detail}</p>
+  `;
+}
+
+// 5. Performance & Click Lab
+var currentClickMode = 3;
+function setClickMode(mode) {
+  currentClickMode = mode;
+  var b3 = document.getElementById('btn-click-3');
+  var b1 = document.getElementById('btn-click-1');
+  if (b3 && b1) {
+    b3.classList.toggle('active', mode === 3);
+    b1.classList.toggle('active', mode === 1);
+  }
+  updatePerfLab();
+}
+
+function updatePerfLab() {
+  var respEl = document.getElementById('slider-resp');
+  var lblResp = document.getElementById('lbl-resp');
+  var scaleEl = document.getElementById('select-scale');
+  var out = document.getElementById('perf-lab-output');
+  if (!respEl || !lblResp || !scaleEl || !out) return;
+
+  var respSec = parseInt(respEl.value, 10) || 5;
+  lblResp.textContent = respSec + ' ثانیه';
+  var scale = scaleEl.value;
+
+  if (scale === 'mci') {
+    var baseCap = currentClickMode === 1 ? 3500 : 2000;
+    var adjustedCap = Math.round(baseCap * (3 / Math.max(2, respSec * 0.6)));
+    var clampedCap = currentClickMode === 1 ? Math.max(2800, Math.min(4200, adjustedCap)) : Math.max(1200, Math.min(2200, adjustedCap));
+    var badge = currentClickMode === 1 ? 'state-positive' : 'state-error';
+    var statusText = currentClickMode === 1 ? 'تایید کارفرما (۳٬۰۰۰ تا ۴٬۰۰۰ درخواست)' : 'رد شده توسط کارفرما (سقف ۲٬۰۰۰ درخواست)';
+    out.innerHTML = `
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.5rem;">
+        <strong>ظرفیت برآوردی استان: حدود ${clampedCap.toLocaleString('fa-IR')} درخواست در روز</strong>
+        <span class="state-badge ${badge}">${statusText}</span>
+      </div>
+      <p style="margin:0; font-size:0.92rem;">در فرآیند ${currentClickMode} کلیکی با زمان پاسخ ${respSec} ثانیه، بار کلیک اپراتورهای دفاتر پیشخوان و مرکز استان مستقیماً سقف پوشش روزانه را تعیین می‌کند.</p>
+    `;
+  } else {
+    var totalStudentsPerUnit = 400;
+    var units = 500;
+    var extraSecPerStudent = Math.max(0, respSec - 2) + (currentClickMode === 3 ? 6 : 0);
+    var totalWastedHours = Math.round((extraSecPerStudent * totalStudentsPerUnit * units) / 3600);
+    var badgeUni = respSec <= 2 && currentClickMode === 1 ? 'state-positive' : 'state-warning';
+    out.innerHTML = `
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.5rem;">
+        <strong>اتلاف زمان تجمعی در ۵۰۰ واحد دانشگاهی: ${totalWastedHours.toLocaleString('fa-IR')} ساعت</strong>
+        <span class="state-badge ${badgeUni}">${respSec <= 2 ? 'زمان پاسخ استاندارد (۲ ثانیه)' : 'تاخیر غیرقابل قبول در ثبت‌نام'}</span>
+      </div>
+      <p style="margin:0; font-size:0.92rem;">هر ثانیه تاخیر فراتر از حد ۲ ثانیه در زمان ثبت نهایی، وقتی در ۵۰۰ واحد دانشگاهی ضرب می‌شود، صف ثبت‌نام را طولانی کرده و تعداد ثبت‌نامی‌ها را کاهش می‌دهد.</p>
+    `;
+  }
+}
+
+// 6. Ecosystem Interactive Explorer
+var ecoState = { caseName: 'payan', mode: 'island' };
+var ecoData = {
+  payan: {
+    title: `درخواست پایان کار ساختمان (شهرسازی)`,
+    nodes: [
+      { name: `پروانه ساخت`, desc: `استعلام وجود و اعتبار پروانه اولیه` },
+      { name: `دارایی و مالیات`, desc: `تسویه حساب مالیات متعلقه ملک` },
+      { name: `کمیسیون ماده ۱۰`, desc: `بررسی تخلفات و ضوابط شهرسازی` },
+      { name: `ثبت احوال`, desc: `احراز هویت مالک یا متقاضی` }
+    ]
+  },
+  pelak: {
+    title: `تعویض پلاک خودرو`,
+    nodes: [
+      { name: `مالیات خودرو`, desc: `پرداخت مالیات نقل‌وانتقال` },
+      { name: `عوارض شهرداری`, desc: `تسویه عوارض سالانه خودرو` },
+      { name: `خلافی راهور`, desc: `استعلام و پرداخت جرایم رانندگی` },
+      { name: `ثبت احوال`, desc: `تطبیق هویت خریدار و فروشنده` }
+    ]
+  }
+};
+
+function setEcoCase(c) {
+  ecoState.caseName = c;
+  var bp = document.getElementById('eco-case-payan');
+  var bk = document.getElementById('eco-case-pelak');
+  if (bp && bk) {
+    bp.classList.toggle('active', c === 'payan');
+    bk.classList.toggle('active', c === 'pelak');
+  }
+  renderEco();
+}
+
+function setEcoMode(m) {
+  ecoState.mode = m;
+  var m1 = document.getElementById('eco-mode-island');
+  var m2 = document.getElementById('eco-mode-eco');
+  var m3 = document.getElementById('eco-mode-fallback');
+  if (m1 && m2 && m3) {
+    m1.classList.toggle('active', m === 'island');
+    m2.classList.toggle('active', m === 'eco');
+    m3.classList.toggle('active', m === 'fallback');
+  }
+  renderEco();
+}
+
+function renderEco() {
+  var nodesEl = document.getElementById('eco-nodes');
+  var sumEl = document.getElementById('eco-summary');
+  if (!nodesEl || !sumEl) return;
+
+  var info = ecoData[ecoState.caseName];
+  var html = '';
+  info.nodes.forEach(function(n, idx) {
+    var cls = 'ok';
+    var status = 'متصل در اکوسیستم';
+    if (ecoState.mode === 'island') {
+      cls = 'warn';
+      status = `سامانه مستقل #${idx + 1} (ورود مجدد کاربر)`;
+    } else if (ecoState.mode === 'fallback' && n.name === 'ثبت احوال') {
+      cls = 'down';
+      status = `سرویس اصلی قطع (پس از ۱۸:۰۰) ← فعال‌سازی سرویس جایگزین`;
+    } else if (ecoState.mode === 'fallback') {
+      cls = 'fallback';
+      status = `در انتظار تکمیل چرخه یکپارچه`;
+    }
+
+    html += `
+      <div class="eco-node ${cls}">
+        <strong style="font-size:0.98rem;">${n.name}</strong>
+        <span style="font-size:0.84rem; color:var(--on-surface-variant);">${n.desc}</span>
+        <span style="font-size:0.78rem; font-weight:700; margin-top:auto;">${status}</span>
+      </div>
+    `;
+  });
+  nodesEl.innerHTML = html;
+
+  if (ecoState.mode === 'island') {
+    sumEl.innerHTML = `<strong>وضعیت جزیره‌ای (${info.title}):</strong> شهروند شخصاً مجبور است در ۴ سامانه مجزا لاگین کند و پرونده را از یک اداره به اداره دیگر ببرد.`;
+  } else if (ecoState.mode === 'eco') {
+    sumEl.innerHTML = `<strong>وضعیت اکوسیستم یکپارچه (${info.title}):</strong> شهروند فقط یک درخواست ثبت می‌کند؛ اکوسیستم تمام استعلام‌ها و تسویه‌ها را در پس‌زمینه انجام می‌دهد و نتیجه نهایی را اعلام می‌کند.`;
+  } else {
+    sumEl.innerHTML = `<strong>چالش وابستگی در اکوسیستم:</strong> اگر وب‌سرویس ثبت احوال (مانند روال قطع دسترسی پس از ۶ عصر) از مدار خارج شود و سرویس جایگزین (<bdi dir="ltr">Fallback</bdi>) طراحی نشده باشد، کل زنجیره اکوسیستم از کار می‌افتد.`;
+  }
+}
+
+// 7. Sticky TOC active highlight on scroll
+function initScrollSpy() {
+  var links = document.querySelectorAll('.toc-link');
+  var sections = document.querySelectorAll('.lecture-section');
+  if (!links.length || !sections.length || !('IntersectionObserver' in window)) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        links.forEach(function(link) {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-25% 0px -65% 0px' });
+
+  sections.forEach(function(sec) { observer.observe(sec); });
+}
+
+// Boot
+document.addEventListener('DOMContentLoaded', function() {
+  initMciChart();
+  evaluateFeasibility();
+  calculateROI();
+  updatePerfLab();
+  renderEco();
+  initScrollSpy();
+});
+</script>
+</body>
+</html>
