@@ -23,6 +23,7 @@
     h2 { margin:0; font-size:1.5rem; }
     .count { color:var(--muted); font:500 .72rem var(--mono); }
     .session { display:grid; grid-template-columns:minmax(125px, .65fr) 2fr auto; align-items:center; gap:1.25rem; padding:1.2rem 1.25rem; background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--gold); text-decoration:none; transition:transform 150ms ease,box-shadow 150ms ease; }
+    .session + .session { margin-top:.75rem; }
     .session:hover,.session:focus-visible { transform:translateY(-2px); box-shadow:0 8px 22px rgb(23 24 26 / 8%); outline:none; }
     .date { font:600 .85rem var(--mono); }
     .day { display:block; color:var(--muted); font:400 .73rem var(--body); }
@@ -42,7 +43,12 @@
       <p>Sessions on discovering, analyzing, documenting, and validating software needs.</p>
     </header>
     <section aria-labelledby="sessions-title">
-      <div class="heading"><h2 id="sessions-title">Sessions</h2><span class="count">01 SESSION</span></div>
+      <div class="heading"><h2 id="sessions-title">Sessions</h2><span class="count">02 SESSIONS</span></div>
+      <a class="session" href="2026-11-26.html">
+        <span class="date">2026-11-26<span class="day">Thursday · 26 November 2026</span></span>
+        <span class="session-title">Open session notes</span>
+        <span class="open" aria-hidden="true">↗</span>
+      </a>
       <a class="session" href="2026-11-19.html">
         <span class="date">2026-11-19<span class="day">Thursday · 19 November 2026</span></span>
         <span class="session-title">Open session notes</span>

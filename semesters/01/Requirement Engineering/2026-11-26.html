@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="briefing">
+  <title>معماری نرم‌افزار و مهندسی نیازمندی‌ها | خلاصه تحلیلی جلسه پنجم — دکتر رضایی</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:wght@600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Briefing Style Tokens — Warm Editorial Paper */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      /* Ink */
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      /* Rules & Borders */
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+      --border-strong: #c8c4b8;
+
+      /* Accents */
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --secondary-soft: #e8f0f2;
+      --tertiary: #785008;
+      --tag-bg: #f5e6c4;
+      --tag-border: #e4cf9b;
+      --error: #b42318;
+      --error-soft: #fdf2f1;
+      --on-error: #ffffff;
+
+      /* Data Series */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Fonts (Persian-first with Briefing editorial pairing) */
+      --font-headline: 'Noto Naskh Arabic', 'Source Serif 4', serif;
+      --font-body: 'Vazirmatn', sans-serif;
+      --font-label: 'Vazirmatn', 'Geist Mono', monospace;
+      --font-mono: 'Geist Mono', 'Vazirmatn', monospace;
+
+      /* Shape */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+      --badge-radius: 2px;
+
+      /* Rules & Tracking */
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --heading-tracking: 0;
+      --label-tracking: 0;
+
+      /* 3. Shared Foundation Tokens */
+      --positive: #2b6e52;
+      --positive-soft: #edf6f1;
+      --warning: #d99000;
+      --warning-soft: #fef8e7;
+      --focus: #1f4e5f;
+
+      /* Narrative Type Scale */
+      --display-size: clamp(2rem, 1.4rem + 2.2vw, 3.1rem);
+      --headline-size: clamp(1.5rem, 1.2rem + 1.1vw, 2.05rem);
+      --subhead-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.35rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.09375rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Spacing Scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 5.5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.75;
+      scroll-behavior: smooth;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1120px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Dossier Section Bar */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+    .dossier-bar-start {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 500;
+    }
+
+    /* Typography */
+    .title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--display-size);
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .section-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--headline-size);
+      line-height: 1.3;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .standfirst {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      line-height: 1.6;
+      color: var(--secondary);
+      margin: var(--space-sm) 0 0 0;
+      max-width: 68ch;
+    }
+    .prose {
+      max-width: 68ch;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-md) 0;
+    }
+    .muted-note {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    /* Bilingual Dossier Tag Pills */
+    .term-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+    .term-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      color: var(--tertiary);
+      font-size: var(--label-size);
+      font-weight: 600;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+    .term-pill .en-term {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--on-surface);
+      opacity: 0.82;
+    }
+
+    /* Hero & KPI Metric Summary Cards */
+    .hero-block {
+      padding-top: var(--space-md);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .kpi-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      border-top: 3px solid var(--secondary);
+    }
+    .kpi-card.highlight-gold {
+      border-top-color: var(--primary-container);
+    }
+    .kpi-label {
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-surface-variant);
+    }
+    .kpi-value {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(1.5rem, 1.25rem + 0.9vw, 2rem);
+      line-height: 1.2;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+    .kpi-sub {
+      font-size: var(--label-size);
+      color: var(--secondary);
+      font-weight: 500;
+    }
+
+    /* Callout Payload Boxes */
+    .callout-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      border-right: 4px solid var(--secondary);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+    .callout-box.gold-accent {
+      border-right-color: var(--primary-container);
+    }
+    .callout-box.alert-accent {
+      border-right-color: var(--error);
+    }
+    .callout-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
+    }
+    .callout-title {
+      font-weight: 700;
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .callout-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.125rem var(--space-sm);
+      border-radius: var(--badge-radius);
+      background: var(--secondary);
+      color: var(--on-primary);
+    }
+    .callout-badge.amber {
+      background: var(--tag-bg);
+      color: var(--tertiary);
+      border: 1px solid var(--tag-border);
+    }
+
+    /* Two-column asymmetric layout */
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    /* Styled Comparison Tables */
+    .table-wrap {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      overflow-x: auto;
+      margin: var(--space-md) 0;
+    }
+    table.briefing-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 0.9375rem;
+    }
+    table.briefing-table thead th {
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: var(--label-size);
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--section-rule);
+      white-space: nowrap;
+    }
+    table.briefing-table tbody td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+      line-height: 1.65;
+    }
+    table.briefing-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    table.briefing-table tbody tr:hover td {
+      background: var(--background);
+    }
+
+    /* Interactive Buttons & Controls */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      border: 1px solid var(--border-strong);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .btn:hover {
+      background: var(--surface-container);
+    }
+    .btn.primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .btn.primary:hover {
+      background: var(--secondary);
+      border-color: var(--secondary);
+    }
+    .btn.active-tab {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--outline);
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* NFR Explorer Cards */
+    .nfr-card {
+      cursor: pointer;
+      text-align: right;
+      width: 100%;
+      transition: box-shadow var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      align-items: flex-start;
+    }
+    .nfr-card:hover {
+      background: var(--background);
+      box-shadow: 0 2px 0 var(--outline-variant);
+    }
+    .nfr-card.selected {
+      background: var(--surface-container);
+      box-shadow: inset 0 0 0 2px var(--secondary);
+    }
+    .index-num {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+    }
+
+    /* Form Controls with Visible Labels Above */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+    .field-input {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      width: 100%;
+    }
+    .range-input {
+      width: 100%;
+      accent-color: var(--secondary);
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    /* Status Badges */
+    .status-banner {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .status-banner.ok {
+      background: var(--positive-soft);
+      color: var(--positive);
+      border: 1px solid var(--positive);
+    }
+    .status-banner.bad {
+      background: var(--error-soft);
+      color: var(--error);
+      border: 1px solid var(--error);
+    }
+    .status-banner.warn {
+      background: var(--warning-soft);
+      color: var(--tertiary);
+      border: 1px solid var(--warning);
+    }
+
+    /* Chart Container */
+    .chart-box {
+      position: relative;
+      height: 320px;
+      width: 100%;
+      margin-top: var(--space-md);
+    }
+
+    /* Interactive Diagram & Fishbone SVG */
+    .svg-stage {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      overflow-x: auto;
+    }
+    .fishbone-btn {
+      cursor: pointer;
+    }
+
+    /* Discovery Stepper */
+    .stepper-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+    .step-tile {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      text-align: right;
+      cursor: pointer;
+      min-height: 44px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .step-tile:hover {
+      background: var(--surface-container);
+    }
+    .step-tile.active {
+      background: var(--secondary-soft);
+      box-shadow: inset 0 0 0 2px var(--secondary);
+    }
+
+    /* Quiz Styling */
+    .quiz-item {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+    .quiz-opt {
+      text-align: right;
+      justify-content: flex-start;
+      padding: var(--space-sm) var(--space-md);
+      height: auto;
+      line-height: 1.5;
+    }
+    .quiz-opt.correct {
+      background: var(--positive-soft);
+      border-color: var(--positive);
+      color: var(--positive);
+    }
+    .quiz-opt.wrong {
+      background: var(--error-soft);
+      border-color: var(--error);
+      color: var(--error);
+    }
+    .quiz-feedback {
+      margin-top: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      background: var(--surface-container);
+      font-size: 0.9rem;
+      color: var(--on-surface);
+      border-right: 3px solid var(--secondary);
+    }
+
+    /* Chapter Summary */
+    .chapter-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+      padding-top: var(--space-sm);
+      border-top: 1px dashed var(--outline-variant);
+    }
+
+    /* Scroll Reveal */
+    .reveal-section {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out);
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: var(--section-rule);
+      padding: var(--space-lg) 0 var(--space-xl);
+      margin-top: var(--space-lg);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    /* Container Query Adaptation */
+    .card-wrapper { container-type: inline-size; }
+    @container (max-width: 520px) {
+      .split-inner { grid-template-columns: 1fr !important; }
+    }
+
+    /* Mobile Page Breakpoint */
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-lg);
+      }
+      .split-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .note-toc .toc-link {
+      display: inline-flex;
+      align-items: center;
+      border-radius: var(--rounded);
+      text-decoration: none;
+    }
+    .svg-stage { min-width: 0; }
+    .svg-stage svg { display: block; }
+    .svg-stage svg[viewBox="0 0 640 310"] { min-width: 600px; }
+  </style>
+  <link rel="stylesheet" href="../../session-note.css">
+</head>
+<body>
+  <div class="note-masthead">
+    <a href="index.html">فهرست جلسات</a>
+    <span>مهندسی نیازمندی‌ها</span>
+    <time datetime="2026-11-26">پنجشنبه، ۲۶ نوامبر ۲۰۲۶</time>
+  </div>
+  <nav class="note-toc" aria-label="فهرست مطالب">
+    <div class="note-toc-list">
+      <a href="#ch-1" class="toc-link">۱. معماری و نیازمندی‌ها</a>
+      <a href="#ch-2" class="toc-link">۲. ویژگی‌های کیفی</a>
+      <a href="#ch-3" class="toc-link">۳. کشف، ابهام و ماکت</a>
+      <a href="#ch-4" class="toc-link">۴. اقتصاد و چرخه حیات</a>
+      <a href="#ch-5" class="toc-link">۵. فرایند و ایشیکاوا</a>
+      <a href="#ch-6" class="toc-link">۶. آینده شغلی و آزمون</a>
+    </div>
+  </nav>
+
+  <main class="page-grid">
+
+    <!-- HERO HEADER (position: static per base reset) -->
+    <header class="hero-block">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">پرونده درسی • جلسه پنجم</span>
+          <span class="dossier-meta">دانشگاه آزاد اسلامی واحد ساوه • ارائه دکتر رضایی</span>
+        </div>
+        <span class="dossier-meta">معماری نرم‌افزار و مهندسی نیازمندی‌ها</span>
+      </div>
+
+      <h1 class="title">از کشف ابهام تا تاب‌آوری اکوسیستم: کالبدشکافی مهندسی نیازمندی‌ها و معماری نرم‌افزار</h1>
+      <p class="standfirst">
+        چگونه نیازهای مبهم و متعارض ذینفعان را پیش از نوشتن نخستین خط کد به معماری قابل اعتماد تبدیل کنیم، از تله‌های قیمت‌گذاری و قفل‌شدگی فروشنده بپرهیزیم، و در عصر هوش مصنوعی جایگاه معمار فرایند را بشناسیم؟
+      </p>
+
+      <div class="term-pills" aria-label="واژگان کلیدی دوزبانه">
+        <span class="term-pill">مهندسی نیازمندی‌ها <bdi dir="ltr" class="en-term">Requirements Engineering</bdi></span>
+        <span class="term-pill">نیازمندی غیرعملیاتی <bdi dir="ltr" class="en-term">NFR / -ilities</bdi></span>
+        <span class="term-pill">نمونه‌سازی <bdi dir="ltr" class="en-term">Prototyping</bdi></span>
+        <span class="term-pill">قفل‌شدگی فروشنده <bdi dir="ltr" class="en-term">Vendor Lock-in</bdi></span>
+        <span class="term-pill">مدل‌سازی فرایند <bdi dir="ltr" class="en-term">BPMN &amp; Process Architecture</bdi></span>
+      </div>
+
+      <!-- Opening Hook Callout: 3-Minute Thesis -->
+      <div class="callout-box gold-accent">
+        <div class="callout-header">
+          <span class="callout-badge amber">مقدمه و قلاب ذهنی</span>
+          <h2 class="callout-title">مسابقه بین‌المللی «پایان‌نامه در ۳ دقیقه» و پیوند آن با زبان مشتری</h2>
+        </div>
+        <p class="prose" style="margin-bottom: 0;">
+          در مسابقه جهانی <bdi dir="ltr">Three Minute Thesis (3MT)</bdi> که از سطح دانشگاه تا سطح کشوری، قاره‌ای و جهانی (و سه دوره در ایران) برگزار می‌شود، پژوهشگر ارشد یا دکترا باید بتواند حاصل سال‌ها پژوهش تخصصی خود را تنها با <strong>یک اسلاید</strong> و در <strong>۳ دقیقه</strong> طوری بیان کند که شنونده غیرمتخصص (حتی مادربزرگ) آن را بفهمد. به باور دکتر رضایی، دقیقاً همین مهارت «ترجمه تخصص به زبان ساده و قابل فهم» هسته اصلی کار یک مهندس نیازمندی‌ها در مواجهه با کارفرمایان غیرفنی است.
+        </p>
+      </div>
+
+      <!-- KPI Metric Summary Cards -->
+      <section aria-label="شاخص‌های کلیدی سخنرانی" class="kpi-grid">
+        <div class="figure-card kpi-card highlight-gold">
+          <span class="kpi-label">معیار تسلط و انتقال مفهوم</span>
+          <span class="kpi-value">۳ دقیقه / ۱ اسلاید</span>
+          <span class="kpi-sub">اصل ساده‌سازی در مسابقه 3MT</span>
+        </div>
+        <div class="figure-card kpi-card">
+          <span class="kpi-label">سقف زمان مجاز تغییر در اجرا</span>
+          <span class="kpi-value">زیر ۶۰ ثانیه</span>
+          <span class="kpi-sub">الزام دیجی‌کالا بدون توقف سرویس</span>
+        </div>
+        <div class="figure-card kpi-card">
+          <span class="kpi-label">ضریب پوشش ریسک پیمانکار</span>
+          <span class="kpi-value"><bdi dir="ltr">۳×</bdi> برآورد پایه</span>
+          <span class="kpi-sub">پوشش خطای تخمین و تورم</span>
+        </div>
+        <div class="figure-card kpi-card">
+          <span class="kpi-label">جهش هزینه در قفل‌شدگی فروشنده</span>
+          <span class="kpi-value">۳ به ۱۰۰ میلیارد</span>
+          <span class="kpi-sub">پشتیبانی سالانه سامانه دولتی ۱۴۰۰</span>
+        </div>
+      </section>
+    </header>
+
+    <!-- CHAPTER 1 -->
+    <section id="ch-1" class="reveal-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">فصل ۰۱</span>
+          <span class="dossier-meta">تحلیل در برابر طراحی • امکان‌سنجی</span>
+        </div>
+        <span class="dossier-meta">Functional vs Non-Functional</span>
+      </div>
+
+      <h2 class="section-title">تحلیل و معماری: تفکیک آن‌چه سیستم «انجام می‌دهد» از آن‌چه سیستم «هست»</h2>
+      <p class="prose">
+        هنگام طراحی هر اپلیکیشن — چه تحت وب، چه موبایل، چه سازمانی و چه در یک شرکت خودروسازی — نخستین گام، مرحله <strong>امکان‌سنجی (<bdi dir="ltr">Feasibility</bdi>)</strong> است. مشتری گاهی نیازهایی دارد که تصور می‌کند نرم‌افزار قادر به پوشش آن‌هاست؛ پیش از هر تعهدی باید درستی و قابلیت پیاده‌سازی این نیازها سنجیده شود. سپس نیازها به دو دسته کاملاً متمایز تقسیم می‌شوند: <strong>نیازمندی‌های وظیفه‌مند (عملیاتی)</strong> و <strong>نیازمندی‌های غیرعملکردی (غیرعملیاتی)</strong>.
+      </p>
+
+      <div class="table-wrap">
+        <table class="briefing-table">
+          <thead>
+            <tr>
+              <th>بعد مقایسه</th>
+              <th>نیازمندی وظیفه‌مند (<bdi dir="ltr">Functional</bdi>)</th>
+              <th>نیازمندی غیرعملیاتی (<bdi dir="ltr">Non-Functional</bdi>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>مشاهده‌پذیری در محصول</strong></td>
+              <td>مستقیماً در رابط کاربری و کارکرد نرم‌افزار دیده می‌شود و کاربر با آن کار می‌کند.</td>
+              <td>مستقیماً در صفحه دیده نمی‌شود، اما کل نرم‌افزار باید آن را در باطن پوشش دهد.</td>
+            </tr>
+            <tr>
+              <td><strong>جایگاه در چرخه تولید</strong></td>
+              <td>مرحله تحلیل نیازمندی‌ها و پیاده‌سازی ماژول‌ها.</td>
+              <td>مباحث <strong>معماری نرم‌افزار</strong>؛ شناسایی پیش از مرحله <strong>طراحی (<bdi dir="ltr">Design</bdi>)</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>مسئولیت اصلی</strong></td>
+              <td>مهندس نرم‌افزار و برنامه‌نویس.</td>
+              <td>معمار نرم‌افزار (<bdi dir="ltr">Software Architect</bdi>).</td>
+            </tr>
+            <tr>
+              <td><strong>مصداق عینی در سخنرانی</strong></td>
+              <td>سیستم بانکی: بخش «افتتاح حساب» و بخش «کارت به کارت».</td>
+              <td>تغییرپذیری زیر ۱ دقیقه در دیجی‌کالا، امنیت، کارایی، مقیاس‌پذیری و توجیه اقتصادی.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout-box">
+        <div class="callout-header">
+          <span class="callout-badge">مطالعه موردی</span>
+          <h3 class="callout-title">دیجی‌کالا (<bdi dir="ltr">Digikala</bdi>): چرا فریم‌ورک‌های مدرن جای معمار نرم‌افزار را نمی‌گیرند؟</h3>
+        </div>
+        <p class="prose" style="margin-bottom: 0;">
+          بسیاری از برنامه‌نویسان گمان می‌کنند چون زبان یا فریم‌ورک مدرن خودش امنیت و کارایی پایه را پوشش می‌دهد، نیازی به مداخله معمار نیست. دکتر رضایی مثال دیجی‌کالا را مطرح می‌کند: اگر مالک دیجی‌کالا بگوید تغییر یک بخش از سایت تنها زمانی قابل قبول است که <strong>در زمان اجرا (<bdi dir="ltr">Runtime</bdi>)</strong> و در <strong>زیر یک دقیقه</strong> اعمال شود — بدون آن‌که سیستم پایین آورده شود، فایل‌ها دانلود و جایگزین شوند و سایت دوباره بالا بیاید — این دیگر کار فریم‌ورک پیش‌فرض نیست؛ یک تصمیم معماری برای <strong>تغییرپذیری (<bdi dir="ltr">Modifiability</bdi>)</strong> است.
+        </p>
+      </div>
+
+      <div class="chapter-footer">
+        <span class="muted-note">نکته کلیدی: پیش از ورود به طراحی تفصیلی، باید فهرست نیازمندی‌های غیرعملیاتی سیستم نهایی شده باشد.</span>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2 -->
+    <section id="ch-2" class="reveal-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">فصل ۰۲</span>
+          <span class="dossier-meta">کیفیت‌های معماری • سنجش توجیه اقتصادی</span>
+        </div>
+        <span class="dossier-meta">The "-ilities" &amp; ROI</span>
+      </div>
+
+      <h2 class="section-title">هشت ستون کیفیت غیرعملیاتی و آزمون اقتصادی بودن نرم‌افزار</h2>
+      <p class="prose">
+        در معماری نرم‌افزار با خانواده‌ای روبه‌رشد از ویژگی‌های کیفی روبه‌رو هستیم که به «ایلیتی‌ها» (<bdi dir="ltr">-ilities</bdi>) معروف‌اند. هر یک از این کیفیت‌ها اگر در طراحی نادیده گرفته شود، می‌تواند کل سرمایه‌گذاری نرم‌افزاری را حتی با وجود تکمیل بودن امکانات ظاهری از کار بیندازد. روی هر کارت کلیک کنید تا تحلیل و مصداق آن در سخنرانی نمایش داده شود.
+      </p>
+
+      <div class="split-grid">
+        <div class="card-grid" id="nfr-cards-grid">
+          <button type="button" class="figure-card nfr-card selected" id="nfr-btn-performance" onclick="selectNFR('performance')">
+            <span class="index-num">01 • PERFORMANCE</span>
+            <strong>کارایی و اعتبار داده</strong>
+            <span class="muted-note">سرعت پاسخ‌گویی، به‌روز بودن و معتبر بودن خروجی</span>
+          </button>
+          <button type="button" class="figure-card nfr-card" id="nfr-btn-security" onclick="selectNFR('security')">
+            <span class="index-num">02 • SECURITY</span>
+            <strong>امنیت و تاب‌آوری بار</strong>
+            <span class="muted-note">حفظ حریم و پایداری در هجوم کاربران واقعی</span>
+          </button>
+          <button type="button" class="figure-card nfr-card" id="nfr-btn-economic" onclick="selectNFR('economic')">
+            <span class="index-num">03 • ECONOMIC ROI</span>
+            <strong>توجیه اقتصادی</strong>
+            <span class="muted-note">موازنه هزینه تولید و نگهداری با آورده سازمان</span>
+          </button>
+          <button type="button" class="figure-card nfr-card" id="nfr-btn-efficiency" onclick="selectNFR('efficiency')">
+            <span class="index-num">04 • EFFICIENCY</span>
+            <strong>بهره‌وری سخت‌افزاری</strong>
+            <span class="muted-note">استفاده بهینه از منابع و حذف گام‌های تکراری</span>
+          </button>
+          <button type="button" class="figure-card nfr-card" id="nfr-btn-service" onclick="selectNFR('service')">
+            <span class="index-num">05 • SERVICE-BASED</span>
+            <strong>سرویس‌محوری</strong>
+            <span class="muted-note">ارائه خدمات مستقل به سایر سامانه‌ها و میز خدمت</span>
+          </button>
+          <button type="button" class="figure-card nfr-card" id="nfr-btn-modifiability" onclick="selectNFR('modifiability')">
+            <span class="index-num">06 • MODIFIABILITY</span>
+            <strong>تغییرپذیری و تست‌پذیری</strong>
+            <span class="muted-note">اعمال سریع تغییرات و قابلیت آزمون خودکار</span>
+          </button>
+          <button type="button" class="figure-card nfr-card" id="nfr-btn-interop" onclick="selectNFR('interop')">
+            <span class="index-num">07 • INTEROPERABILITY</span>
+            <strong>تعامل‌پذیری و یکپارچه‌سازی</strong>
+            <span class="muted-note">یکپارچه‌سازی بخش‌ها و پرهیز از جزیره‌ای شدن</span>
+          </button>
+          <button type="button" class="figure-card nfr-card" id="nfr-btn-usability" onclick="selectNFR('usability')">
+            <span class="index-num">08 • USABILITY</span>
+            <strong>کاربرپسندی و پذیرش کاربر</strong>
+            <span class="muted-note">سادگی یادگیری و راهنمای استفاده (<bdi dir="ltr">User-Friendly</bdi>)</span>
+          </button>
+        </div>
+
+        <aside class="figure-card" id="nfr-detail-panel" aria-live="polite" style="border-top: 4px solid var(--primary-container);">
+          <span class="dossier-pill" id="nfr-detail-tag">کارایی و تاب‌آوری</span>
+          <h3 class="callout-title" id="nfr-detail-title" style="margin-top: var(--space-sm); font-size: 1.15rem;">کارایی، به‌روز بودن داده و درس پیام‌رسان‌های داخلی</h3>
+          <p class="prose" id="nfr-detail-body" style="margin-top: var(--space-sm);"></p>
+          <div class="callout-box" style="margin-bottom: 0;">
+            <strong style="display: block; margin-bottom: var(--space-xs); color: var(--secondary);">مصداق واقعی در کلاس:</strong>
+            <p class="muted-note" id="nfr-detail-case" style="color: var(--on-surface); font-size: 0.92rem; line-height: 1.65;"></p>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Interactive ROI Calculator grounded in Lecture Math -->
+      <div class="figure-card" style="margin-top: var(--space-lg); border-top: var(--section-rule);">
+        <div class="callout-header" style="justify-content: space-between;">
+          <div>
+            <span class="callout-badge amber">ابزار تحلیلی سخنرانی</span>
+            <h3 class="callout-title" style="margin-top: var(--space-xs);">محاسبه‌گر توجیه اقتصادی نرم‌افزار در معماری</h3>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn" onclick="applyRoiPreset(1, 1, 0.3)">مثال کلاس: ۱ میلیارد + ۱ میلیارد در برابر ۳۰۰ میلیون</button>
+            <button type="button" class="btn" onclick="applyRoiPreset(1, 0.35, 1.4)">سناریوی متعادل سازمانی</button>
+          </div>
+        </div>
+        <p class="muted-note" style="margin-bottom: var(--space-md);">
+          دکتر رضایی تأکید می‌کند پیش از تولید باید پرسید: آیا نرم‌افزار آورده‌ای برای سازمان دارد یا فقط هزینه و دردسر تولید می‌کند؟ اعداد زیر را به میلیارد تومان تنظیم کنید:
+        </p>
+
+        <div class="controls-grid">
+          <div class="field-group">
+            <label for="roi-init" class="field-label">هزینه تولید اولیه (میلیارد تومان)</label>
+            <input type="number" id="roi-init" class="field-input" value="1" min="0" max="500" step="0.1" oninput="updateRoiCalculation()">
+          </div>
+          <div class="field-group">
+            <label for="roi-maint" class="field-label">هزینه نگهداری سالانه (میلیارد تومان)</label>
+            <input type="number" id="roi-maint" class="field-input" value="1" min="0" max="500" step="0.1" oninput="updateRoiCalculation()">
+          </div>
+          <div class="field-group">
+            <label for="roi-value" class="field-label">آورده سالانه برای سازمان (میلیارد تومان)</label>
+            <input type="number" id="roi-value" class="field-input" value="0.3" min="0" max="500" step="0.1" oninput="updateRoiCalculation()">
+          </div>
+        </div>
+
+        <div id="roi-output" class="status-banner bad" role="status">
+          <span id="roi-verdict-text">فاقد توجیه اقتصادی: خالص جریان سالانه منفی است (زیان مستمر سالانه ۰.۷ میلیارد تومان).</span>
+          <span id="roi-breakeven-text" style="font-family: var(--font-mono);">نقطه سر‌به‌سر: غیرقابل دسترس</span>
+        </div>
+      </div>
+
+      <div class="chapter-footer">
+        <span class="muted-note">نکته کلیدی: اگر نرم‌افزار از ابتدا سرویس‌محور طراحی نشود، در آینده ناچار به تولید اپلیکیشن جدیدی صرفاً برای ارائه سرویس خواهید شد.</span>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3 -->
+    <section id="ch-3" class="reveal-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">فصل ۰۳</span>
+          <span class="dossier-meta">ابهام، اصطلاحات دامنه و ماکت‌سازی</span>
+        </div>
+        <span class="dossier-meta">Discovery, Ambiguity &amp; Prototyping</span>
+      </div>
+
+      <h2 class="section-title">چرا نیازمندی‌ها گم می‌شوند؟ از واژگان «جامانده» تا معمای انتقال با خودرو</h2>
+      <p class="prose">
+        در محیط دانشگاه، همه با مفاهیمی مثل انتخاب واحد و حذف و اضافه آشنا هستند؛ اما مهندس نرم‌افزار هنگام ورود به سازمان‌های تخصصی با زبان و اصطلاحاتی مواجه می‌شود که هیچ آشنایی قبلی با آن‌ها ندارد. علاوه بر این، کارمند ممکن است از ترس جایگزینی و اخراج اطلاعات را پنهان کند یا توان بیان دقیق نیاز خود را نداشته باشد.
+      </p>
+
+      <!-- Case Studies Grid -->
+      <div class="card-grid" style="margin-bottom: var(--space-lg);">
+        <div class="callout-box" style="margin: 0;">
+          <div class="callout-header">
+            <span class="callout-badge">دامنه ناآشنا</span>
+            <h3 class="callout-title">کمیته امداد امام خمینی و سازمان انرژی اتمی</h3>
+          </div>
+          <p class="muted-note" style="color: var(--on-surface); font-size: 0.92rem; line-height: 1.7;">
+            در کمیته امداد واژگانی چون <strong>مددجو، مددکار، راهبر</strong> و فرایندهایی مانند <strong>«جامانده»</strong> وجود دارد: فردی از شهری به شهر دیگر رفته، پولش تمام شده یا دزدیده شده و به کمیته امداد شهر مقصد مراجعه می‌کند تا درجا مبلغی (مثلاً <strong>۸ میلیون تومان</strong>) دریافت کند. یا فرایند توزیع گوشت عید قربان بین خانواده‌های مستحق متصل به پرداخت مالی. در سازمان انرژی اتمی نیز اصطلاحات کاملاً تخصصی‌اند و فهم غلط هر اصطلاح به شکست نرم‌افزار می‌انجامد.
+          </p>
+        </div>
+
+        <div class="callout-box alert-accent" style="margin: 0;">
+          <div class="callout-header">
+            <span class="callout-badge" style="background: var(--error);">نیازمندی غیرممکن</span>
+            <h3 class="callout-title">قائم‌مقام شیلات ایران (بندرعباس / دریای عمان)</h3>
+          </div>
+          <p class="muted-note" style="color: var(--on-surface); font-size: 0.92rem; line-height: 1.7;">
+            تیم برای گرفتن پروژه هر خواسته‌ای را می‌پذیرفت، تا روزی که قائم‌مقام شیلات درخواست کرد صبح که کامپیوتر را در دفتر روشن می‌کند، نرم‌افزار اعلام کند در هر صیدگاه دریای عمان دقیقاً <strong>چند ماهی</strong> حضور دارد! حتی با ماهواره و دوربین نیز چنین نیازی در نرم‌افزار قابل پیاده‌سازی نیست؛ نخستین معیار، <strong>امکان‌پذیری فنی</strong> است.
+          </p>
+        </div>
+      </div>
+
+      <!-- Interactive Ambiguity Diagram: Home to Work Vehicle -->
+      <div class="figure-card" style="margin-bottom: var(--space-lg);">
+        <div class="callout-header" style="justify-content: space-between;">
+          <div>
+            <span class="callout-badge amber">تشریح بیان مبهم نیازمندی</span>
+            <h3 class="callout-title" style="margin-top: var(--space-xs);">مثال کلاس: «وسیله‌ای می‌خواهم برای انتقال شخص از خانه به محل کار»</h3>
+          </div>
+          <div class="btn-row" role="tablist" aria-label="دیدگاه‌های تفسیر نیازمندی">
+            <button type="button" class="btn active-tab" id="amb-btn-mgmt" onclick="setAmbiguityView('mgmt')">تفسیر مدیریت</button>
+            <button type="button" class="btn" id="amb-btn-tech" onclick="setAmbiguityView('tech')">تفسیر فناوری</button>
+            <button type="button" class="btn" id="amb-btn-user" onclick="setAmbiguityView('user')">خواسته کاربر</button>
+          </div>
+        </div>
+
+        <div class="split-grid" style="margin-top: var(--space-md); align-items: center;">
+          <div>
+            <h4 id="amb-title" style="margin: 0 0 var(--space-xs) 0; color: var(--secondary); font-size: 1.05rem;">تفسیر مدیریت: دوچرخه کفایت می‌کند</h4>
+            <p id="amb-desc" class="prose" style="margin-bottom: var(--space-sm);">
+              وقتی نیاز به صورت کلی و مبهم بیان می‌شود، مدیریت برای کاهش هزینه و سادگی تصور می‌کند یک دوچرخه نیاز جابه‌جایی از خانه تا محل کار را برطرف می‌کند؛ در حالی که اصلاً انتظارات واقعی کاربر نهایی را در نظر نگرفته است.
+            </p>
+            <p class="muted-note">
+              نتیجه نبود هم‌فهمی: وقتی نرم‌افزار بدون ماکت اولیه تحویل داده می‌شود، مشتری با دیدن خروجی می‌گوید <strong>«صفر درصد با چیزی که توضیح دادم انطباق دارد!»</strong> — درست مثل ساخت ساختمان در زمین ۳۰۰ متری با ۴ طبقه تک‌واحدی یا دوواحدی که تخریب و بازسازی آن <strong><bdi dir="ltr">2X</bdi></strong> هزینه تحمیل می‌کند.
+            </p>
+          </div>
+          <div class="svg-stage note-diagram-scroll" tabindex="0" id="amb-svg-box" aria-live="polite">
+            <svg id="amb-svg" viewBox="0 0 360 150" width="100%" height="150" role="img" aria-label="نمایش شماتیک تفسیرهای متفاوت از وسیله نقلیه">
+              <rect x="8" y="8" width="344" height="134" rx="6" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+              <line x1="24" y1="115" x2="336" y2="115" stroke="var(--outline)" stroke-width="2"/>
+              <g id="amb-draw-mgmt">
+                <circle cx="120" cy="95" r="20" fill="none" stroke="var(--secondary)" stroke-width="3"/>
+                <circle cx="240" cy="95" r="20" fill="none" stroke="var(--secondary)" stroke-width="3"/>
+                <path d="M120 95 L165 58 L220 58 L240 95 M165 58 L182 95 L120 95" fill="none" stroke="var(--on-surface)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="152" y1="48" x2="174" y2="48" stroke="var(--primary-container)" stroke-width="4" stroke-linecap="round"/>
+                <text x="180" y="30" text-anchor="middle" fill="var(--on-surface)" font-size="13" font-family="Vazirmatn" font-weight="700">تفسیر مدیریت: دوچرخه اقتصادی</text>
+              </g>
+              <g id="amb-draw-tech" style="display: none;">
+                <circle cx="110" cy="95" r="18" fill="none" stroke="var(--secondary)" stroke-width="3"/>
+                <circle cx="250" cy="95" r="18" fill="none" stroke="var(--secondary)" stroke-width="3"/>
+                <rect x="95" y="55" width="170" height="32" rx="8" fill="var(--tag-bg)" stroke="var(--tertiary)" stroke-width="2.5"/>
+                <path d="M135 55 L155 36 L205 36 L220 55" fill="none" stroke="var(--tertiary)" stroke-width="2.5"/>
+                <text x="180" y="24" text-anchor="middle" fill="var(--on-surface)" font-size="13" font-family="Vazirmatn" font-weight="700">تفسیر فناوری: طرح میانی مهندسی</text>
+              </g>
+              <g id="amb-draw-user" style="display: none;">
+                <path d="M75 95 L75 72 L115 68 L145 42 L225 42 L255 68 L285 72 L285 95 Z" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="2.5"/>
+                <circle cx="120" cy="95" r="18" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="3"/>
+                <circle cx="240" cy="95" r="18" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="3"/>
+                <rect x="148" y="48" width="68" height="20" rx="2" fill="var(--secondary-soft)" stroke="var(--outline)" stroke-width="1.5"/>
+                <text x="180" y="25" text-anchor="middle" fill="var(--on-surface)" font-size="13" font-family="Vazirmatn" font-weight="700">نیاز واقعی کاربر: خودروی کامل</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prototyping vs Simulation Table -->
+      <h3 class="callout-title" style="font-size: 1.1rem; margin-bottom: var(--space-xs);">پروتوتایپینگ (نمونه‌سازی) در برابر شبیه‌سازی (<bdi dir="ltr">Simulation</bdi>)</h3>
+      <div class="table-wrap">
+        <table class="briefing-table">
+          <thead>
+            <tr>
+              <th>موضوع</th>
+              <th>پروتوتایپینگ (<bdi dir="ltr">Prototyping</bdi>)</th>
+              <th>شبیه‌سازی (<bdi dir="ltr">Simulation</bdi>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ماهیت اصلی</strong></td>
+              <td>ساخت ماکت و صفحات خالی بدون کد پشتی (Back-end) برای نمایش جریان کار به مشتری (مثلاً فرم نام، نام خانوادگی، شماره کارت مبدأ، مقصد و تاریخ انقضا).</td>
+              <td>اجرای مدل رفتاری برای ارزیابی عملکرد یا آزمون یک فرضیه فنی پیش از پیاده‌سازی نهایی.</td>
+            </tr>
+            <tr>
+              <td><strong>کاربرد اصلی</strong></td>
+              <td>رسیدن به توافق قطعی با مشتری روی صورت‌مسئله (مثل ترتیب ورود کارت مبدأ پیش از مقصد).</td>
+              <td>معمولاً در مرحله ارزیابی (<bdi dir="ltr">Assessment</bdi>) برای سنجش کارایی و امکان‌پذیری یک ایده.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 4 Steps of Requirements Discovery -->
+      <h3 class="callout-title" style="font-size: 1.1rem; margin-top: var(--space-lg);">چهار گام کشف نیازمندی‌ها و هفت معیار نیازمندی استاندارد</h3>
+      <div class="stepper-grid">
+        <button type="button" class="step-tile active" id="disc-step-1" onclick="selectDiscoveryStep(1)">
+          <span class="index-num">گام ۰۱</span>
+          <strong>کشف و تحلیل مشکل</strong>
+          <span class="muted-note">حل تضاد رئیس، معاون و کارشناس</span>
+        </button>
+        <button type="button" class="step-tile" id="disc-step-2" onclick="selectDiscoveryStep(2)">
+          <span class="index-num">گام ۰۲</span>
+          <strong>کشف نیازمندی‌ها</strong>
+          <span class="muted-note">استخراج دقیق نیاز از مصاحبه</span>
+        </button>
+        <button type="button" class="step-tile" id="disc-step-3" onclick="selectDiscoveryStep(3)">
+          <span class="index-num">گام ۰۳</span>
+          <strong>مستندسازی و شناسنامه</strong>
+          <span class="muted-note">ثبت نام، کد، ورودی، خروجی و داده</span>
+        </button>
+        <button type="button" class="step-tile" id="disc-step-4" onclick="selectDiscoveryStep(4)">
+          <span class="index-num">گام ۰۴</span>
+          <strong>مدیریت و رصد تداخل</strong>
+          <span class="muted-note">پایش مداوم و جلوگیری از تعارض</span>
+        </button>
+      </div>
+      <div class="callout-box" id="disc-detail-box" aria-live="polite" style="margin-top: var(--space-sm);">
+        <strong id="disc-detail-title" style="color: var(--secondary);">گام ۰۱ — حل تضادهای سازمانی (مثال آقای شهبازی در شهرداری):</strong>
+        <p id="disc-detail-text" class="prose" style="margin: var(--space-xs) 0 0 0;">
+          در سازمان‌ها اغلب رئیس یک خواسته دارد، معاون خواسته متضادی را مطرح می‌کند و کارشناس اجرایی (مثلاً آقای شهبازی در شهرداری که مستقیماً به شهروند خدمت می‌دهد) می‌گوید حرف آن دو نفر عملی نیست. مهندس نرم‌افزار باید این تضادها را تحلیل کند، نظرات را به هم نزدیک کند یا موارد متعارض را حذف نماید.
+        </p>
+      </div>
+
+      <div class="term-pills" aria-label="هفت معیار نیازمندی خوب">
+        <span class="term-pill">۱. فاقد ابهام و سازگار</span>
+        <span class="term-pill">۲. درک تمام ورودی‌ها و خروجی‌ها</span>
+        <span class="term-pill">۳. ممکن و قابل پیاده‌سازی</span>
+        <span class="term-pill">۴. مورد نیاز و مرتبط</span>
+        <span class="term-pill">۵. کامل و دقیق در بیان</span>
+        <span class="term-pill">۶. قابلیت ردگیری (<bdi dir="ltr">Traceability</bdi>)</span>
+        <span class="term-pill">۷. قابل بررسی و تست</span>
+      </div>
+
+      <div class="chapter-footer">
+        <span class="muted-note">نکته کلیدی: اگر سیستم آموزشی است، نیازمندی‌ها نباید با مباحث پژوهشی خلط شوند؛ هر نیاز باید به ماژول مشخصی ردگیری شود.</span>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4 -->
+    <section id="ch-4" class="reveal-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">فصل ۰۴</span>
+          <span class="dossier-meta">چرخه حیات، قیمت‌گذاری و قفل‌شدگی</span>
+        </div>
+        <span class="dossier-meta">SDLC Cost Curve &amp; Vendor Lock-in</span>
+      </div>
+
+      <h2 class="section-title">اقتصاد نرم‌افزار: چرا قیمت‌ها ۳ برابر می‌شوند و خطا در مراحل آخر ویرانگر است؟</h2>
+      <p class="prose">
+        تولید نرم‌افزار برخلاف خرید میز، صندلی، کابل یا تجهیزات شبکه یک فرایند صنعتی استاندارد نیست؛ بلکه به گفته دکتر رضایی یک <strong>«فرایند نیمه‌خشک»</strong> است که انسان مستقیماً در آن دخیل است. به همین دلیل، دو شرکت در یک مناقصه می‌توانند قیمت‌های کاملاً متفاوتی بدهند.
+      </p>
+
+      <!-- Industrial vs Software Table -->
+      <div class="table-wrap">
+        <table class="briefing-table">
+          <thead>
+            <tr>
+              <th>ویژگی</th>
+              <th>پروژه‌های صنعتی (کابل، سخت‌افزار، ساختمان)</th>
+              <th>پروژه نرم‌افزاری (فرایند نیمه‌خشک)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ملموس بودن و نرخ ثابت</strong></td>
+              <td>قابل لمس است؛ کارفرما به سادگی قیمت قطعه را استعلام و مقایسه می‌کند.</td>
+              <td>ناملموس و انسانی است؛ قیمت استاندارد و یکسان ندارد و تغییر <bdi dir="ltr">3×</bdi> در مناقصه رخ می‌دهد.</td>
+            </tr>
+            <tr>
+              <td><strong>تضمین انتقال تیم</strong></td>
+              <td>تجهیزات و کارگران ساده قابل جایگزینی سریع هستند.</td>
+              <td>کدنویسان ۵ ساله منطق کد را می‌دانند؛ جایگزینی تیم جدید عملاً غیرممکن یا بسیار پرهزینه است.</td>
+            </tr>
+            <tr>
+              <td><strong>هزینه نگهداری و تله پشتیبانی</strong></td>
+              <td>هزینه نگهداری قابل پیش‌بینی و متناسب با ارزش قطعه است.</td>
+              <td>ممکن است هزینه نگهداری سالانه ده‌ها برابر قرارداد اولیه شود (تله قفل‌شدگی فروشنده).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Case Studies Callout Row -->
+      <div class="card-grid" style="margin: var(--space-lg) 0;">
+        <div class="callout-box gold-accent" style="margin: 0;">
+          <div class="callout-header">
+            <span class="callout-badge amber">مناقصه واقعی</span>
+            <h3 class="callout-title">تله مناقصه سایپا (<bdi dir="ltr">SAIPA</bdi>): ۴ میلیارد در برابر ۷ و ۸ میلیارد</h3>
+          </div>
+          <p class="muted-note" style="color: var(--on-surface); font-size: 0.92rem; line-height: 1.7;">
+            در مناقصه شرکت سایپا، سه شرکت قیمت‌های <strong>۴ میلیارد</strong>، <strong>۷ میلیارد</strong> و <strong>۷.۵ تا ۸ میلیارد تومان</strong> دادند. پیشنهاد ۴ میلیاردی دو حالت بیشتر ندارد: یا شرکت ناشی است و برآورد بلد نیست، یا عمداً پروژه را با ضرر اولیه می‌گیرد تا در مرحله <strong>پشتیبانی</strong> و انحصار داده، چند برابر آن را جبران کند.
+          </p>
+        </div>
+
+        <div class="callout-box alert-accent" style="margin: 0;">
+          <div class="callout-header">
+            <span class="callout-badge" style="background: var(--error);">قفل‌شدگی فروشنده</span>
+            <h3 class="callout-title">دکترای کلود (<bdi dir="ltr">Vendor Lock-in</bdi>) و سامانه دولتی ۱۴۰۰</h3>
+          </div>
+          <p class="muted-note" style="color: var(--on-surface); font-size: 0.92rem; line-height: 1.7;">
+            در پژوهش دکترای کلود دکتر رضایی، <strong>قفل‌شدگی به فروشنده</strong> و <strong>تعامل‌پذیری</strong> دو چالش کلیدی بود: امروز هر کاربر را ماهی <strong>۱۰۰ هزار تومان</strong> می‌دهند و فردا می‌کنند <strong>۱ میلیون تومان</strong>! در یک سامانه دولتی سال ۱۴۰۰ نیز قراردادی به مبلغ <strong>۲ تا ۳ میلیارد تومان</strong> بسته شد که اکنون برای پشتیبانی سالانه <strong>۱۰۰ میلیارد تومان</strong> مطالبه می‌کند (که حدود ۵۰ میلیارد آن مازاد است).
+          </p>
+        </div>
+      </div>
+
+      <!-- Additional Cost / Maintenance Anecdotes Box -->
+      <div class="callout-box" style="margin-bottom: var(--space-lg);">
+        <div class="callout-header">
+          <span class="callout-badge">شواهد شکست نگهداری</span>
+          <h3 class="callout-title">از سامانه ۶۰ میلیاردی و شرکت با ۴۰۰ میلیون ضرر تا ضبط چینی خودرو</h3>
+        </div>
+        <p class="prose" style="margin-bottom: 0;">
+          دکتر رضایی چندین مصداق عینی از هزینه سنگین تشخیص غلط نیازمندی‌ها برمی‌شمارد: خرید سامانه آموزشی به مبلغ <strong>۶۰ میلیارد تومان</strong> که پس از ۳–۴ سال بدون استفاده ماند و ناچار به جایگزینی با نرم‌افزار <strong>«معیار»</strong> شدند؛ شرکتی که قرارداد <strong>۴۰۰ میلیونی</strong> بست اما با <strong>۸۰۰ میلیون هزینه</strong> و ۴۰۰ میلیون ضرر پروژه را برای حفظ آبرو و ضمانت‌نامه تحویل داد؛ و مثال ملموس <strong>ضبط چینی ۵۰۰ هزار تومانی</strong> که روی کاغذ بلوتوث و <bdi dir="ltr">USB</bdi> و صفحه نمایش داشت اما هیچ دکمه‌اش درست کار نمی‌کرد و در نهایت باید ۲.۵ میلیون تومان دیگر برای ضبط اصلی هزینه می‌شد (مشابه فریم ضعیف لپ‌تاپ لنوو پس از ۲–۳ سال استفاده).
+        </p>
+      </div>
+
+      <!-- Interactive SDLC Cost Curve & Contractor Estimator -->
+      <div class="figure-card">
+        <div class="callout-header" style="justify-content: space-between;">
+          <div>
+            <span class="callout-badge">نمودار و شبیه‌ساز تعاملی چرخه حیات</span>
+            <h3 class="callout-title" style="margin-top: var(--space-xs);">منحنی رشد هزینه اصلاح خطا در <bdi dir="ltr">SDLC</bdi> و برآورد قیمت پیمانکار</h3>
+          </div>
+        </div>
+        <p class="muted-note" style="margin-bottom: var(--space-md);">
+          هرچه یک خطای نیازمندی دیرتر (از نیازمندی‌ها تا پذیرش) کشف شود، هزینه اصلاح به صورت نمایی جهش می‌کند. همچنین پیمانکاران برای پوشش خطای برآورد و تورم، هزینه پایه (نیرو + فضا + تجهیزات) را در ضریب ریسک ضرب می‌کنند.
+        </p>
+
+        <div class="controls-grid">
+          <div class="field-group">
+            <label for="sdlc-base-cost" class="field-label">برآورد پایه ذهنی پیمانکار (میلیارد تومان)</label>
+            <input type="number" id="sdlc-base-cost" class="field-input" value="1" min="0.5" max="100" step="0.5" oninput="updateSdlcSimulator()">
+          </div>
+          <div class="field-group">
+            <label for="sdlc-risk-mult" class="field-label">ضریب ریسک خطا و تورم: <span id="sdlc-mult-label">۳×</span></label>
+            <input type="range" id="sdlc-risk-mult" class="range-input" value="3" min="1" max="4" step="0.5" oninput="syncMultSlider(this.value)">
+          </div>
+          <div class="field-group">
+            <label for="sdlc-stage-select" class="field-label">مرحله کشف خطای نیازمندی در <bdi dir="ltr">SDLC</bdi></label>
+            <select id="sdlc-stage-select" class="field-input" onchange="updateSdlcSimulator()">
+              <option value="0">۱. مرحله نیازمندی‌ها (کمترین هزینه اصلاح)</option>
+              <option value="1">۲. مرحله طراحی معماری</option>
+              <option value="2">۳. مرحله کدنویسی</option>
+              <option value="3">۴. مرحله تست سیستم</option>
+              <option value="4" selected>۵. مرحله پذیرش و پشتیبانی (بحران و اعتبار)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="status-banner warn" id="sdlc-summary-banner" role="status">
+          <span id="sdlc-bid-text">قیمت پیشنهادی پیمانکار در مناقصه: ۳.۰ میلیارد تومان</span>
+          <span id="sdlc-stage-text">تخمین فشار هزینه اصلاح خطا در پذیرش: بسیار بالا (تهدید اعتبار در بازار کوچک <bdi dir="ltr">IT</bdi>)</span>
+        </div>
+
+        <p class="muted-note">هزینهٔ نسبی اصلاح خطا در مراحل چرخهٔ حیات: نیازمندی‌ها ۱ برابر، طراحی ۳ برابر، کدنویسی ۷ برابر، تست ۱۵ برابر و پذیرش و نگهداری ۳۰ برابر.</p>
+        <div class="chart-box" hidden>
+          <canvas id="sdlcCostChart" aria-label="نمودار افزایش هزینه تغییر در مراحل چرخه حیات نرم‌افزار"></canvas>
+        </div>
+      </div>
+
+      <div class="chapter-footer">
+        <span class="muted-note">نکته کلیدی: بازار فناوری اطلاعات کشور با وجود گستردگی بسیار کوچک است؛ یک پروژه شکست‌خورده در دیتابیس کارفرمایان ثبت می‌شود.</span>
+      </div>
+    </section>
+
+    <!-- CHAPTER 5 -->
+    <section id="ch-5" class="reveal-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">فصل ۰۵</span>
+          <span class="dossier-meta">ایشیکاوا، شناسنامه فرایند و ایمیدرو</span>
+        </div>
+        <span class="dossier-meta">Fishbone &amp; Process Granularity</span>
+      </div>
+
+      <h2 class="section-title">نمودار استخوان ماهی، شناسنامه سرویس و هنر «دانه‌بندی فرایند»</h2>
+      <p class="prose">
+        برای کشف ساختاریافته نیازمندی‌ها از روش‌هایی مانند <strong>نمودار استخوان ماهی یا ایشیکاوا (<bdi dir="ltr">Ishikawa Diagram</bdi>)</strong> استفاده می‌شود: هدف نهایی در سر نمودار قرار می‌گیرد و زیرفعالیت‌های ضروری برای تحقق آن روی استخوان‌ها شکسته می‌شوند. روی هر شاخه در نمودار زیر کلیک کنید تا شناسنامه و زیرفعالیت‌های آن را ببینید.
+      </p>
+
+      <!-- Interactive SVG Fishbone Diagram -->
+      <div class="split-grid">
+        <div class="svg-stage note-diagram-scroll" tabindex="0">
+          <svg viewBox="0 0 640 310" width="100%" role="img" aria-label="نمودار تعاملی استخوان ماهی سیستم آموزش دانشگاه">
+            <!-- Main Spine -->
+            <line x1="40" y1="155" x2="470" y2="155" stroke="var(--outline)" stroke-width="3"/>
+            <!-- Fish Head (Target) -->
+            <path d="M470 110 L615 155 L470 200 Z" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="2"/>
+            <text x="526" y="150" text-anchor="middle" fill="var(--on-primary-container)" font-family="Vazirmatn" font-size="13" font-weight="700">سیستم آموزش</text>
+            <text x="526" y="169" text-anchor="middle" fill="var(--on-primary-container)" font-family="Vazirmatn" font-size="13" font-weight="700">دانشگاه (هدف)</text>
+
+            <!-- Top Bone 1: Registration -->
+            <line x1="160" y1="45" x2="220" y2="155" stroke="var(--secondary)" stroke-width="2.5"/>
+            <g class="fishbone-btn" tabindex="0" role="button" aria-label="فرایند ثبت‌نام" onclick="selectFishbone('register')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectFishbone('register');}">
+              <rect id="fb-box-register" x="75" y="20" width="145" height="38" rx="4" fill="var(--secondary)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text id="fb-txt-register" x="147" y="44" text-anchor="middle" fill="var(--on-primary)" font-family="Vazirmatn" font-size="13" font-weight="700">۱. فرایند ثبت‌نام</text>
+            </g>
+            <!-- Sub-bones for registration -->
+            <line x1="115" y1="80" x2="178" y2="80" stroke="var(--outline-variant)" stroke-width="1.5"/>
+            <text x="110" y="84" text-anchor="end" fill="var(--on-surface-variant)" font-family="Vazirmatn" font-size="11">پرداخت شهریه</text>
+            <line x1="130" y1="106" x2="192" y2="106" stroke="var(--outline-variant)" stroke-width="1.5"/>
+            <text x="125" y="110" text-anchor="end" fill="var(--on-surface-variant)" font-family="Vazirmatn" font-size="11">مدارک مقاطع قبل</text>
+
+            <!-- Top Bone 2: Course Selection -->
+            <line x1="340" y1="45" x2="400" y2="155" stroke="var(--secondary)" stroke-width="2.5"/>
+            <g class="fishbone-btn" tabindex="0" role="button" aria-label="فرایند انتخاب واحد" onclick="selectFishbone('enroll')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectFishbone('enroll');}">
+              <rect id="fb-box-enroll" x="265" y="20" width="150" height="38" rx="4" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text id="fb-txt-enroll" x="340" y="44" text-anchor="middle" fill="var(--on-surface)" font-family="Vazirmatn" font-size="13" font-weight="700">۲. انتخاب واحد</text>
+            </g>
+            <line x1="305" y1="90" x2="365" y2="90" stroke="var(--outline-variant)" stroke-width="1.5"/>
+            <text x="300" y="94" text-anchor="end" fill="var(--on-surface-variant)" font-family="Vazirmatn" font-size="11">پیش‌شرط: هویت ثبت‌شده</text>
+
+            <!-- Bottom Bone 1: Identity & Military -->
+            <line x1="160" y1="265" x2="220" y2="155" stroke="var(--secondary)" stroke-width="2.5"/>
+            <g class="fishbone-btn" tabindex="0" role="button" aria-label="زیرساخت هویتی و نظام وظیفه" onclick="selectFishbone('identity')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectFishbone('identity');}">
+              <rect id="fb-box-identity" x="65" y="252" width="165" height="38" rx="4" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text id="fb-txt-identity" x="147" y="276" text-anchor="middle" fill="var(--on-surface)" font-family="Vazirmatn" font-size="13" font-weight="700">۳. اطلاعات هویتی و نظام وظیفه</text>
+            </g>
+
+            <!-- Bottom Bone 2: Add/Drop -->
+            <line x1="340" y1="265" x2="400" y2="155" stroke="var(--secondary)" stroke-width="2.5"/>
+            <g class="fishbone-btn" tabindex="0" role="button" aria-label="فرایند حذف و اضافه" onclick="selectFishbone('adddrop')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectFishbone('adddrop');}">
+              <rect id="fb-box-adddrop" x="265" y="252" width="150" height="38" rx="4" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text id="fb-txt-adddrop" x="340" y="276" text-anchor="middle" fill="var(--on-surface)" font-family="Vazirmatn" font-size="13" font-weight="700">۴. حذف و اضافه</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Process Dossier Inspector -->
+        <aside class="figure-card" id="fb-dossier-card" aria-live="polite" style="border-top: 4px solid var(--secondary);">
+          <span class="dossier-pill">شناسنامه فرایند (<bdi dir="ltr">Process ID</bdi>)</span>
+          <h3 id="fb-title" class="callout-title" style="margin-top: var(--space-sm); font-size: 1.1rem;">۱. فرایند ثبت‌نام دانشجو</h3>
+          <p id="fb-desc" class="prose" style="margin-top: var(--space-xs); margin-bottom: var(--space-sm);"></p>
+          <div class="table-wrap" style="margin: 0;">
+            <table class="briefing-table">
+              <tbody>
+                <tr>
+                  <td><strong>ورودی‌ها</strong></td>
+                  <td id="fb-inputs"></td>
+                </tr>
+                <tr>
+                  <td><strong>خروجی</strong></td>
+                  <td id="fb-outputs"></td>
+                </tr>
+                <tr>
+                  <td><strong>ارتباط با داده‌ها</strong></td>
+                  <td id="fb-data"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </aside>
+      </div>
+
+      <!-- IMIDRO Case Study -->
+      <div class="callout-box gold-accent" style="margin-top: var(--space-lg);">
+        <div class="callout-header">
+          <span class="callout-badge amber">معماری فرایند در صنعت</span>
+          <h3 class="callout-title">مطالعه موردی شرکت ایمیدرو (<bdi dir="ltr">IMIDRO</bdi>) و هنر «دانه‌بندی فرایند»</h3>
+        </div>
+        <p class="prose" style="margin-bottom: 0;">
+          دکتر رضایی درباره پروژه معماری سازمانی برای شرکت توسعه و نوسازی معادن (ایمیدرو) در معادن طلا توضیح می‌دهد که به دلیل کمبود نیروی متخصص، استخراج فرایندهای واقعی گاه نیازمند ۵ ساعت سفر تا محل معدن است. از میان <strong>۴۰۰ نیروی فناوری اطلاعات</strong> در سازمان‌ها، شاید یک نفر نتواند <strong>«دانه‌بندی فرایند»</strong> را درست تشخیص دهد؛ یعنی تشخیص دهد کجا باید یک فرایند زائد را <strong>حذف</strong> کرد و کجا باید یک فرایند بزرگ را به چند فرایند کوچک <strong>تقسیم</strong> نمود. اگر معماری فرایند غلط باشد، سازمان داده‌ها و اپلیکیشن‌هایی تولید و نگهداری می‌کند که اصلاً نمی‌داند برای چیست و فقط هزینه تحمیل می‌کند.
+        </p>
+      </div>
+
+      <div class="chapter-footer">
+        <span class="muted-note">نکته کلیدی: اساس معماری سازمانی، «معماری فرایند» است؛ اصلاح فرایندها پیش از تولید نرم‌افزار از تولید داده‌های اضافی جلوگیری می‌کند.</span>
+      </div>
+    </section>
+
+    <!-- CHAPTER 6 -->
+    <section id="ch-6" class="reveal-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">فصل ۰۶</span>
+          <span class="dossier-meta">آینده شغلی، هوش مصنوعی و آزمون</span>
+        </div>
+        <span class="dossier-meta">Ecosystem Resilience &amp; Self-Check</span>
+      </div>
+
+      <h2 class="section-title">فراتر از کدنویسی: جایگاه معمار فرایند، مرزهای هوش مصنوعی و اصل کمینه‌سازی هزینه</h2>
+      <p class="prose">
+        کارشناسی ارشد مهندسی کامپیوتر لزوماً به معنای باقی ماندن در نقش برنامه‌نویس نیست؛ توان جسمی برنامه‌نویسی در سنین بالاتر محدود می‌شود و برنامه‌نویسان حرفه‌ای به تدریج به سمت طراحی، تحلیل نیازمندی‌ها، مدل‌سازی فرایند با زبان‌هایی مانند <bdi dir="ltr">BPMN</bdi> و مشاوره معماری حرکت می‌کنند. در یکی از پروژه‌های نیروی انتظامی، طراح مدل که صرفاً با خط‌کش‌های شابلون دایره و مستطیل نیازها را برای تیم کدنویس ترسیم می‌کرد، بدون بلد بودن یک خط کد، <strong>دو برابر</strong> تمام برنامه‌نویسان حقوق می‌گرفت.
+      </p>
+
+      <!-- AI vs Human Process Analyst Table -->
+      <div class="table-wrap">
+        <table class="briefing-table">
+          <thead>
+            <tr>
+              <th>حوزه تحلیل</th>
+              <th>توانایی فعلی هوش مصنوعی (دستیار ۴۰ تا ۵۰٪)</th>
+              <th>نیاز به تحلیلگر و معمار انسانی</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>فرایندهای صنعتی و قالب‌دار</strong></td>
+              <td>بالا؛ قادر به تولید خودکار طرح‌های تکراری و استاندارد است.</td>
+              <td>نظارت بر انطباق با استانداردهای سازمان.</td>
+            </tr>
+            <tr>
+              <td><strong>کشف نیازمندی‌های انسانی</strong></td>
+              <td>بسیار ضعیف در فهم احساسات، سکوت‌ها، ترس کارمندان و تعارض منافع مدیران.</td>
+              <td>ضروری و جایگزین‌ناپذیر برای هم‌فهمی میان ذینفعان متضاد.</td>
+            </tr>
+            <tr>
+              <td><strong>ترکیب دانش و تجربه</strong></td>
+              <td>بدون دانش پایه، خروجی آن سطحی و فاقد قضاوت معماری است.</td>
+              <td>ترکیب دانش آکادمیک (مثل دندانساز علمی در برابر تجربی) با تجربه پروژه واقعی.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout-box" style="margin-bottom: var(--space-lg);">
+        <div class="callout-header">
+          <span class="callout-badge">پیام پایانی جلسه</span>
+          <h3 class="callout-title">تاب‌آوری اکوسیستم و پرهیز از تجملات <bdi dir="ltr">VoIP</bdi>: مدیر موفق آی‌تی کم‌ترین هزینه را می‌تراشد</h3>
+        </div>
+        <p class="prose" style="margin-bottom: 0;">
+          برخلاف تصور غلط رایج که مدیر فناوری اطلاعات توانمند را با بودجه‌های سنگین و تجهیزات لوکس (مثل ولع خرید گوشی‌های <bdi dir="ltr">VoIP</bdi> روی میز مدیران یا استخدام تیم‌های عریض و طویل) می‌سنجد، در استاندارد حرفه‌ای دنیا معکوس است: معمار و مدیر دانا کسی است که با <strong>کمترین امکانات آی‌تی و کمترین تعداد نرم‌افزار</strong> نیاز سازمان را پوشش دهد و جلوی هدررفت ۱۰۰ تا ۳۰۰ میلیارد تومانی سرمایه مشتریان و شهروندان را بگیرد.
+        </p>
+      </div>
+
+      <details class="figure-card" style="margin-bottom: var(--space-lg);">
+        <summary>آزمون خودسنجی جلسه پنجم (۵ پرسش)</summary>
+        <div id="quiz-container" style="margin-top: var(--space-md);"></div>
+      </details>
+
+      <div class="chapter-footer">
+        <span class="muted-note">نکته کلیدی: تجربه بدون دانش پایه معماری در بزنگاه‌ها دچار خطا می‌شود؛ و دانش بدون پروژه واقعی ناقص می‌ماند.</span>
+      </div>
+    </section>
+
+    <!-- Source Note -->
+    <footer class="site-footer">
+      <div>
+        <p class="muted-note" style="color: var(--on-surface); font-weight: 600;">
+          منبع محتوا: فایل صوتی سخنرانی جلسه پنجم درس معماری نرم‌افزار و مهندسی نیازمندی‌ها — دکتر رضایی، دانشگاه آزاد اسلامی واحد ساوه.
+        </p>
+        <p class="muted-note">تمامی مثال‌ها، ارقام و مطالعات موردی مستقیماً از متن سخنرانی استخراج شده‌اند.</p>
+      </div>
+    </footer>
+
+  </main>
+
+
+  <script>
+    const NFR_DATA = {
+      performance: {
+        tag: `۰۱ • کارایی و اعتبار داده`,
+        title: `کارایی سیستم، به‌روز بودن داده و تاب‌آوری در هجوم کاربران`,
+        body: `سیستم نه تنها باید پاسخ‌گویی سریعی داشته باشد، بلکه اطلاعاتی که تولید می‌کند باید همواره به‌روز و معتبر باشد. اگر معماری توان تحمل بار ناگهانی را نداشته باشد، حتی کامل‌ترین امکانات نرم‌افزار بی‌اثر می‌شوند.`,
+        caseText: `در زمان محدودسازی پیام‌رسان‌های خارجی، یک پیام‌رسان داخلی (سروش) با تبلیغات گسترده راه‌اندازی شد؛ اما در همان ۱۰ تا ۳۰ دقیقه اول به دلیل ناتوانی در مدیریت بار کاربران از کار افتاد و اعتماد مخاطبان را از دست داد.`
+      },
+      security: {
+        tag: `۰۲ • امنیت`,
+        title: `امنیت؛ شرط غیرقابل مذاکره پذیرش محصول`,
+        body: `می‌توان نرم‌افزاری ساخت که ۱۰۰ درصد نیازمندی‌های عملیاتی مشتری و کاربران را پوشش دهد، اما اگر امنیت لازم را نداشته باشد، از سوی مشتری و سازمان مردود خواهد شد و قابلیت استقرار ندارد.`,
+        caseText: `امنیت را نمی‌توان به عنوان یک وصله در پایان کدنویسی اضافه کرد؛ باید در مرحله طراحی معماری پیش از کدنویسی به‌عنوان یک نیازمندی غیرعملیاتی بنیادین دیده شود.`
+      },
+      economic: {
+        tag: `۰۳ • توجیه اقتصادی`,
+        title: `آزمون ارزش‌آفرینی در برابر هزینه تولید و نگهداری`,
+        body: `در معماری نرم‌افزار بررسی می‌کنیم که آیا پروژه برای سازمان آورده اقتصادی دارد یا صرفاً دردسر و هزینه تولید می‌کند. نرم‌افزار غیراقتصادی حتی اگر از نظر فنی عالی باشد، شکست مدیریتی است.`,
+        caseText: `مثال کلاس: نرم‌افزاری با ۱ میلیارد تومان هزینه تولید و ۱ میلیارد تومان هزینه نگهداری سالانه، اگر کل آورده آن برای سازمان سالی ۳۰۰ میلیون تومان باشد، هیچ توجیه اقتصادی ندارد.`
+      },
+      efficiency: {
+        tag: `۰۴ • بهره‌وری`,
+        title: `بهره‌برداری درست از سخت‌افزار و حذف گام‌های تکراری`,
+        body: `بهره‌وری یعنی سیستم از ظرفیت‌های سخت‌افزار به‌درستی استفاده کند و گام‌های اضافی و تکراری در تعریف فرایندهای آن وجود نداشته باشد.`,
+        caseText: `نرم‌افزاری که به محض باز شدن، کل منابع سیستم را اشغال کرده و کامپیوتر کاربر را «هنگ» می‌کند، از نظر معماری بهره‌وری ندارد و باید در لایه NFR بازطراحی شود.`
+      },
+      service: {
+        tag: `۰۵ • سرویس‌محوری`,
+        title: `ارائه قابلیت‌ها در قالب سرویس به بخش‌ها و مشتریان بیرونی`,
+        body: `نرم‌افزار مدرن باید قابلیت شکستن به سرویس‌های مستقل برای ارائه خدمات به ذینفعان خارج از سازمان (میز خدمت) را داشته باشد. اگر از ابتدا سرویس‌محور نوشته نشود، بعداً باید سیستم تازه‌ای کنار آن لانچ کرد.`,
+        caseText: `گوگل‌مپ که مبدا و مقصد می‌گیرد و در اسنپ، تپسی و سایت‌های دیگر استفاده می‌شود؛ همچنین سرویس‌های میز خدمت تأمین اجتماعی و سرویس مستقل «پرداخت قبض».`
+      },
+      modifiability: {
+        tag: `۰۶ • تغییرپذیری و تست‌پذیری`,
+        title: `سرعت اعمال تغییرات و قابلیت راستی‌آزمایی خودکار`,
+        body: `تغییرپذیری (Modifiability) و تست‌پذیری (Testability) مشخص می‌کنند که پس از استقرار، با چه سرعتی و با چه هزینه‌ای می‌توان بخش‌هایی از سیستم را بدون اختلال در سرویس‌دهی اصلاح و آزمون کرد.`,
+        caseText: `مطالعه موردی دیجی‌کالا: تغییر سایت تنها زمانی قابل قبول است که در زمان اجرا (Runtime) و در زیر ۱ دقیقه بدون پایین آوردن کل سامانه اعمال شود.`
+      },
+      interop: {
+        tag: `۰۷ • تعامل‌پذیری و یکپارچه‌سازی`,
+        title: `ارتباط بدون اصطکاک میان سامانه‌ها و ابرها`,
+        body: `سازمان‌ها نباید در یک جزیره نرم‌افزاری محبوس شوند. تعامل‌پذیری (Interoperability) و یکپارچه‌سازی (Integration) امکان تبادل استاندارد داده میان بخش‌ها و جلوگیری از وابستگی مطلق به یک فروشنده را فراهم می‌کند.`,
+        caseText: `در پژوهش دکترای کلود دکتر رضایی، نبود تعامل‌پذیری بین ابرها باعث می‌شد سازمان در دام قفل‌شدگی فروشنده (Vendor Lock-in) بیفتد و نتواند داده‌اش را جابه‌جا کند.`
+      },
+      usability: {
+        tag: `۰۸ • کاربرپسندی`,
+        title: `تجربه کاربری و راهنمای شفاف استفاده`,
+        body: `هرقدر نرم‌افزار از نظر منطق فنی کامل باشد، اگر کاربر نتواند با آن ارتباط برقرار کند یا بخش راهنما و کاربری ساده‌ای نداشته باشد، از مدار استفاده خارج خواهد شد.`,
+        caseText: `یکی از مهم‌ترین عوامل پذیرش نرم‌افزارهای سازمانی، طراحی رابط کاربرپسند و راهنمای دقیق در کنار هم‌فهمی اولیه با کاربران واقعی در مرحله نمونه‌سازی است.`
+      }
+    };
+
+    const DISCOVERY_DATA = {
+      1: {
+        title: `گام ۰۱ — کشف و تحلیل مشکل و حل تضاد ذینفعان (مثال آقای شهبازی در شهرداری):`,
+        text: `در سازمان‌ها اغلب رئیس یک خواسته دارد، معاون خواسته متضادی را مطرح می‌کند و کارشناس اجرایی (مثلاً آقای شهبازی در شهرداری که با شهروند سر و کار دارد) می‌گوید حرف آن دو نفر عملی نیست. مهندس نیازمندی‌ها باید این تضادها را کشف کند، تحلیل نماید و با نزدیک کردن دیدگاه‌ها یا حذف موارد متعارض به اجماع برسد.`
+      },
+      2: {
+        title: `گام ۰۲ — کشف نیازمندی‌ها از دل گفتار پراکنده و غیرفنی:`,
+        text: `گاهی معاون وزیر یا مدیرکل دو ساعت صحبت می‌کند اما نمی‌توان از آن یک صفحه طراحی کرد؛ یا کارمند از ترس جایگزینی اطلاعات را پنهان می‌کند. هنر مهندس کشف نیازمندی‌ها این است که با پرسش‌های هدفمند و یادگیری اصطلاحات دامنه (مثل مددجو و جامانده) نیاز واقعی را بیرون بکشد.`
+      },
+      3: {
+        title: `گام ۰۳ — مستندسازی و شناسنامه‌دار کردن فرایندها و سرویس‌ها:`,
+        text: `پس از کشف، هر فرایند و سرویس باید «شناسنامه» داشته باشد: نام، کد یکتا، ورودی‌های دقیق، خروجی تحویلی، داده‌هایی که با آن‌ها در ارتباط است و فرایندهای همسایه. بدون شناسنامه، مستندات مبهم و غیرقابل پیگیری می‌شوند.`
+      },
+      4: {
+        title: `گام ۰۴ — مدیریت نیازمندی‌ها و رصد مداوم تداخل‌ها:`,
+        text: `نیازمندی‌ها در طول پروژه ثابت نمی‌مانند. مهندس نیازمندی‌ها باید پیوسته آن‌ها را پایش کند تا تغییر در یک بخش (مثلاً حذف و اضافه) با نیازمندی‌های بخش دیگر (مثلاً انتخاب واحد) دچار تداخل و تناقض نشود.`
+      }
+    };
+
+    const FISHBONE_DATA = {
+      register: {
+        title: `۱. فرایند ثبت‌نام دانشجو`,
+        desc: `برای تحقق هدف «آموزش دانشگاه»، نخستین شاخه، ثبت‌نام است که خود نیازمند تکمیل چهار زیرفعالیت اجرایی است: پرداخت شهریه، ارائه مدارک مقاطع پیشین، تعیین وضعیت نظام وظیفه و صحت اطلاعات هویتی.`,
+        inputs: `کد ملی، مدارک پایه قبلی، فیش پرداخت شهریه، استعلام نظام وظیفه`,
+        outputs: `شماره دانشجویی فعال و مجوز ورود به چرخه انتخاب واحد`,
+        data: `پایگاه داده هویتی، سیستم مالی/شهریه و پرونده تحصیلی`
+      },
+      enroll: {
+        title: `۲. فرایند انتخاب واحد`,
+        desc: `پس از انجام ثبت‌نام، در مرحله انتخاب واحد دیگر نیازی به دریافت مجدد اطلاعات هویتی نیست؛ زیرا اعتبار هویت در شاخه ثبت‌نام احراز و در سیستم ذخیره شده است.`,
+        inputs: `شماره دانشجویی معتبر، فهرست دروس ارائه‌شده و ظرفیت کلاس‌ها`,
+        outputs: `برنامه هفتگی تاییدشده و ثبت رکورد ترم جاری`,
+        data: `جدول دروس، پیش‌نیازها و وضعیت مالی تسویه‌شده`
+      },
+      identity: {
+        title: `۳. زیرساخت اطلاعات هویتی و نظام وظیفه`,
+        desc: `زیرفعالیت‌های هویتی و نظام وظیفه پایه احراز صلاحیت در شاخه ثبت‌نام هستند؛ اگر اطلاعات هویتی دانشجو در این مرحله درست ثبت و معتبر شود، سایر فرایندهای دانشگاهی به آن تکیه می‌کنند.`,
+        inputs: `مدارک هویتی فرد، وضعیت مشمولیت/معافیت تحصیلی`,
+        outputs: `پروفایل هویتی تاییدشده و وضعیت مجاز ادامه تحصیل`,
+        data: `رکورد مرکزی هویت دانشجو (مشترک با تمام زیرسیستم‌ها)`
+      },
+      adddrop: {
+        title: `۴. فرایند حذف و اضافه`,
+        desc: `این فرایند باید بدون تداخل منطقی با قوانین انتخاب واحد تعریف شود؛ نبود هم‌خوانی میان شروط این دو شاخه یکی از رایج‌ترین مصادیق «تداخل نیازمندی‌ها» در سامانه‌های دانشگاهی است.`,
+        inputs: `برنامه انتخاب واحد قبلی، درخواست تغییر درس در بازه مجاز`,
+        outputs: `برنامه نهایی اصلاح‌شده و بروزرسانی محاسبه شهریه`,
+        data: `سوابق انتخاب واحد، سقف/کف واحد مجاز و تراز مالی`
+      }
+    };
+
+    const QUIZ_QUESTIONS = [
+      {
+        q: `۱. الزام مالک دیجی‌کالا مبنی بر اعمال تغییرات سایت در زیر ۱ دقیقه و در زمان اجرا (بدون پایین آوردن سیستم)، در کدام دسته قرار می‌گیرد و مسئولیت اصلی آن با کیست؟`,
+        opts: [
+          `نیازمندی وظیفه‌مند (Functional) — مسئولیت برنامه‌نویس رابط کاربری`,
+          `نیازمندی غیرعملیاتی (NFR / تغییرپذیری) — مسئولیت معمار نرم‌افزار پیش از طراحی`,
+          `فرایند شبیه‌سازی (Simulation) — مسئولیت تیم پشتیبانی سخت‌افزار`
+        ],
+        correct: 1,
+        exp: `درست است. تغییرپذیری در زمان اجرا (<bdi dir="ltr">Runtime Modifiability</bdi>) یک نیازمندی غیرعملیاتی و معماری است که پیش از طراحی باید توسط معمار نرم‌افزار چاره‌اندیشی شود.`
+      },
+      {
+        q: `۲. در مناقصه شرکت سایپا، چرا پیشنهاد ۴ میلیارد تومانی در برابر پیشنهادهای ۷ و ۸ میلیاردی یک زنگ خطر محسوب می‌شود؟`,
+        opts: [
+          `چون نرم‌افزار کالای صنعتی با قیمت ثابت است و قیمت پایین نشانه استفاده از قطعات ارزان کارخانه‌ای است`,
+          `چون پیمانکار یا ناشی است و برآورد نمی‌داند، یا با قیمت پایین پروژه را می‌گیرد تا در پشتیبانی و قفل‌شدگی فروشنده جبران کند`,
+          `چون هر شرکتی که قیمت پایین‌تر بدهد قطعاً از هوش مصنوعی برای کدنویسی استفاده کرده است`
+        ],
+        correct: 1,
+        exp: `دقیقاً. دکتر رضایی تاکید می‌کند در چنین تفاوت قیمتی، برنده ارزان‌ترین پیشنهاد یا برآورد بلد نیست یا قصد دارد در سال‌های پشتیبانی (همچون سامانه ۳ میلیاردی با پشتیبانی ۱۰۰ میلیاردی) جبران کند.`
+      },
+      {
+        q: `۳. تفاوت اصلی «پروتوتایپینگ (نمونه‌سازی)» و «شبیه‌سازی (Simulation)» در سخنان دکتر رضایی چیست؟`,
+        opts: [
+          `پروتوتایپ ماکت صفحات بدون کد پشتی برای توافق روی نیازمندی‌هاست، اما شبیه‌سازی معمولاً برای ارزیابی و سنجش یک ایده به کار می‌رود`,
+          `پروتوتایپ فقط در پروژه‌های ساختمانی استفاده می‌شود و شبیه‌سازی مختص بانک‌هاست`,
+          `هیچ تفاوتی ندارند و هر دو به معنای کدنویسی کامل نسخه اولیه هستند`
+        ],
+        correct: 0,
+        exp: `صحیح. در پروتوتایپینگ پشت دکمه‌ها کدی نوشته نشده و هدف توافق با مشتری روی صورت‌مسئله (مثل ترتیب ورود کارت مبدأ و مقصد) است.`
+      },
+      {
+        q: `۴. درخواست قائم‌مقام شیلات ایران برای شمارش لحظه‌ای ماهی‌های دریای عمان با روشن کردن کامپیوتر، کدام معیار نیازمندی خوب را نقض می‌کرد؟`,
+        opts: [
+          `کاربرپسندی و زیبایی رابط کاربری`,
+          `امکان‌پذیری و قابلیت پیاده‌سازی فنی`,
+          `توجیه اقتصادی در قراردادهای کلود`
+        ],
+        correct: 1,
+        exp: `درست است. هر خواسته‌ای که مشتری مطرح می‌کند قابلیت نرم‌افزاری شدن ندارد؛ در مرحله امکان‌سنجی باید خواسته‌های غیرممکن و تخیلی را رد کرد.`
+      },
+      {
+        q: `۵. به باور دکتر رضایی، هوش مصنوعی در کشف نیازمندی‌ها و معماری فرایند چه نقشی دارد؟`,
+        opts: [
+          `به زودی ۱۰۰ درصد جایگزین مهندسان نیازمندی‌ها و معماران فرایند می‌شود`,
+          `به عنوان دستیار (حدود ۴۰ تا ۵۰ درصد) کمک می‌کند، اما در فرایندهای نیمه‌خشک، درک احساسات و حل تضاد ذینفعان ناتوان است`,
+          `فقط در پروژه‌های معدن ایمیدرو کاربرد دارد و در نرم‌افزار کاربردی ندارد`
+        ],
+        correct: 1,
+        exp: `کاملاً درست. تولید نرم‌افزار یک فرایند نیمه‌خشک و انسانی است؛ هوش مصنوعی دستیار مفیدی است اما جایگزین درک انسانی و تحلیل تضادها نمی‌شود.`
+      }
+    ];
+
+    let appState = {
+      selectedNfr: 'performance',
+      ambiguityView: 'mgmt',
+      discoveryStep: 1,
+      fishboneNode: 'register',
+      roiInit: 1,
+      roiMaint: 1,
+      roiValue: 0.3,
+      sdlcBase: 1,
+      sdlcMult: 3,
+      sdlcStage: 4,
+      quizAnswers: {}
+    };
+
+    let sdlcChartInstance = null;
+
+    function getCssToken(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function selectNFR(key) {
+      const item = NFR_DATA[key];
+      if (!item) return;
+      appState.selectedNfr = key;
+
+      const allBtns = document.querySelectorAll('.nfr-card');
+      allBtns.forEach((b) => b.classList.remove('selected'));
+      const activeBtn = document.getElementById(`nfr-btn-${key}`);
+      if (activeBtn) activeBtn.classList.add('selected');
+
+      const tagEl = document.getElementById('nfr-detail-tag');
+      const titleEl = document.getElementById('nfr-detail-title');
+      const bodyEl = document.getElementById('nfr-detail-body');
+      const caseEl = document.getElementById('nfr-detail-case');
+
+      if (tagEl) tagEl.textContent = item.tag;
+      if (titleEl) titleEl.textContent = item.title;
+      if (bodyEl) bodyEl.textContent = item.body;
+      if (caseEl) caseEl.textContent = item.caseText;
+
+    }
+
+    function applyRoiPreset(initVal, maintVal, orgVal) {
+      const initEl = document.getElementById('roi-init');
+      const maintEl = document.getElementById('roi-maint');
+      const valEl = document.getElementById('roi-value');
+      if (initEl) initEl.value = initVal;
+      if (maintEl) maintEl.value = maintVal;
+      if (valEl) valEl.value = orgVal;
+      updateRoiCalculation();
+    }
+
+    function updateRoiCalculation() {
+      const initEl = document.getElementById('roi-init');
+      const maintEl = document.getElementById('roi-maint');
+      const valEl = document.getElementById('roi-value');
+      const banner = document.getElementById('roi-output');
+      const verdictEl = document.getElementById('roi-verdict-text');
+      const breakEl = document.getElementById('roi-breakeven-text');
+
+      if (!initEl || !maintEl || !valEl || !banner || !verdictEl || !breakEl) return;
+
+      const initCost = Math.max(0, parseFloat(initEl.value) || 0);
+      const maintCost = Math.max(0, parseFloat(maintEl.value) || 0);
+      const annualVal = Math.max(0, parseFloat(valEl.value) || 0);
+
+      appState.roiInit = initCost;
+      appState.roiMaint = maintCost;
+      appState.roiValue = annualVal;
+
+      const netAnnual = annualVal - maintCost;
+      banner.classList.remove('ok', 'bad', 'warn');
+
+      if (netAnnual <= 0) {
+        banner.classList.add('bad');
+        verdictEl.textContent = `فاقد توجیه اقتصادی: هزینه نگهداری سالانه (${maintCost.toFixed(2)} میلیارد) از آورده سالانه (${annualVal.toFixed(2)} میلیارد) بیشتر یا مساوی آن است.`;
+        breakEl.textContent = `سر‌به‌سر: غیرممکن`;
+      } else {
+        const paybackYears = initCost / netAnnual;
+        if (paybackYears <= 3) {
+          banner.classList.add('ok');
+          verdictEl.textContent = `دارای توجیه اقتصادی مناسب: خالص آورده سالانه ${netAnnual.toFixed(2)} میلیارد تومان است.`;
+        } else {
+          banner.classList.add('warn');
+          verdictEl.textContent = `توجیه اقتصادی کند: بازگشت سرمایه اولیه بیش از ۳ سال زمان می‌برد.`;
+        }
+        breakEl.textContent = `بازگشت سرمایه: ${paybackYears.toFixed(1)} سال`;
+      }
+
+    }
+
+    function setAmbiguityView(view) {
+      appState.ambiguityView = view;
+      const views = ['mgmt', 'tech', 'user'];
+      views.forEach((v) => {
+        const btn = document.getElementById(`amb-btn-${v}`);
+        const draw = document.getElementById(`amb-draw-${v}`);
+        if (btn) btn.classList.toggle('active-tab', v === view);
+        if (draw) draw.style.display = (v === view) ? 'block' : 'none';
+      });
+
+      const titleEl = document.getElementById('amb-title');
+      const descEl = document.getElementById('amb-desc');
+      if (!titleEl || !descEl) return;
+
+      if (view === 'mgmt') {
+        titleEl.textContent = `تفسیر مدیریت: دوچرخه کفایت می‌کند`;
+        descEl.textContent = `وقتی نیاز به صورت کلی و مبهم بیان می‌شود، مدیریت برای کاهش هزینه و سادگی تصور می‌کند یک دوچرخه نیاز جابه‌جایی از خانه تا محل کار را برطرف می‌کند؛ در حالی که اصلاً انتظارات واقعی کاربر نهایی را در نظر نگرفته است.`;
+      } else if (view === 'tech') {
+        titleEl.textContent = `تفسیر فناوری: یک طرح میانی مهندسی`;
+        descEl.textContent = `تیم فنی بدون دریافت جزئیات کافی یا دیدن ماکت مشترک، برداشتی بینابینی را در سر می‌پروراند که نه سادگی مورد نظر مدیریت را دارد و نه انتظارات کاربر نهایی را برآورده می‌سازد.`;
+      } else {
+        titleEl.textContent = `خواسته واقعی کاربر: یک خودروی کامل`;
+        descEl.textContent = `کاربری که سرویس را دریافت می‌کند از ابتدا به دنبال خودروی کامل بوده است. تنها با پروتوتایپ و ماکت اولیه می‌توان این شکاف تفسیری را پیش از کدنویسی کشف و برطرف کرد.`;
+      }
+
+    }
+
+    function selectDiscoveryStep(stepNum) {
+      const data = DISCOVERY_DATA[stepNum];
+      if (!data) return;
+      appState.discoveryStep = stepNum;
+
+      for (let i = 1; i <= 4; i++) {
+        const tile = document.getElementById(`disc-step-${i}`);
+        if (tile) tile.classList.toggle('active', i === stepNum);
+      }
+
+      const titleEl = document.getElementById('disc-detail-title');
+      const textEl = document.getElementById('disc-detail-text');
+      if (titleEl) titleEl.textContent = data.title;
+      if (textEl) textEl.textContent = data.text;
+
+    }
+
+    function selectFishbone(nodeKey) {
+      const info = FISHBONE_DATA[nodeKey];
+      if (!info) return;
+      appState.fishboneNode = nodeKey;
+
+      const keys = ['register', 'enroll', 'identity', 'adddrop'];
+      keys.forEach((k) => {
+        const rect = document.getElementById(`fb-box-${k}`);
+        const txt = document.getElementById(`fb-txt-${k}`);
+        const isSel = k === nodeKey;
+        if (rect) rect.setAttribute('fill', isSel ? 'var(--secondary)' : 'var(--surface-container)');
+        if (txt) txt.setAttribute('fill', isSel ? 'var(--on-primary)' : 'var(--on-surface)');
+      });
+
+      const titleEl = document.getElementById('fb-title');
+      const descEl = document.getElementById('fb-desc');
+      const inEl = document.getElementById('fb-inputs');
+      const outEl = document.getElementById('fb-outputs');
+      const dataEl = document.getElementById('fb-data');
+
+      if (titleEl) titleEl.textContent = info.title;
+      if (descEl) descEl.textContent = info.desc;
+      if (inEl) inEl.textContent = info.inputs;
+      if (outEl) outEl.textContent = info.outputs;
+      if (dataEl) dataEl.textContent = info.data;
+
+    }
+
+    function syncMultSlider(val) {
+      appState.sdlcMult = parseFloat(val) || 3;
+      const lbl = document.getElementById('sdlc-mult-label');
+      if (lbl) lbl.textContent = `${appState.sdlcMult}×`;
+      updateSdlcSimulator();
+    }
+
+    function updateSdlcSimulator() {
+      const baseEl = document.getElementById('sdlc-base-cost');
+      const multEl = document.getElementById('sdlc-risk-mult');
+      const stageEl = document.getElementById('sdlc-stage-select');
+      const banner = document.getElementById('sdlc-summary-banner');
+      const bidText = document.getElementById('sdlc-bid-text');
+      const stageText = document.getElementById('sdlc-stage-text');
+
+      if (!baseEl || !multEl || !stageEl || !banner || !bidText || !stageText) return;
+
+      const base = Math.max(0.5, parseFloat(baseEl.value) || 1);
+      const mult = parseFloat(multEl.value) || 3;
+      const stageIdx = parseInt(stageEl.value, 10) || 0;
+
+      appState.sdlcBase = base;
+      appState.sdlcMult = mult;
+      appState.sdlcStage = stageIdx;
+
+      const lbl = document.getElementById('sdlc-mult-label');
+      if (lbl) lbl.textContent = `${mult}×`;
+
+      const bidAmount = base * mult;
+      bidText.textContent = `قیمت پیشنهادی پیمانکار با ضریب ریسک: ${bidAmount.toFixed(1)} میلیارد تومان`;
+
+      const stageMultipliers = [1, 3, 7, 15, 30];
+      const stageNames = [
+        `نیازمندی‌ها (کم‌ترین هزینه؛ جلوگیری از خطای زنجیره‌ای)`,
+        `طراحی معماری (نیاز به بازنگری ساختاری و NFRها)`,
+        `کدنویسی (دوباره‌کاری تیم توسعه و اتلاف زمان)`,
+        `تست سیستم (برگشت پروژه به تحلیل و تأخیر تحویل)`,
+        `پذیرش و پشتیبانی (زیان سنگین، ۴۰۰ میلیون ضرر یا خدشه اعتبار در بازار کوچک IT)`
+      ];
+
+      stageText.textContent = `فشار نسبی اصلاح خطا: ${stageMultipliers[stageIdx]}× — ${stageNames[stageIdx]}`;
+
+      banner.classList.remove('ok', 'warn', 'bad');
+      if (stageIdx <= 1) banner.classList.add('ok');
+      else if (stageIdx <= 3) banner.classList.add('warn');
+      else banner.classList.add('bad');
+
+      renderSdlcChart(stageMultipliers, stageIdx, bidAmount);
+    }
+
+    function renderSdlcChart(multipliers, activeStageIdx, bidAmount) {
+      const canvas = document.getElementById('sdlcCostChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+      canvas.parentElement.hidden = false;
+
+      const data1 = getCssToken('--data-1');
+      const data2 = getCssToken('--data-2');
+      const data4 = getCssToken('--data-4');
+      const ctxColor = getCssToken('--data-context');
+      const inkColor = getCssToken('--on-surface');
+      const mutedColor = getCssToken('--on-surface-variant');
+
+      const labels = [
+        `۱. نیازمندی‌ها`,
+        `۲. طراحی`,
+        `۳. کدنویسی`,
+        `۴. تست`,
+        `۵. پذیرش و نگهداری`
+      ];
+
+      const values = multipliers.map((m) => Number((m * (bidAmount / 10)).toFixed(2)));
+      const bgColors = multipliers.map((_, idx) => {
+        if (idx === activeStageIdx) return idx >= 4 ? data4 : data2;
+        return data1;
+      });
+
+      if (sdlcChartInstance) {
+        sdlcChartInstance.data.datasets[0].data = values;
+        sdlcChartInstance.data.datasets[0].backgroundColor = bgColors;
+        sdlcChartInstance.update();
+        return;
+      }
+
+      sdlcChartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: `شاخص نسبی هزینه اصلاح خطا (میلیارد تومان مقیاس‌شده)`,
+            data: values,
+            backgroundColor: bgColors,
+            borderRadius: 4,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: inkColor,
+                font: { family: 'Vazirmatn', size: 12, weight: '600' }
+              }
+            },
+            tooltip: {
+              rtl: true,
+              titleFont: { family: 'Vazirmatn' },
+              bodyFont: { family: 'Vazirmatn' }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: {
+                color: inkColor,
+                font: { family: 'Vazirmatn', size: 12, weight: '600' }
+              }
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: ctxColor },
+              ticks: {
+                color: mutedColor,
+                font: { family: 'Geist Mono', size: 11 }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      QUIZ_QUESTIONS.forEach((item, qIdx) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-item';
+
+        const qTitle = document.createElement('strong');
+        qTitle.textContent = item.q;
+        card.appendChild(qTitle);
+
+        const optsWrap = document.createElement('div');
+        optsWrap.className = 'quiz-options';
+
+        const chosen = appState.quizAnswers[qIdx];
+
+        item.opts.forEach((optText, oIdx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn quiz-opt';
+          btn.textContent = optText;
+
+          if (chosen !== undefined) {
+            if (oIdx === item.correct) btn.classList.add('correct');
+            else if (oIdx === chosen) btn.classList.add('wrong');
+          }
+
+          btn.onclick = function() { answerQuiz(qIdx, oIdx); };
+          optsWrap.appendChild(btn);
+        });
+
+        card.appendChild(optsWrap);
+
+        if (chosen !== undefined) {
+          const fb = document.createElement('div');
+          fb.className = 'quiz-feedback';
+          fb.innerHTML = item.exp;
+          card.appendChild(fb);
+        }
+
+        container.appendChild(card);
+      });
+
+    }
+
+    function answerQuiz(qIdx, oIdx) {
+      appState.quizAnswers[qIdx] = oIdx;
+      renderQuiz();
+    }
+
+    function applyStateToUI() {
+      selectNFR(appState.selectedNfr || 'performance');
+      setAmbiguityView(appState.ambiguityView || 'mgmt');
+      selectDiscoveryStep(appState.discoveryStep || 1);
+      selectFishbone(appState.fishboneNode || 'register');
+
+      const initEl = document.getElementById('roi-init');
+      const maintEl = document.getElementById('roi-maint');
+      const valEl = document.getElementById('roi-value');
+      if (initEl) initEl.value = appState.roiInit;
+      if (maintEl) maintEl.value = appState.roiMaint;
+      if (valEl) valEl.value = appState.roiValue;
+      updateRoiCalculation();
+
+      const baseEl = document.getElementById('sdlc-base-cost');
+      const multEl = document.getElementById('sdlc-risk-mult');
+      const stageEl = document.getElementById('sdlc-stage-select');
+      if (baseEl) baseEl.value = appState.sdlcBase;
+      if (multEl) multEl.value = appState.sdlcMult;
+      if (stageEl) stageEl.value = appState.sdlcStage;
+      updateSdlcSimulator();
+
+      renderQuiz();
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStateToUI);
+  </script>
+</body>
+</html>

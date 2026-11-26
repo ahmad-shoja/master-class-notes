@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="briefing">
+  <title>پرونده درسی جلسه ۶ · الگوهای یکپارچه‌سازی سازمانی (EIP)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Briefing style palette */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --secondary-soft: #e6eff2;
+      --tertiary: #785008;
+      --tag-soft: #f5e6c4;
+      --error: #b42318;
+      --error-soft: #fbeae8;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* 2. RTL Persian + Briefing fonts */
+      --font-headline: 'Noto Naskh Arabic', 'Source Serif 4', serif;
+      --font-body: 'Vazirmatn', 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Vazirmatn', 'Geist Mono', monospace;
+      --font-mono: 'Geist Mono', monospace;
+
+      /* Shape & rules */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --control-border: 1px solid var(--data-context);
+      --badge-radius: 2px;
+      --heading-tracking: 0;
+      --label-tracking: 0;
+      --mono-tracking: 0.06em;
+
+      /* 3. Shared tokens */
+      --positive: #2b6e52;
+      --positive-soft: #e6f2ec;
+      --warning: #d99000;
+      --warning-soft: #fbf3df;
+      --focus: #1f4e5f;
+
+      /* Narrative type scale */
+      --display-size: clamp(2.15rem, 1.45rem + 2.4vw, 3.25rem);
+      --headline-size: clamp(1.55rem, 1.2rem + 1.3vw, 2.15rem);
+      --subhead-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.09rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+    header { position: static !important; }
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: 0;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1120px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Typography helpers */
+    .title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--display-size);
+      line-height: 1.24;
+      color: var(--on-surface);
+      margin: 0;
+      letter-spacing: var(--heading-tracking);
+    }
+    h2.section-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--headline-size);
+      line-height: 1.28;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-xs) 0;
+      letter-spacing: var(--heading-tracking);
+    }
+    h3.card-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--subhead-size);
+      line-height: 1.35;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .standfirst {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      color: var(--secondary);
+      margin: var(--space-sm) 0 0 0;
+      line-height: 1.55;
+    }
+    .prose {
+      max-width: 68ch;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .prose + .prose {
+      margin-top: var(--space-md);
+    }
+    .muted {
+      color: var(--on-surface-variant);
+      font-size: 0.9375rem;
+    }
+    .ltr-mono {
+      font-family: var(--font-mono);
+      direction: ltr;
+      unicode-bidi: isolate;
+      letter-spacing: var(--mono-tracking);
+      display: inline-block;
+    }
+
+    /* Briefing Dossier Treatments */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-bar-start {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 500;
+    }
+    .index-num {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      direction: ltr;
+      unicode-bidi: isolate;
+      display: inline-block;
+      background-color: var(--surface-container);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+    }
+
+    .figure-card {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+    .figure-card .value {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.35rem);
+      line-height: 1.15;
+      color: var(--secondary);
+      font-variant-numeric: lining-nums tabular-nums;
+      margin: var(--space-xs) 0;
+    }
+
+    .aside-box {
+      background-color: var(--surface-container);
+      border-top: var(--section-rule);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+    }
+    .aside-box.highlight-amber {
+      border-right: 4px solid var(--tertiary);
+    }
+    .aside-box.highlight-teal {
+      border-right: 4px solid var(--secondary);
+    }
+    .aside-box.highlight-error {
+      background-color: var(--error-soft);
+      border-top-color: var(--error);
+      border-right: 4px solid var(--error);
+    }
+
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background-color: var(--tag-soft);
+      color: var(--tertiary);
+      font-weight: 600;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+    .tag-chip.teal {
+      background-color: var(--secondary-soft);
+      color: var(--secondary);
+    }
+    .tag-chip.positive {
+      background-color: var(--positive-soft);
+      color: var(--positive);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out),
+                  transform var(--dur-micro) var(--ease-out);
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+    .btn-primary:hover {
+      background-color: var(--secondary);
+    }
+    .btn-secondary {
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      border: var(--control-border);
+    }
+    .btn-secondary:hover {
+      background-color: var(--surface-container);
+    }
+    .btn-secondary.is-active,
+    .btn-tab.is-active {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .btn-gold {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      font-weight: 700;
+    }
+    .btn-gold:hover {
+      box-shadow: 0 0 0 2px var(--outline);
+    }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    /* Masthead & Navigation Strip */
+    .masthead {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-sm);
+    }
+    /* Section Containers */
+    section.dossier-section {
+      display: grid;
+      gap: var(--space-lg);
+      padding-top: var(--space-md);
+    }
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .split-equal {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+    }
+    table.dossier-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 0.9375rem;
+    }
+    table.dossier-table thead th {
+      background-color: var(--surface-container);
+      border-bottom: var(--section-rule);
+      padding: var(--space-sm) var(--space-md);
+      font-weight: 700;
+      font-size: var(--label-size);
+      color: var(--on-surface);
+      white-space: nowrap;
+    }
+    table.dossier-table tbody td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--card-border);
+      vertical-align: top;
+    }
+    table.dossier-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    table.dossier-table tbody tr.is-featured {
+      background-color: var(--secondary-soft);
+    }
+
+    /* Interactive Topology Explorer */
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .field-group {
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .field-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface-variant);
+    }
+    .range-input {
+      width: 200px;
+      accent-color: var(--secondary);
+      min-height: 44px;
+      cursor: pointer;
+    }
+    .num-input {
+      width: 84px;
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      border: var(--control-border);
+      border-radius: var(--rounded);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      text-align: center;
+    }
+    .diagram-stage {
+      background-color: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+    }
+    .diagram-stage svg {
+      width: 100%;
+      height: auto;
+      max-height: 340px;
+      display: block;
+    }
+
+    /* Pipe & Filters Interactive Chain */
+    .pipeline-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .pipe-node {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      text-align: right;
+      cursor: pointer;
+      min-height: 44px;
+      display: grid;
+      gap: var(--space-xs);
+      align-content: start;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .pipe-node:hover {
+      background-color: var(--surface-container);
+    }
+    .pipe-node.is-active {
+      background-color: var(--secondary);
+      color: var(--on-primary);
+      border-color: var(--secondary);
+    }
+    .pipe-node.is-active .pipe-sub {
+      color: var(--primary-container);
+    }
+    .pipe-sub {
+      font-family: var(--font-mono);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      direction: ltr;
+      unicode-bidi: isolate;
+      text-align: right;
+    }
+
+    /* 6 Categories Card Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .category-card {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      text-align: right;
+      cursor: pointer;
+      display: grid;
+      gap: var(--space-xs);
+      align-content: start;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .category-card:hover {
+      background-color: var(--surface-container);
+    }
+    .category-card.is-active {
+      box-shadow: 0 0 0 2px var(--secondary);
+      background-color: var(--surface-container-low);
+    }
+
+    /* Tabs Row for Simulators */
+    .tab-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    /* Packet Animation Helpers */
+    .packet-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      font-family: var(--font-mono);
+      font-size: var(--label-size);
+      font-weight: 600;
+      direction: ltr;
+      unicode-bidi: isolate;
+    }
+    .sim-log {
+      display: grid;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .sim-step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      border-right: 3px solid var(--secondary);
+      font-size: 0.9375rem;
+      opacity: 0.55;
+      transition: opacity var(--dur-short) var(--ease-out),
+                  background-color var(--dur-short) var(--ease-out);
+    }
+    .sim-step-item.is-reached {
+      opacity: 1;
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-right: 3px solid var(--secondary);
+    }
+    .sim-step-item.is-warn {
+      border-right-color: var(--error);
+    }
+
+
+
+    /* Quiz */
+    .quiz-item {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .quiz-options {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .quiz-opt {
+      min-height: 44px;
+      text-align: right;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: var(--control-border);
+      background-color: var(--background);
+      color: var(--on-surface);
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .quiz-opt:hover {
+      background-color: var(--surface-container);
+    }
+    .quiz-opt.is-correct {
+      background-color: var(--positive-soft);
+      border-color: var(--positive);
+      color: var(--positive);
+      font-weight: 700;
+    }
+    .quiz-opt.is-wrong {
+      background-color: var(--error-soft);
+      border-color: var(--error);
+      color: var(--error);
+    }
+    .quiz-feedback {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      background-color: var(--surface-container);
+      font-size: 0.9375rem;
+      display: none;
+    }
+    .quiz-feedback.is-visible {
+      display: block;
+    }
+
+    /* Collapsible secondary details */
+    details.dossier-details {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-sm) var(--space-md);
+    }
+    details.dossier-details summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--secondary);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    details.dossier-details[open] summary {
+      margin-bottom: var(--space-sm);
+      border-bottom: var(--card-border);
+      padding-bottom: var(--space-sm);
+    }
+
+    /* Footer */
+    footer.dossier-footer {
+      border-top: var(--section-rule);
+      padding-top: var(--space-lg);
+      margin-top: var(--space-xl);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+      color: var(--on-surface-variant);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        grid-template-columns: minmax(0, 1fr);
+        padding: var(--space-md);
+        gap: var(--space-lg);
+      }
+      .split-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .range-input {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .note-toc .toc-link {
+      display: inline-flex;
+      align-items: center;
+      border-radius: var(--rounded);
+      text-decoration: none;
+    }
+    .diagram-stage {
+      display: block;
+      min-height: auto;
+    }
+    .diagram-stage svg {
+      max-height: none;
+      margin-inline: auto;
+    }
+  </style>
+  <link rel="stylesheet" href="../../session-note.css">
+</head>
+<body>
+  <div class="note-masthead">
+    <a href="index.html">فهرست جلسات</a>
+    <span>الگوها در مهندسی نرم‌افزار</span>
+    <time datetime="2026-11-26">پنجشنبه، ۲۶ نوامبر ۲۰۲۶</time>
+  </div>
+  <nav class="note-toc" aria-label="فهرست مطالب">
+    <div class="note-toc-list">
+      <a href="#sec-foundations" class="toc-link">۱. مبانی و پایپ‌وفیلتر</a>
+      <a href="#sec-categories" class="toc-link">۲. ۶ دسته الگوها</a>
+      <a href="#sec-channels" class="toc-link">۳. کانال‌های پیام‌رسانی</a>
+      <a href="#sec-construction" class="toc-link">۴. ساخت پیام</a>
+      <a href="#sec-research" class="toc-link">۵. پژوهش و آزمون</a>
+    </div>
+  </nav>
+  <main class="page-grid">
+
+    <!-- MASTHEAD -->
+    <header class="masthead">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">پرونده درسی · جلسه ۰۶</span>
+          <span class="dossier-meta">دانشگاه آزاد اسلامی واحد ساوه · معماری سازمانی</span>
+        </div>
+        <span class="dossier-meta">مرور کامل + آزمایشگاه تعاملی</span>
+      </div>
+
+      <div>
+        <h1 class="title">الگوهای یکپارچه‌سازی سازمانی: از سامانه‌های جزیره‌ای تا گذرگاه پیام</h1>
+        <p class="standfirst">راهنمای جامع مطالعه و آزمایشگاه تعاملی جلسه ششم؛ شامل چهار سبک معماری، دسته‌بندی ۶۵ الگوی <bdi dir="ltr">EIP</bdi>، کانال‌های پیام‌رسانی، الگوهای ساخت پیام و اصول نگارش پایان‌نامه.</p>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="figure-card">
+          <span class="index-num">01</span>
+          <div class="value">۴ سبک</div>
+          <div class="muted">انتقال فایل، پایگاه داده مشترک، فراخوانی رویه و پیام‌رسانی</div>
+        </div>
+        <div class="figure-card">
+          <span class="index-num">02</span>
+          <div class="value">۶۵ الگو</div>
+          <div class="muted">طبقه‌بندی استاندارد الگوهای یکپارچه‌سازی در ۶ سبد اصلی</div>
+        </div>
+        <div class="figure-card">
+          <span class="index-num">03</span>
+          <div class="value">۸ الگو</div>
+          <div class="muted">۵ الگوی کانال پیام‌رسانی + ۳ الگوی ساخت پیام در این جلسه</div>
+        </div>
+        <div class="figure-card">
+          <span class="index-num">04</span>
+          <div class="value">Turnitin</div>
+          <div class="muted">پایش اصالت پایان‌نامه و مشابهت‌یابی هوش مصنوعی در پژوهشیار</div>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- SECTION 01: FOUNDATIONS & PIPE AND FILTERS -->
+    <section id="sec-foundations" class="dossier-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۱</span>
+          <span class="dossier-meta">چهار سبک معماری و گذرگاه پیام در برابر سازمان اسپاگتی</span>
+        </div>
+      </div>
+
+      <div class="split-grid">
+        <div>
+          <h2 class="section-title">چرا سازمان‌ها از ارتباط جزیره‌ای به پیام‌رسانی گذر می‌کنند؟</h2>
+          <p class="prose">
+            در بسیاری از سازمان‌ها و ارگان‌های دولتی، سامانه‌ها به‌صورت «جزیره‌ای» کار می‌کنند؛ یعنی هر سامانه داده‌های خود را دارد و برای تبادل اطلاعات با سامانه‌های دیگر به اتصال نیاز دارد. بر اساس تدریس جلسه، سه چالش بنیادی در مسیر یکپارچه‌سازی وجود دارد: <strong>شبکه‌ها غیرقابل اعتمادند</strong>، <strong>برنامه‌های کاربردی با هم یکسان نیستند</strong> و <strong>تغییر اجتناب‌ناپذیر است</strong>.
+          </p>
+          <p class="prose">
+            برای غلبه بر این چالش‌ها چهار سبک معماری معرفی شد که از میان آن‌ها، <strong>پیام‌رسانی (<bdi dir="ltr">Messaging</bdi>)</strong> کامل‌ترین و معتبرترین روش برای ارتباط میان اپلیکیشن‌های درون یک سازمان و سامانه‌های بین‌سازمانی (مانند بستر <strong>دولت من</strong>) است.
+          </p>
+        </div>
+
+        <aside class="aside-box highlight-amber">
+          <h3 class="card-title">سه چالش کلیدی یکپارچه‌سازی</h3>
+          <ul style="margin: var(--space-sm) 0 0 0; padding-right: var(--space-lg); display: grid; gap: var(--space-xs);">
+            <li><strong>غیرقابل اعتماد بودن شبکه‌ها:</strong> قطعی، تاخیر یا افت بسته در مسیر ارسال.</li>
+            <li><strong>ناهمگونی برنامه‌ها:</strong> تفاوت زبان، پلتفرم و ساختار داده بین سامانه‌ها.</li>
+            <li><strong>تغییر اجتناب‌ناپذیر:</strong> سامانه‌ها و قواعد کسب‌وکار پیوسته تغییر می‌کنند و اتصال سفت‌وسخت شکننده است.</li>
+          </ul>
+        </aside>
+      </div>
+
+      <!-- 4 Styles Comparison Table -->
+      <div class="table-wrap">
+        <table class="dossier-table">
+          <thead>
+            <tr>
+              <th>ردیف</th>
+              <th>سبک معماری یکپارچه‌سازی</th>
+              <th>سازوکار کلیدی</th>
+              <th>محدودیت یا جایگاه در معماری</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="index-num">01</span></td>
+              <td><strong>انتقال فایل</strong> <span class="ltr-mono muted">(File Transfer)</span></td>
+              <td>تولید و خواندن فایل‌های تبادلی میان دو سامانه</td>
+              <td>حالت قدیمی؛ وابستگی زمانی و تاخیر در پردازش هم‌زمان</td>
+            </tr>
+            <tr>
+              <td><span class="index-num">02</span></td>
+              <td><strong>پایگاه داده مشترک</strong> <span class="ltr-mono muted">(Shared Database)</span></td>
+              <td>اتصال مستقیم چند برنامه به یک پایگاه داده واحد</td>
+              <td>وابستگی شدید به ساختار جدول‌ها؛ دشواری تغییر و امنیت</td>
+            </tr>
+            <tr>
+              <td><span class="index-num">03</span></td>
+              <td><strong>فراخوانی رویه از راه دور</strong> <span class="ltr-mono muted">(RPC)</span></td>
+              <td>فراخوانی مستقیم توابع یک سامانه توسط سامانه دیگر</td>
+              <td>هم‌زمانی اجباری؛ آسیب‌پذیری در برابر قطعی شبکه و ناهمگونی</td>
+            </tr>
+            <tr class="is-featured">
+              <td><span class="index-num">04</span></td>
+              <td><strong>پیام‌رسانی</strong> <span class="ltr-mono muted">(Messaging / Bus)</span></td>
+              <td>تبادل پیام غیرهم‌زمان از طریق کانال و گذرگاه میانی</td>
+              <td><strong>معتبرترین و کامل‌ترین روش؛</strong> پایه گذرگاه دولت الکترونیک (دولت من)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Interactive Spaghetti vs Message Bus Topology -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-start">
+            <span class="tag-chip teal">شبیه‌ساز توپولوژی</span>
+            <h3 class="card-title" style="margin: 0;">مقایسه «سازمان اسپاگتی» در برابر «گذرگاه پیام»</h3>
+          </div>
+          <span class="dossier-meta">مثال کلاس: ۱۰ تا ۲۰ اپلیکیشن در یک سازمان</span>
+        </div>
+
+        <div class="control-row">
+          <div class="field-group">
+            <label class="field-label" for="slider-apps">تعداد سامانه‌ها / اپلیکیشن‌ها (<bdi dir="ltr">N</bdi>)</label>
+            <input type="range" id="slider-apps" class="range-input" min="4" max="20" value="10" oninput="syncAppsFromSlider(this.value)">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="input-apps">عدد دقیق</label>
+            <input type="number" id="input-apps" class="num-input" min="4" max="20" value="10" oninput="syncAppsFromNumber(this.value)">
+          </div>
+          <div class="field-group">
+            <span class="field-label">حالت نمایش معماری</span>
+            <div class="tab-row">
+              <button type="button" class="btn btn-secondary is-active" id="topo-btn-spaghetti" onclick="setTopologyMode('spaghetti')">اتصال مستقیم (اسپاگتی)</button>
+              <button type="button" class="btn btn-secondary" id="topo-btn-bus" onclick="setTopologyMode('bus')">گذرگاه پیام (دولت من)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-grid">
+          <div class="diagram-stage note-diagram-scroll" tabindex="0" id="topology-svg-stage" aria-live="polite"></div>
+          <div style="display: grid; gap: var(--space-md);">
+            <div class="figure-card" style="background-color: var(--surface-container);">
+              <span class="field-label">تعداد لینک‌های ارتباطی مورد نیاز</span>
+              <div class="value" id="topo-link-count">۴۵ لینک</div>
+              <p class="muted" id="topo-link-explain" style="margin: 0;">
+                در اتصال نقطه‌به‌نقطه بدون گذرگاه، هر برنامه باید به همه برنامه‌های دیگر متصل شود؛ با ۲۰ برنامه، ۱۹۰ خط درهم‌تنیده و «سازمان اسپاگتی» شکل می‌گیرد.
+              </p>
+            </div>
+            <div class="aside-box highlight-teal">
+              <strong>نکته کلیدی استاد:</strong>
+              <p class="muted" style="margin: var(--space-xs) 0 0 0;">
+                با تعریف یک <strong>گذارگاه (<bdi dir="ltr">Message Bus</bdi>)</strong> مانند بستر «دولت من»، هر سازمان یا سرویس‌گیرنده خصوصی (مثل سامانه استعلام پلاک خودرو با کیف پول) فقط یک‌بار به گذرگاه متصل می‌شود و مشکل سازمان اسپاگتی برطرف می‌گردد.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pipe & Filters + 7 Anatomy Components -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-start">
+            <span class="tag-chip">کالبدشکافی میان‌افزار پیام‌محور</span>
+            <h3 class="card-title" style="margin: 0;">اجزای سیستم پیام‌رسانی و الگوی پایپ و فیلتر (<bdi dir="ltr">Pipe &amp; Filters</bdi>)</h3>
+          </div>
+          <span class="dossier-meta">روی هر جزء کلیک کنید</span>
+        </div>
+
+        <div class="pipeline-strip" role="tablist" aria-label="اجزای میان‌افزار پیام">
+          <button type="button" class="pipe-node is-active" id="pipe-btn-0" onclick="selectPipePart(0)">
+            <strong>۱. نقطه پایانی ارسال</strong>
+            <span class="pipe-sub">Sender Endpoint</span>
+          </button>
+          <button type="button" class="pipe-node" id="pipe-btn-1" onclick="selectPipePart(1)">
+            <strong>۲. پایپ و فیلتر</strong>
+            <span class="pipe-sub">Pipe &amp; Filters</span>
+          </button>
+          <button type="button" class="pipe-node" id="pipe-btn-2" onclick="selectPipePart(2)">
+            <strong>۳. پیام</strong>
+            <span class="pipe-sub">Message</span>
+          </button>
+          <button type="button" class="pipe-node" id="pipe-btn-3" onclick="selectPipePart(3)">
+            <strong>۴. کانال</strong>
+            <span class="pipe-sub">Channel</span>
+          </button>
+          <button type="button" class="pipe-node" id="pipe-btn-4" onclick="selectPipePart(4)">
+            <strong>۵. مسیریاب</strong>
+            <span class="pipe-sub">Router</span>
+          </button>
+          <button type="button" class="pipe-node" id="pipe-btn-5" onclick="selectPipePart(5)">
+            <strong>۶. مبدل</strong>
+            <span class="pipe-sub">Translator</span>
+          </button>
+          <button type="button" class="pipe-node" id="pipe-btn-6" onclick="selectPipePart(6)">
+            <strong>۷. نقطه دریافت + مانیتور</strong>
+            <span class="pipe-sub">Receiver &amp; Monitor</span>
+          </button>
+        </div>
+
+        <div class="aside-box highlight-teal" style="margin-top: var(--space-md);" id="pipe-detail-box" aria-live="polite">
+          <h3 class="card-title" id="pipe-detail-title">۱. نقطه پایانی ارسال (Sender Endpoint)</h3>
+          <p class="prose" id="pipe-detail-body">
+            بخشی از اپلیکیشن فرستنده (مثلاً سامانه <bdi dir="ltr">A</bdi>) است که وظیفه آماده‌سازی و ارسال پیام به درون کانال را بر عهده دارد تا منطق اصلی برنامه درگیر جزئیات شبکه نشود.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: 65 PATTERNS IN 6 CATEGORIES -->
+    <section id="sec-categories" class="dossier-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۲</span>
+          <span class="dossier-meta">نقشه ۶۵ الگوی یکپارچه‌سازی سازمانی در ۶ دسته اصلی</span>
+        </div>
+      </div>
+
+      <div class="aside-box highlight-amber">
+        <span class="tag-chip">تاکید مستقیم استاد برای امتحان</span>
+        <p class="prose" style="margin-top: var(--space-xs);">
+          <strong>«سؤال اول امتحان این است که ۶ گروه اصلی یکپارچه‌سازی سازمان را نام ببرید و الگوها را همراه با ترسیم شکل توضیح دهید.»</strong> کل ۶۵ الگو در ۶ سبد قرار می‌گیرند تا ارتباط کامل میان اپلیکیشن <bdi dir="ltr">A</bdi> و اپلیکیشن <bdi dir="ltr">B</bdi> مدیریت شود.
+        </p>
+      </div>
+
+      <div class="card-grid" id="eip-categories-grid">
+        <button type="button" class="category-card is-active" id="cat-card-0" onclick="selectCategory(0)">
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span class="index-num">01</span>
+            <span class="tag-chip positive">تدریس کامل در جلسه ۶</span>
+          </div>
+          <h3 class="card-title">کانال‌های پیام‌رسانی <span class="ltr-mono muted">(Messaging Channels)</span></h3>
+          <p class="muted" style="margin: 0;">تعیین مسیر فیزیکی و منطقی انتقال پیام میان فرستنده و یک یا چند گیرنده.</p>
+        </button>
+
+        <button type="button" class="category-card" id="cat-card-1" onclick="selectCategory(1)">
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span class="index-num">02</span>
+            <span class="tag-chip positive">تدریس کامل در جلسه ۶</span>
+          </div>
+          <h3 class="card-title">ساخت پیام <span class="ltr-mono muted">(Message Construction)</span></h3>
+          <p class="muted" style="margin: 0;">نحوه قالب‌بندی درخواست، تعیین کانال پاسخ و تطبیق پاسخ‌ها با شناسه یکتا.</p>
+        </button>
+
+        <button type="button" class="category-card" id="cat-card-2" onclick="selectCategory(2)">
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span class="index-num">03</span>
+            <span class="tag-chip">ساختار مسیر</span>
+          </div>
+          <h3 class="card-title">مسیریابی پیام <span class="ltr-mono muted">(Message Routing)</span></h3>
+          <p class="muted" style="margin: 0;">هدایت هوشمند پیام‌ها به مقاصد مختلف بر اساس محتوا یا شرایط شبکه (<bdi dir="ltr">Router</bdi>).</p>
+        </button>
+
+        <button type="button" class="category-card" id="cat-card-3" onclick="selectCategory(3)">
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span class="index-num">04</span>
+            <span class="tag-chip">ساختار داده</span>
+          </div>
+          <h3 class="card-title">تبدیل پیام <span class="ltr-mono muted">(Message Transformation)</span></h3>
+          <p class="muted" style="margin: 0;">ترجمه قالب و ساختار داده‌ها میان دو سامانه ناهمگون (<bdi dir="ltr">Translator</bdi>).</p>
+        </button>
+
+        <button type="button" class="category-card" id="cat-card-4" onclick="selectCategory(4)">
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span class="index-num">05</span>
+            <span class="tag-chip">ساختار اتصال</span>
+          </div>
+          <h3 class="card-title">نقاط پایانی پیام <span class="ltr-mono muted">(Message Endpoints)</span></h3>
+          <p class="muted" style="margin: 0;">بخش متصل به اپلیکیشن‌های فرستنده و گیرنده برای تولید و دریافت پیام.</p>
+        </button>
+
+        <button type="button" class="category-card" id="cat-card-5" onclick="selectCategory(5)">
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span class="index-num">06</span>
+            <span class="tag-chip">مانیتورینگ شبکه</span>
+          </div>
+          <h3 class="card-title">مدیریت سیستم <span class="ltr-mono muted">(System Management)</span></h3>
+          <p class="muted" style="margin: 0;">پایش سلامت گذرگاه، بررسی پیام‌های نامعتبر یا منقضی‌شده و ردیابی خطاها.</p>
+        </button>
+      </div>
+
+      <div class="figure-card" id="category-detail-panel" aria-live="polite">
+        <span class="field-label">شرح سبد انتخاب‌شده در معماری <bdi dir="ltr">EIP</bdi></span>
+        <h3 class="card-title" id="cat-detail-title">۰۱. کانال‌های پیام‌رسانی (Messaging Channels)</h3>
+        <p class="prose" id="cat-detail-body">
+          نخستین سبد از ۶۵ الگوی یکپارچه‌سازی که مشخص می‌کند پیام چگونه از نقطه پایانی فرستنده عبور کرده و به دست گیرنده یا گیرندگان برسد؛ همچنین وضعیت پیام‌های خراب یا منقضی‌شده در این لایه مدیریت می‌شود.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 03: MESSAGING CHANNEL PATTERNS LAB -->
+    <section id="sec-channels" class="dossier-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۳</span>
+          <span class="dossier-meta">آزمایشگاه تعاملی ۵ الگوی کانال‌های پیام‌رسانی</span>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="section-title">چگونه کانال پیام مسیر و سرنوشت بسته را تعیین می‌کند؟</h2>
+        <p class="prose">
+          یک الگو را انتخاب کنید و دکمه «ارسال پیام نمونه» را بزنید تا جریان پیام میان فرستنده، نقطه پایانی، کانال اصلی و کانال‌های خطا (با مثال‌های واقعی تدریس مثل ثبت احوال، اسنپ و کد <bdi dir="ltr">OTP</bdi>) نمایش داده شود.
+        </p>
+      </div>
+
+      <div class="figure-card">
+        <div class="tab-row" style="margin-bottom: var(--space-md);">
+          <button type="button" class="btn btn-secondary is-active" id="ch-tab-p2p" onclick="selectChannelPattern('p2p')">۱. Point-to-Point</button>
+          <button type="button" class="btn btn-secondary" id="ch-tab-pubsub" onclick="selectChannelPattern('pubsub')">۲. Publish-Subscribe</button>
+          <button type="button" class="btn btn-secondary" id="ch-tab-invalid" onclick="selectChannelPattern('invalid')">۳. Invalid Message</button>
+          <button type="button" class="btn btn-secondary" id="ch-tab-dead" onclick="selectChannelPattern('dead')">۴. Dead Letter</button>
+          <button type="button" class="btn btn-secondary" id="ch-tab-bus" onclick="selectChannelPattern('bus')">۵. Message Bus (دولت من)</button>
+        </div>
+
+        <div class="split-grid">
+          <div>
+            <div class="diagram-stage note-diagram-scroll" tabindex="0" id="channel-svg-stage" aria-live="polite"></div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md);">
+              <button type="button" class="btn btn-gold" id="btn-run-channel-sim" onclick="runChannelSimulation()">
+                ارسال پیام نمونه (اجرای گام‌ها)
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="resetChannelSimulation()">
+                بازنشانی نمودار
+              </button>
+            </div>
+          </div>
+
+          <div style="display: grid; gap: var(--space-md); align-content: start;">
+            <div>
+              <span class="tag-chip teal" id="ch-badge">کانال تک‌گیرنده</span>
+              <h3 class="card-title" id="ch-title" style="margin-top: var(--space-xs);">کانال نقطه به نقطه (Point-to-Point)</h3>
+              <p class="prose" id="ch-desc"></p>
+            </div>
+            <div class="aside-box highlight-amber" style="padding: var(--space-sm) var(--space-md);">
+              <strong>مثال واقعی کلاس:</strong>
+              <span id="ch-example" class="muted"></span>
+            </div>
+            <div class="sim-log" id="ch-sim-log"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critical Exam Comparison: Invalid Message vs Dead Letter -->
+      <div class="split-equal">
+        <div class="figure-card" style="border-top: 3px solid var(--data-4);">
+          <span class="tag-chip">تفاوت امتحانی مهم</span>
+          <h3 class="card-title" style="margin-top: var(--space-xs);">کانال پیام نامعتبر (<bdi dir="ltr">Invalid Message Channel</bdi>)</h3>
+          <p class="prose">
+            زمانی فعال می‌شود که پیام به دست گیرنده می‌رسد اما <strong>ساختار یا محتوای آن نقص دارد</strong> (مثلاً کد ملی اشتباه یا بسته آسیب‌دیده با علامت سؤال). برای آنکه پیام در حلقه بی‌نهایت تکرار نیفتد، به این کانال هدایت می‌شود تا در بخش مانیتورینگ مشخص شود آیا خطا از فرستنده بوده یا شبکه.
+          </p>
+        </div>
+
+        <div class="figure-card" style="border-top: 3px solid var(--data-2);">
+          <span class="tag-chip teal">تفاوت امتحانی مهم</span>
+          <h3 class="card-title" style="margin-top: var(--space-xs);">کانال نامه مرده (<bdi dir="ltr">Dead Letter Channel</bdi>)</h3>
+          <p class="prose">
+            مخصوص پیام‌های <strong>زمان‌دار با تاریخ انقضا (<bdi dir="ltr">Expiration</bdi>)</strong> مانند کد <bdi dir="ltr">OTP</bdi> با اعتبار ۲ دقیقه است. پیام سالم است، اما اگر در بازه زمانی مجاز به دست گیرنده نرسد (منقضی شود)، به‌جای دور ریختن به <bdi dir="ltr">Dead Letter</bdi> می‌رود تا علت نرسیدن و منقضی شدن بررسی گردد.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: MESSAGE CONSTRUCTION PATTERNS -->
+    <section id="sec-construction" class="dossier-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۴</span>
+          <span class="dossier-meta">الگوهای ساخت پیام: درخواست-پاسخ، آدرس بازگشت و شناسه همبستگی</span>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="section-title">تکامل سه الگوی ساخت پیام برای پاسخ‌گویی دقیق و موازی</h2>
+        <p class="prose">
+          پس از انتخاب کانال، باید بدانیم پیام چگونه ساخته شود تا در ارتباط غیرهم‌زمان، هم پاسخ به دست مصرف‌کننده درست برسد (<bdi dir="ltr">Return Address</bdi>) و هم در استعلام‌های موازی از چند سازمان، ترتیب پاسخ‌ها جابه‌جا نشود (<bdi dir="ltr">Correlation Identifier</bdi>).
+        </p>
+      </div>
+
+      <div class="figure-card">
+        <div class="tab-row" style="margin-bottom: var(--space-md);">
+          <button type="button" class="btn btn-secondary is-active" id="mc-tab-reqrep" onclick="selectConstructionPattern('reqrep')">۱. Request-Reply</button>
+          <button type="button" class="btn btn-secondary" id="mc-tab-retaddr" onclick="selectConstructionPattern('retaddr')">۲. Return Address</button>
+          <button type="button" class="btn btn-secondary" id="mc-tab-corr" onclick="selectConstructionPattern('corr')">۳. Correlation Identifier</button>
+        </div>
+
+        <div class="split-grid">
+          <div>
+            <div class="diagram-stage note-diagram-scroll" tabindex="0" id="construction-svg-stage" aria-live="polite"></div>
+            <div id="corr-toggle-bar" style="display: none; margin-top: var(--space-md); flex-wrap: wrap; gap: var(--space-sm); align-items: center;">
+              <span class="field-label" style="margin-left: var(--space-sm);">آزمایش ترتیب پاسخ‌های موازی:</span>
+              <button type="button" class="btn btn-secondary" id="corr-btn-broken" onclick="setCorrelationMode('broken')">بدون شناسه (درهم‌ریختگی ترتیب)</button>
+              <button type="button" class="btn btn-secondary is-active" id="corr-btn-fixed" onclick="setCorrelationMode('fixed')">با Correlation ID (تطبیق دقیق)</button>
+            </div>
+          </div>
+
+          <div style="display: grid; gap: var(--space-md); align-content: start;">
+            <div>
+              <span class="tag-chip" id="mc-badge">۱ مصرف‌کننده · ۱ فراهم‌کننده</span>
+              <h3 class="card-title" id="mc-title" style="margin-top: var(--space-xs);">الگوی درخواست-پاسخ (Request-Reply)</h3>
+              <p class="prose" id="mc-desc"></p>
+            </div>
+            <div class="aside-box highlight-teal" id="mc-example-box">
+              <strong>تحلیل فنی و مثال کلاسی:</strong>
+              <p class="muted" id="mc-example" style="margin: var(--space-xs) 0 0 0;"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cost vs Latency Trade-off Callout -->
+      <details class="dossier-details">
+        <summary>بحث کلاسی: موازنه زمان، ترافیک شبکه و هزینه در طراحی مسیر پیام</summary>
+        <p class="prose">
+          در پاسخ به پرسش دانشجویان درباره انتخاب الگو، استاد تاکید کرد که بهترین مسیر باید <strong>کمترین ترافیک شبکه و کمترین نرخ خطا</strong> را در <strong>زمان قابل قبول</strong> ایجاد کند. در بسیاری از سرویس‌های استعلامی (مانند دریافت هم‌زمان سوءپیشینه، نظام وظیفه، ثبت احوال و وضعیت بانکی برای وام)، ارزش <strong>زمان</strong> از هزینه مالی بیشتر است و اجرای موازی با <bdi dir="ltr">Correlation ID</bdi> بر ارسال ترتیبی کند ترجیح دارد. همچنین انتقاد شد که در کشور ما گاه حتی با وجود سرویس استعلامی، سازمان‌ها هنوز برگه فیزیکی طلب می‌کنند یا اتصال‌ها با تاخیر و قطعی مواجه است.
+        </p>
+      </details>
+    </section>
+
+    <!-- SECTION 05: THESIS RESEARCH, TURNITIN & MASTERY QUIZ -->
+    <section id="sec-research" class="dossier-section">
+      <div class="dossier-bar">
+        <div class="dossier-bar-start">
+          <span class="dossier-pill">بخش ۰۵</span>
+          <span class="dossier-meta">پژوهش، پایان‌نامه، مشابهت‌یابی Turnitin و خودارزیابی جلسه</span>
+        </div>
+      </div>
+
+      <div class="split-grid">
+        <div class="figure-card">
+          <span class="tag-chip">راهنمای پایان‌نامه و پژوهش</span>
+          <h2 class="section-title" style="margin-top: var(--space-xs);">اصالت پژوهش در عصر هوش مصنوعی و <bdi dir="ltr">Turnitin</bdi></h2>
+          <p class="prose">
+            استاد در بخش پایانی جلسه به دانشجویان کارشناسی ارشد توصیه کرد هرچه زودتر عضو گروه پژوهشی شوند و مقاله‌نویسی در حوزه <strong>معماری سازمانی</strong> را آغاز کنند. با این حال، نسبت به برون‌سپاری پایان‌نامه («میدان انقلاب») یا تولید متون خام با هوش مصنوعی دو هشدار جدی مطرح شد:
+          </p>
+          <ul style="margin: var(--space-md) 0; padding-right: var(--space-lg); display: grid; gap: var(--space-sm);">
+            <li><strong>تشخیص استاد راهنما و داور:</strong> اساتید به‌سرعت تناقض میان تسلط علمی دانشجو و متن پایان‌نامه را تشخیص می‌دهند و در رشته‌های فنی اجازه دفاع نمی‌دهند.</li>
+            <li><strong>سامانه‌های مشابهت‌یابی (<bdi dir="ltr">Turnitin</bdi> در پژوهشیار و آموزشیار):</strong> علاوه بر مقایسه با منابع اینترنتی، درصد نگارش با هوش مصنوعی نیز به‌دقت محاسبه و گزارش می‌شود.</li>
+            <li><strong>جلسه دفاع و اجرای کد:</strong> داور در جلسه دفاع کد برنامه را مطالبه می‌کند («کد برنامه‌ات را بیاور») و بهانه‌هایی مانند تعویض لپ‌تاپ پذیرفتنی نیست.</li>
+          </ul>
+          <div class="aside-box highlight-teal">
+            <strong>جمع‌بندی استاد:</strong>
+            <span class="muted">یک بار اصول پژوهش (<bdi dir="ltr">Research</bdi>) را یاد بگیرید؛ کار سختی نیست و بسیار لذت‌بخش است.</span>
+          </div>
+        </div>
+
+        <!-- Exam Review Topics -->
+        <div class="figure-card">
+          <span class="tag-chip positive">چک‌لیست آمادگی امتحان</span>
+          <h3 class="card-title" style="margin-top: var(--space-xs);">موارد ضروری برای تسلط پیش از امتحان</h3>
+          <ul>
+            <li>نام‌بردن ۴ سبک یکپارچه‌سازی و ۳ چالش شبکه/برنامه/تغییر</li>
+            <li>حفظ کامل نام ۶ دسته اصلی از ۶۵ الگوی <bdi dir="ltr">EIP</bdi> با ترسیم شکل</li>
+            <li>تمیز دادن <bdi dir="ltr">Point-to-Point</bdi> از <bdi dir="ltr">Publish-Subscribe</bdi></li>
+            <li>تفکیک دقیق <bdi dir="ltr">Invalid Message</bdi> از <bdi dir="ltr">Dead Letter</bdi></li>
+            <li>رسم و توضیح <bdi dir="ltr">Return Address</bdi> و <bdi dir="ltr">Correlation ID</bdi></li>
+          </ul>
+        </div>
+      </div>
+
+      <details class="figure-card" style="margin-bottom: var(--space-lg);">
+        <summary>آزمون خودسنجی جلسه ششم (۶ پرسش)</summary>
+        <p><button type="button" class="btn btn-secondary" onclick="resetQuizInline(this)">بازنشانی آزمون</button></p>
+        <div id="quiz-container" style="display: grid; gap: var(--space-md);"></div>
+      </details>
+    </section>
+
+    <footer class="dossier-footer">
+      <div>
+        <strong>منبع محتوا:</strong> رونویس سخنرانی جلسه ششم درس معماری سازمانی، دانشگاه آزاد اسلامی واحد ساوه (<bdi dir="ltr">Islamic Azad University - Saveh Branch 6.m4a</bdi>).
+      </div>
+      <div>
+        راهنمای مطالعه تعاملی · الگوهای یکپارچه‌سازی سازمانی (<bdi dir="ltr">EIP</bdi>)
+      </div>
+    </footer>
+
+  </main>
+  <script>
+    let quizAnswers = {};
+
+    let topoMode = 'spaghetti';
+    let topoApps = 10;
+    let activePipeIndex = 0;
+    let activeCategoryIndex = 0;
+    let activeChannelKey = 'p2p';
+    let channelStepIndex = 0;
+    let activeConstructionKey = 'reqrep';
+    let correlationMode = 'fixed';
+
+    const pipePartsData = [
+      {
+        title: `۱. نقطه پایانی ارسال (Sender Endpoint)`,
+        body: `بخشی از اپلیکیشن فرستنده (مثلاً سامانه A) است که مسئول آماده‌سازی، قالب‌بندی اولیه و تحویل پیام به میان‌افزار است تا خود برنامه درگیر جزئیات فنی شبکه نشود.`
+      },
+      {
+        title: `۲. الگوی پایپ و فیلتر (Pipe & Filters)`,
+        body: `در این الگو پیام به بخش‌ها یا مراحل متوالی تقسیم می‌شود و از فیلترهای گوناگون عبور می‌کند؛ مانند تماس تلفنی که در مبدأ صدا را کدگذاری (Encode) کرده، از مسیر ارسال می‌کند و در مقصد کدگشایی (Decode) و تحلیل می‌نماید.`
+      },
+      {
+        title: `۳. پیام (Message)`,
+        body: `بسته داده استاندارد شامل بدنه درخواست یا پاسخ (مانند کد ملی ۲۰۶۳۸۲۱۰۱۱) و سرآیند (Header) حاوی اطلاعات کنترلی نظیر آدرس بازگشت، شناسه همبستگی یا زمان انقضا.`
+      },
+      {
+        title: `۴. کانال پیام (Messaging Channel)`,
+        body: `مسیر منطقی انتقال پیام میان فرستنده و گیرنده؛ بسته به نیاز ممکن است نقطه‌به‌نقطه، انتشار-اشتراک، گذرگاه پیام یا کانال مدیریت خطا باشد.`
+      },
+      {
+        title: `۵. مسیریاب (Message Router)`,
+        body: `اجزایی که پیام را بر اساس محتوا، نوع درخواست یا وضعیت مقصد در گذرگاه مسیریابی می‌کنند تا پیام به سرویس‌دهنده درست هدایت شود.`
+      },
+      {
+        title: `۶. مبدل (Message Translator)`,
+        body: `فیلتر یا مؤلفه‌ای که ناهمگونی قالب داده‌ها میان دو سامانه متفاوت (مثلاً تبدیل ساختار داده سامانه ثبت اسناد به ثبت احوال) را برطرف می‌کند.`
+      },
+      {
+        title: `۷. نقطه دریافت و بخش نظارت (Receiver Endpoint & Monitor)`,
+        body: `نقطه پایانی گیرنده پیام را تحویل می‌گیرد و بخش مانیتورینگ شبکه وضعیت کل گذرگاه، پیام‌های نامعتبر (Invalid) و پیام‌های منقضی‌شده (Dead Letter) را پایش می‌کند.`
+      }
+    ];
+
+    const categoryDetailsData = [
+      {
+        title: `۰۱. کانال‌های پیام‌رسانی (Messaging Channels)`,
+        body: `نخستین سبد از ۶۵ الگوی یکپارچه‌سازی که مشخص می‌کند پیام چگونه از نقطه پایانی فرستنده عبور کرده و به دست گیرنده یا گیرندگان برسد؛ همچنین مدیریت پیام‌های خراب و منقضی‌شده در این دسته انجام می‌شود.`
+      },
+      {
+        title: `۰۲. ساخت پیام (Message Construction)`,
+        body: `شامل الگوهایی مانند Request-Reply، Return Address و Correlation Identifier است که تعیین می‌کنند پیام درخواست و پاسخ چگونه ساخته شوند و چگونه در محیط غیرهم‌زمان و موازی با هم تطبیق یابند.`
+      },
+      {
+        title: `۰۳. مسیریابی پیام (Message Routing)`,
+        body: `هنگامی که پیام وارد گذرگاه می‌شود، روترها تصمیم می‌گیرند بسته به محتوای پیام یا وضعیت سرویس‌ها، پیام به کدام مقصد یا چند مقصد ارسال شود.`
+      },
+      {
+        title: `۰۴. تبدیل پیام (Message Transformation)`,
+        body: `چون برنامه‌های کاربردی با هم یکسان نیستند، مبدل‌ها قالب پیام خروجی از سامانه A را به ساختار قابل فهم برای سامانه B تبدیل می‌کنند.`
+      },
+      {
+        title: `۰۵. نقاط پایانی پیام (Message Endpoints)`,
+        body: `لایه اتصال مستقیم اپلیکیشن‌ها به سیستم پیام‌رسانی؛ هم در سمت فرستنده (تولید و ارسال پیام) و هم در سمت گیرنده (دریافت و تشخیص اعتبار پیام).`
+      },
+      {
+        title: `۰۶. مدیریت سیستم (System Management)`,
+        body: `بخش مانیتورینگ و عیب‌یابی که از طریق بررسی کانال‌های Invalid Message و Dead Letter علت خرابی پیام، قطعی مسیر یا انقضای زمانی را ردیابی می‌کند.`
+      }
+    ];
+
+    const channelPatternsData = {
+      p2p: {
+        badge: `کانال تک‌گیرنده`,
+        title: `کانال نقطه به نقطه (Point-to-Point Channel)`,
+        desc: `پیام ارسال‌شده از یک فرستنده از طریق کانال فقط به یک گیرنده مشخص تحویل داده می‌شود. حتی اگر پیام چند بخش داشته باشد، مقصد آن صرفاً یک سرویس‌دهنده معین است.`,
+        example: `اداره ثبت اسناد برای استعلام هویت کد ملی ۲۰۶۳۸۲۱۰۱۱ پیام را روی کانال نقطه‌به‌نقطه می‌گذارد و فقط اداره ثبت احوال آن را دریافت و پردازش می‌کند.`,
+        steps: [
+          { text: `۱. نقطه پایانی فرستنده (ثبت اسناد) پیام استعلام کد ملی را می‌سازد.`, warn: false },
+          { text: `۲. پیام وارد کانال Point-to-Point می‌شود (تنها یک مسیر مصرف).`, warn: false },
+          { text: `۳. تنها گیرنده مجاز (ثبت احوال) پیام را تحویل گرفته و پردازش می‌کند.`, warn: false }
+        ]
+      },
+      pubsub: {
+        badge: `کانال چندگیرنده`,
+        title: `کانال انتشار-اشتراک (Publish-Subscribe Channel)`,
+        desc: `یک ناشر (Publisher) پیام را در کانال منتشر می‌کند و بیش از یک گیرنده (Subscriber) به‌طور هم‌زمان نسخه خود را دریافت می‌کنند؛ هر گیرنده‌ای که پاسخ دارد، واکنش نشان می‌دهد.`,
+        example: `درخواست سفر در اسنپ که به‌جای یک راننده، برای مجموعه‌ای از رانندگان اطراف منتشر می‌شود تا هرکدام آماده بود بپذیرد.`,
+        steps: [
+          { text: `۱. ناشر یک رویداد یا درخواست واحد را به کانال Publish-Subscribe تحویل می‌دهد.`, warn: false },
+          { text: `۲. کانال پیام را برای تمام مشترکین ثبت‌شده (رانندگان / سازمان‌ها) تکثیر می‌کند.`, warn: false },
+          { text: `۳. گیرنده ۱، گیرنده ۲ و گیرنده ۳ هم‌زمان پیام را دریافت و بررسی می‌کنند.`, warn: false }
+        ]
+      },
+      invalid: {
+        badge: `مدیریت خطای ساختاری`,
+        title: `کانال پیام نامعتبر (Invalid Message Channel)`,
+        desc: `اگر پیامی ناقص، آسیب‌دیده یا دارای داده نامعتبر باشد، گیرنده برای جلوگیری از افتادن در حلقه خطای تکراری، آن را به کانال Invalid Message هدایت می‌کند تا بخش مانیتورینگ علت را بررسی نماید.`,
+        example: `از سه پیام ارسال‌شده برای احراز هویت ثبت احوال، دو پیام معتبر است اما یکی کد ملی ناقص یا باگی دارد و به کانال پیام نامعتبر فرستاده می‌شود.`,
+        steps: [
+          { text: `۱. فرستنده سه پیام را از طریق کانال به سمت نقطه پایانی گیرنده ارسال می‌کند.`, warn: false },
+          { text: `۲. نقطه پایانی گیرنده دو پیام سالم را می‌پذیرد اما پیام سوم (?) را نامعتبر تشخیص می‌دهد.`, warn: true },
+          { text: `۳. پیام معیوب برای بررسی منشأ خطا (فرستنده یا مسیر شبکه) به Invalid Message Channel منتقل می‌شود.`, warn: true }
+        ]
+      },
+      dead: {
+        badge: `مدیریت انقضای زمانی`,
+        title: `کانال پیام منقضی / نامه مرده (Dead Letter Channel)`,
+        desc: `پیام‌هایی که تاریخ انقضا (Expiration) دارند، اگر پیش از پایان مهلت به دست گیرنده نرسند (به‌دلیل آفلاین بودن یا تاخیر مسیر)، دور انداخته نمی‌شوند بلکه به Dead Letter Channel می‌روند.`,
+        example: `کد یک‌بارمصرف (OTP) با اعتبار ۲ دقیقه؛ اگر در این بازه تحویل نشود، برای بررسی علت انقضا در کانال Dead Letter نگهداری می‌شود.`,
+        steps: [
+          { text: `۱. پیام زمان‌دار (کد OTP با مهلت ۲ دقیقه) از نقطه پایانی فرستنده ارسال می‌شود.`, warn: false },
+          { text: `۲. گیرنده در دسترس نیست و شمارشگر اعتبار پیام پیش از تحویل به پایان می‌رسد.`, warn: true },
+          { text: `۳. سیستم به‌جای حذف پیام، آن را به Dead Letter Channel می‌فرستد تا در مانیتورینگ تحلیل شود.`, warn: true }
+        ]
+      },
+      bus: {
+        badge: `زیرساخت یکپارچه`,
+        title: `گذرگاه پیام (Message Bus / دولت من)`,
+        desc: `یک گذرگاه مرکزی که تمام اپلیکیشن‌های سازمانی و سامانه‌های بیرونی به‌جای اتصال مستقیم نقطه‌به‌نقطه به آن متصل می‌شوند و از این طریق «سازمان اسپاگتی» از بین می‌رود.`,
+        example: `گذرگاه دولت الکترونیک (دولت من) که ثبت احوال، ثبت اسناد، راهور و حتی سرویس‌گیرندگان خصوصی استعلام پلاک (با کیف پول) از طریق آن تبادل اطلاعات می‌کنند.`,
+        steps: [
+          { text: `۱. سازمان‌های دولتی و سرویس‌های خصوصی هرکدام تنها یک اتصال با گذرگاه پیام برقرار می‌کنند.`, warn: false },
+          { text: `۲. پیام استعلام با استاندارد مشترک روی Message Bus قرار می‌گیرد.`, warn: false },
+          { text: `۳. گذرگاه پیام را به سازمان هدف هدایت کرده و پاسخ را بر بستر یکپارچه بازمی‌گرداند.`, warn: false }
+        ]
+      }
+    };
+
+    const constructionPatternsData = {
+      reqrep: {
+        badge: `۱ مصرف‌کننده · ۱ فراهم‌کننده`,
+        title: `الگوی درخواست-پاسخ (Request-Reply)`,
+        desc: `ارتباط غیرهم‌زمان میان مصرف‌کننده (Consumer) و فراهم‌کننده (Provider) از طریق دو کانال مجزا و یک‌طرفه: کانال درخواست (Request Channel) و کانال پاسخ (Reply Channel).`,
+        example: `مصرف‌کننده پیام سبز (درخواست استعلام کد ملی) را در Request Channel می‌گذارد؛ فراهم‌کننده پس از پردازش، پیام تغییریافته (پاسخ هویتی) را از Reply Channel مجزا برمی‌گرداند.`
+      },
+      retaddr: {
+        badge: `چند مصرف‌کننده · ۱ فراهم‌کننده`,
+        title: `الگوی آدرس بازگشت (Return Address)`,
+        desc: `وقتی چند سازمان (همراه اول، ایرانسل، مخابرات) از یک فراهم‌کننده واحد (ثبت احوال) روی یک Request Channel مشترک استعلام می‌گیرند، هر مصرف‌کننده نشانی کانال پاسخ اختصاصی خود را در هدر درخواست قرار می‌دهد.`,
+        example: `مصرف‌کننده ۱ در سرآیند پیام می‌نویسد پاسخ را به Reply Channel 1 بفرست و مصرف‌کننده ۲ آدرس Reply Channel 2 را درج می‌کند تا پاسخ‌های مختلف با هم اشتباه نشوند.`
+      },
+      corr: {
+        badge: `۱ مصرف‌کننده · چند فراهم‌کننده موازی`,
+        title: `الگوی شناسه همبستگی (Correlation Identifier)`,
+        desc: `وقتی یک مصرف‌کننده (مثلاً بانک برای بررسی وام) هم‌زمان از چند سازمان (ثبت احوال، دادگستری، نظام وظیفه) استعلام می‌گیرد، ممکن است پاسخ دوم زودتر از اول برسد. با درج یک شناسه یکتا در درخواست و کپی آن در پاسخ، تطبیق دقیق انجام می‌شود.`,
+        example: `بانک پیام ۱ (CID-101) و پیام ۲ (CID-202) را هم‌زمان می‌فرستد؛ حتی اگر پاسخ CID-202 زودتر برگردد، بانک از روی شناسه می‌فهمد متعلق به استعلام دوم است.`
+      }
+    };
+
+    const quizData = [
+      {
+        q: `۱. کدام سبک معماری از میان ۴ سبک یکپارچه‌سازی، به‌عنوان معتبرترین و کامل‌ترین روش برای اتصال سامانه‌های ناهمگون (مانند گذرگاه دولت من) معرفی شد؟`,
+        options: [
+          `انتقال فایل (File Transfer)`,
+          `پایگاه داده مشترک (Shared Database)`,
+          `فراخوانی رویه از راه دور (RPC)`,
+          `پیام‌رسانی (Messaging)`
+        ],
+        correct: 3,
+        explain: `در تدریس تاکید شد پیام‌رسانی با تکیه بر گذرگاه و الگوهای استاندارد، چالش‌های شبکه غیرقابل اعتماد، ناهمگونی برنامه‌ها و تغییر اجتناب‌ناپذیر را بهتر از سه روش دیگر مدیریت می‌کند.`
+      },
+      {
+        q: `۲. استعلام هویت کد ملی از اداره ثبت اسناد به اداره ثبت احوال و ارسال درخواست سفر اسنپ به گروهی از رانندگان، به‌ترتیب کدام نوع کانال هستند؟`,
+        options: [
+          `هر دو Publish-Subscribe`,
+          `Point-to-Point و سپس Publish-Subscribe`,
+          `Dead Letter و سپس Point-to-Point`,
+          `Invalid Message و سپس Message Bus`
+        ],
+        correct: 1,
+        explain: `استعلام از یک مرجع مشخص (ثبت احوال) کانال Point-to-Point است، اما انتشار یک درخواست برای چند گیرنده احتمالی (رانندگان اسنپ) کانال Publish-Subscribe محسوب می‌شود.`
+      },
+      {
+        q: `۳. اگر یک کد OTP با اعتبار ۲ دقیقه‌ای پیش از رسیدن به گیرنده منقضی شود، به کدام کانال فرستاده می‌شود؟`,
+        options: [
+          `Invalid Message Channel`,
+          `Reply Channel`,
+          `Dead Letter Channel`,
+          `Return Address Channel`
+        ],
+        correct: 2,
+        explain: `پیام‌های سالمی که تاریخ انقضا (Expiration) دارند و در بازه زمانی به گیرنده نمی‌رسند به Dead Letter Channel می‌روند؛ در حالی که پیام‌های ناقص یا معیوب به Invalid Message Channel هدایت می‌شوند.`
+      },
+      {
+        q: `۴. وقتی چندین مصرف‌کننده (همراه اول، ایرانسل، مخابرات) از طریق یک کانال درخواست مشترک از ثبت احوال استعلام می‌گیرند، فراهم‌کننده چگونه کانال پاسخ درست را تشخیص می‌دهد؟`,
+        options: [
+          `با استفاده از الگوی Pipe & Filters`,
+          `از طریق آدرس کانال پاسخ درج‌شده در سرآیند پیام (Return Address)`,
+          `از طریق حذف کانال پاسخ و استفاده از پایگاه داده مشترک`,
+          `با تبدیل پیام به Dead Letter`
+        ],
+        correct: 1,
+        explain: `در الگوی Return Address هر مصرف‌کننده هنگام ساخت درخواست، آدرس Reply Channel اختصاصی خود را در هدر پیام مشخص می‌کند.`
+      },
+      {
+        q: `۵. در استعلام موازی بانک از چند سازمان (ثبت احوال و سوءپیشینه)، چرا الگوی Correlation Identifier ضروری است؟`,
+        options: [
+          `چون ترتیب رسیدن پاسخ‌ها ممکن است با ترتیب ارسال درخواست‌ها متفاوت باشد`,
+          `چون فقط یک کانال یک‌طرفه وجود دارد`,
+          `چون پیام‌های منقضی‌شده باید کدگذاری شوند`,
+          `چون پایگاه داده مشترک اجازه استعلام موازی نمی‌دهد`
+        ],
+        correct: 0,
+        explain: `در اجرای موازی ممکن است پاسخ دوم زودتر از پاسخ اول برسد؛ وجود شناسه یکتا (Correlation ID) که از درخواست به پاسخ کپی می‌شود، تطبیق دقیق بدون انتظار ترتیبی را ممکن می‌کند.`
+      },
+      {
+        q: `۶. در بحث پایان‌نامه و اصالت علمی جلسه ششم، سامانه Turnitin در پورتال‌های پژوهشیار و آموزشیار چه نقشی دارد؟`,
+        options: [
+          `فقط تبدیل فایل‌های پایان نامه به PDF`,
+          `مسیریابی پیام‌های سازمانی در شبکه دانشگاه`,
+          `محاسبه درصد مشابهت با منابع اینترنتی و تشخیص نگارش با هوش مصنوعی`,
+          `تایید خودکار دفاع بدون نیاز به ارائه کد برنامه`
+        ],
+        correct: 2,
+        explain: `استاد توضیح داد Turnitin علاوه بر مشابهت‌یابی متون اینترنتی، میزان استفاده از هوش مصنوعی را نیز گزارش می‌کند و در جلسه دفاع هم ارائه و اجرای واقعی کد توسط دانشجو الزامی است.`
+      }
+    ];
+
+    function toPersianDigits(num) {
+      const map = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+      return String(num).replace(/\d/g, (d) => map[Number(d)]);
+    }
+
+    /* Section 1: Topology Explorer */
+    function syncAppsFromSlider(val) {
+      const n = Math.max(4, Math.min(20, Number(val) || 10));
+      topoApps = n;
+      const numEl = document.getElementById('input-apps');
+      if (numEl) numEl.value = n;
+      renderTopology();
+    }
+
+    function syncAppsFromNumber(val) {
+      const n = Math.max(4, Math.min(20, Number(val) || 10));
+      topoApps = n;
+      const sliderEl = document.getElementById('slider-apps');
+      if (sliderEl) sliderEl.value = n;
+      renderTopology();
+    }
+
+    function setTopologyMode(mode) {
+      topoMode = mode;
+      const b1 = document.getElementById('topo-btn-spaghetti');
+      const b2 = document.getElementById('topo-btn-bus');
+      if (b1) b1.classList.toggle('is-active', mode === 'spaghetti');
+      if (b2) b2.classList.toggle('is-active', mode === 'bus');
+      renderTopology();
+    }
+
+    function renderTopology() {
+      const stage = document.getElementById('topology-svg-stage');
+      const countEl = document.getElementById('topo-link-count');
+      const explainEl = document.getElementById('topo-link-explain');
+      if (!stage) return;
+
+      const n = topoApps;
+      const cx = 220;
+      const cy = 155;
+      const r = 115;
+      const pts = [];
+      for (let i = 0; i < n; i += 1) {
+        const ang = (2 * Math.PI * i) / n - Math.PI / 2;
+        pts.push({
+          x: Math.round(cx + r * Math.cos(ang)),
+          y: Math.round(cy + r * Math.sin(ang))
+        });
+      }
+
+      let linesSvg = ``;
+      let centerSvg = ``;
+
+      if (topoMode === 'spaghetti') {
+        const links = (n * (n - 1)) / 2;
+        if (countEl) countEl.textContent = `${toPersianDigits(links)} لینک درهم‌تنیده`;
+        if (explainEl) {
+          explainEl.textContent = `با ${toPersianDigits(n)} اپلیکیشن در اتصال مستقیم، ${toPersianDigits(links)} مسیر دوطرفه لازم است؛ کوچک‌ترین تغییر در یک سامانه سایر سامانه‌ها را مختل می‌کند (سازمان اسپاگتی).`;
+        }
+        for (let i = 0; i < n; i += 1) {
+          for (let j = i + 1; j < n; j += 1) {
+            linesSvg += `<line x1="${pts[i].x}" y1="${pts[i].y}" x2="${pts[j].x}" y2="${pts[j].y}" stroke="var(--data-4)" stroke-opacity="0.45" stroke-width="1.3" />`;
+          }
+        }
+      } else {
+        if (countEl) countEl.textContent = `${toPersianDigits(n)} اتصال به گذرگاه`;
+        if (explainEl) {
+          explainEl.textContent = `با گذرگاه پیام (دولت من)، هر یک از ${toPersianDigits(n)} سامانه تنها یک بار به گذرگاه مرکزی وصل می‌شود؛ پیچیدگی از ${toPersianDigits((n * (n - 1)) / 2)} به ${toPersianDigits(n)} کاهش می‌یابد.`;
+        }
+        for (let i = 0; i < n; i += 1) {
+          linesSvg += `<line x1="${pts[i].x}" y1="${pts[i].y}" x2="${cx}" y2="${cy}" stroke="var(--secondary)" stroke-width="2" />`;
+        }
+        centerSvg = `
+          <rect x="${cx - 64}" y="${cy - 22}" width="128" height="44" rx="6" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.5" />
+          <text x="${cx}" y="${cy + 5}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-primary-container)">گذرگاه پیام (دولت من)</text>
+        `;
+      }
+
+      let nodesSvg = ``;
+      pts.forEach((p, idx) => {
+        nodesSvg += `
+          <circle cx="${p.x}" cy="${p.y}" r="14" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5" />
+          <text x="${p.x}" y="${p.y + 4}" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="var(--on-surface)">A${idx + 1}</text>
+        `;
+      });
+
+      stage.innerHTML = `
+        <svg viewBox="0 0 440 310" role="img" aria-label="نمودار مقایسه اتصال مستقیم و گذرگاه پیام">
+          ${linesSvg}
+          ${centerSvg}
+          ${nodesSvg}
+        </svg>
+      `;
+    }
+
+    /* Section 1: Pipe & Filter selector */
+    function selectPipePart(idx) {
+      activePipeIndex = idx;
+      for (let i = 0; i < pipePartsData.length; i += 1) {
+        const btn = document.getElementById(`pipe-btn-${i}`);
+        if (btn) btn.classList.toggle('is-active', i === idx);
+      }
+      const item = pipePartsData[idx];
+      const tEl = document.getElementById('pipe-detail-title');
+      const bEl = document.getElementById('pipe-detail-body');
+      if (tEl && item) tEl.textContent = item.title;
+      if (bEl && item) bEl.textContent = item.body;
+    }
+
+    /* Section 2: 6 Categories selector */
+    function selectCategory(idx) {
+      activeCategoryIndex = idx;
+      for (let i = 0; i < categoryDetailsData.length; i += 1) {
+        const card = document.getElementById(`cat-card-${i}`);
+        if (card) card.classList.toggle('is-active', i === idx);
+      }
+      const item = categoryDetailsData[idx];
+      const tEl = document.getElementById('cat-detail-title');
+      const bEl = document.getElementById('cat-detail-body');
+      if (tEl && item) tEl.textContent = item.title;
+      if (bEl && item) bEl.textContent = item.body;
+    }
+
+    /* Section 3: Channel Patterns Simulator */
+    function selectChannelPattern(key) {
+      activeChannelKey = key;
+      channelStepIndex = 0;
+      const keys = ['p2p', 'pubsub', 'invalid', 'dead', 'bus'];
+      keys.forEach((k) => {
+        const btn = document.getElementById(`ch-tab-${k}`);
+        if (btn) btn.classList.toggle('is-active', k === key);
+      });
+      renderChannelPanel();
+    }
+
+    function runChannelSimulation() {
+      const data = channelPatternsData[activeChannelKey];
+      if (!data) return;
+      channelStepIndex = channelStepIndex < data.steps.length ? channelStepIndex + 1 : 1;
+      renderChannelPanel();
+    }
+
+    function resetChannelSimulation() {
+      channelStepIndex = 0;
+      renderChannelPanel();
+    }
+
+    function renderChannelPanel() {
+      const data = channelPatternsData[activeChannelKey];
+      if (!data) return;
+
+      const badge = document.getElementById('ch-badge');
+      const title = document.getElementById('ch-title');
+      const desc = document.getElementById('ch-desc');
+      const example = document.getElementById('ch-example');
+      const logEl = document.getElementById('ch-sim-log');
+      const stage = document.getElementById('channel-svg-stage');
+
+      if (title) title.textContent = data.title;
+      if (desc) desc.textContent = data.desc;
+      if (example) example.textContent = data.example;
+
+      if (logEl) {
+        logEl.innerHTML = data.steps.map((st, i) => {
+          const reached = i < channelStepIndex;
+          const cls = `sim-step-item${reached ? ' is-reached' : ''}${st.warn ? ' is-warn' : ''}`;
+          return `<div class="${cls}"><span>${st.text}</span></div>`;
+        }).join('');
+      }
+
+      if (stage) {
+        stage.innerHTML = buildChannelSvg(activeChannelKey, channelStepIndex);
+      }
+    }
+
+    function buildChannelSvg(key, step) {
+      const pktPos = step === 0 ? 75 : step === 1 ? 150 : step === 2 ? 255 : 365;
+      if (key === 'p2p') {
+        return `
+          <svg viewBox="0 0 460 220" role="img" aria-label="شماتیک کانال نقطه به نقطه">
+            <rect x="20" y="75" width="105" height="65" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="72" y="103" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface)">ثبت اسناد</text>
+            <text x="72" y="122" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">Sender Endpoint</text>
+
+            <rect x="175" y="90" width="110" height="35" rx="4" fill="var(--secondary-soft)" stroke="var(--secondary)" stroke-width="1.5"/>
+            <text x="230" y="112" text-anchor="middle" font-size="11" font-weight="600" fill="var(--secondary)">Point-to-Point</text>
+
+            <line x1="125" y1="107" x2="175" y2="107" stroke="var(--outline)" stroke-width="1.5"/>
+            <line x1="285" y1="107" x2="335" y2="107" stroke="var(--outline)" stroke-width="1.5"/>
+
+            <rect x="335" y="75" width="105" height="65" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="387" y="103" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface)">ثبت احوال</text>
+            <text x="387" y="122" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">Receiver Endpoint</text>
+
+            <rect x="${pktPos - 26}" y="42" width="52" height="22" rx="3" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1"/>
+            <text x="${pktPos}" y="57" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="var(--on-primary-container)">206382</text>
+          </svg>
+        `;
+      }
+      if (key === 'pubsub') {
+        const showFan = step >= 2;
+        const showDelivered = step >= 3;
+        return `
+          <svg viewBox="0 0 460 240" role="img" aria-label="شماتیک کانال انتشار و اشتراک">
+            <rect x="20" y="90" width="95" height="60" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="67" y="116" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface)">ناشر</text>
+            <text x="67" y="134" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">Publisher</text>
+
+            <rect x="155" y="98" width="115" height="44" rx="4" fill="var(--secondary-soft)" stroke="var(--secondary)" stroke-width="1.5"/>
+            <text x="212" y="124" text-anchor="middle" font-size="11" font-weight="600" fill="var(--secondary)">Pub-Sub Channel</text>
+
+            <line x1="115" y1="120" x2="155" y2="120" stroke="var(--outline)" stroke-width="1.5"/>
+            <line x1="270" y1="110" x2="335" y2="45" stroke="var(--secondary)" stroke-width="${showFan ? '2.2' : '1.2'}" stroke-dasharray="${showFan ? '0' : '4 3'}"/>
+            <line x1="270" y1="120" x2="335" y2="120" stroke="var(--secondary)" stroke-width="${showFan ? '2.2' : '1.2'}" stroke-dasharray="${showFan ? '0' : '4 3'}"/>
+            <line x1="270" y1="130" x2="335" y2="195" stroke="var(--secondary)" stroke-width="${showFan ? '2.2' : '1.2'}" stroke-dasharray="${showFan ? '0' : '4 3'}"/>
+
+            <rect x="335" y="20" width="105" height="46" rx="6" fill="${showDelivered ? 'var(--positive-soft)' : 'var(--surface-container-low)'}" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="387" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">گیرنده ۱ (راننده)</text>
+
+            <rect x="335" y="97" width="105" height="46" rx="6" fill="${showDelivered ? 'var(--positive-soft)' : 'var(--surface-container-low)'}" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="387" y="124" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">گیرنده ۲ (راننده)</text>
+
+            <rect x="335" y="174" width="105" height="46" rx="6" fill="${showDelivered ? 'var(--positive-soft)' : 'var(--surface-container-low)'}" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="387" y="201" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">گیرنده ۳ (راننده)</text>
+
+            <circle cx="${step === 0 ? 67 : step === 1 ? 212 : 302}" cy="78" r="10" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.2"/>
+          </svg>
+        `;
+      }
+      if (key === 'invalid') {
+        const diverted = step >= 2;
+        return `
+          <svg viewBox="0 0 460 245" role="img" aria-label="شماتیک کانال پیام نامعتبر">
+            <rect x="20" y="40" width="95" height="58" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="67" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface)">فرستنده</text>
+            <text x="67" y="83" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">۳ پیام ارسال شد</text>
+
+            <rect x="160" y="50" width="120" height="38" rx="4" fill="var(--secondary-soft)" stroke="var(--secondary)" stroke-width="1.5"/>
+            <text x="220" y="73" text-anchor="middle" font-size="11" font-weight="600" fill="var(--secondary)">کانال اصلی</text>
+
+            <rect x="330" y="40" width="110" height="58" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="385" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface)">گیرنده (Endpoint)</text>
+            <text x="385" y="83" text-anchor="middle" font-size="10" fill="var(--positive)">۲ پیام معتبر پذیرفته شد</text>
+
+            <line x1="115" y1="69" x2="160" y2="69" stroke="var(--outline)" stroke-width="1.5"/>
+            <line x1="280" y1="69" x2="330" y2="69" stroke="var(--outline)" stroke-width="1.5"/>
+
+            <path d="M 385 98 L 385 170 L 295 170" fill="none" stroke="var(--error)" stroke-width="${diverted ? '2.5' : '1.4'}" stroke-dasharray="${diverted ? '0' : '4 3'}"/>
+
+            <rect x="115" y="145" width="180" height="52" rx="6" fill="${step >= 3 ? 'var(--error-soft)' : 'var(--surface-container)'}" stroke="var(--error)" stroke-width="1.5"/>
+            <text x="205" y="168" text-anchor="middle" font-size="12" font-weight="700" fill="var(--error)">Invalid Message Channel</text>
+            <text x="205" y="186" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">پیام علامت سؤال (?) برای پایش مانیتورینگ</text>
+
+            <rect x="${step === 0 ? 185 : step === 1 ? 295 : 220}" y="${step >= 2 ? 120 : 18}" width="32" height="22" rx="3" fill="var(--error)" />
+            <text x="${step === 0 ? 201 : step === 1 ? 311 : 236}" y="${step >= 2 ? 135 : 33}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-error)">?</text>
+          </svg>
+        `;
+      }
+      if (key === 'dead') {
+        const expired = step >= 2;
+        return `
+          <svg viewBox="0 0 460 245" role="img" aria-label="شماتیک کانال نامه مرده">
+            <rect x="20" y="40" width="95" height="58" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="67" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface)">سرویس OTP</text>
+            <text x="67" y="83" text-anchor="middle" font-size="10" fill="var(--tertiary)">اعتبار: ۲ دقیقه</text>
+
+            <rect x="160" y="50" width="120" height="38" rx="4" fill="var(--secondary-soft)" stroke="var(--secondary)" stroke-width="1.5"/>
+            <text x="220" y="73" text-anchor="middle" font-size="11" font-weight="600" fill="var(--secondary)">کانال تحویل</text>
+
+            <rect x="330" y="40" width="110" height="58" rx="6" fill="var(--surface-container)" stroke="var(--outline-variant)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="385" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface-variant)">گیرنده آفلاین</text>
+            <text x="385" y="83" text-anchor="middle" font-size="10" fill="var(--error)">مهلت زمانی تمام شد</text>
+
+            <line x1="115" y1="69" x2="160" y2="69" stroke="var(--outline)" stroke-width="1.5"/>
+            <line x1="280" y1="69" x2="330" y2="69" stroke="var(--data-context)" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+            <path d="M 220 88 L 220 148" fill="none" stroke="var(--data-2)" stroke-width="${expired ? '2.5' : '1.4'}" stroke-dasharray="${expired ? '0' : '4 3'}"/>
+
+            <rect x="125" y="148" width="190" height="54" rx="6" fill="${step >= 3 ? 'var(--warning-soft)' : 'var(--surface-container)'}" stroke="var(--data-2)" stroke-width="1.5"/>
+            <text x="220" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="var(--tertiary)">Dead Letter Channel</text>
+            <text x="220" y="190" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">بایگانی پیام منقضی‌شده برای بررسی علت</text>
+          </svg>
+        `;
+      }
+      /* Message Bus */
+      return `
+        <svg viewBox="0 0 460 240" role="img" aria-label="شماتیک گذرگاه پیام دولت من">
+          <rect x="25" y="25" width="95" height="44" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="72" y="51" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">ثبت احوال</text>
+
+          <rect x="182" y="25" width="95" height="44" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="230" y="51" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">ثبت اسناد</text>
+
+          <rect x="340" y="25" width="95" height="44" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="387" y="51" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">پلیس راهور</text>
+
+          <rect x="30" y="103" width="400" height="36" rx="6" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="230" y="126" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-primary-container)">Message Bus · گذرگاه دولت الکترونیک (دولت من)</text>
+
+          <rect x="85" y="172" width="125" height="44" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="147" y="198" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">همراه اول / بانک‌ها</text>
+
+          <rect x="250" y="172" width="125" height="44" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="312" y="198" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">سرویس استعلام پلاک</text>
+
+          <line x1="72" y1="69" x2="72" y2="103" stroke="var(--secondary)" stroke-width="2"/>
+          <line x1="230" y1="69" x2="230" y2="103" stroke="var(--secondary)" stroke-width="2"/>
+          <line x1="387" y1="69" x2="387" y2="103" stroke="var(--secondary)" stroke-width="2"/>
+          <line x1="147" y1="139" x2="147" y2="172" stroke="var(--secondary)" stroke-width="2"/>
+          <line x1="312" y1="139" x2="312" y2="172" stroke="var(--secondary)" stroke-width="2"/>
+        </svg>
+      `;
+    }
+
+    /* Section 4: Message Construction Explorer */
+    function selectConstructionPattern(key) {
+      activeConstructionKey = key;
+      const keys = ['reqrep', 'retaddr', 'corr'];
+      keys.forEach((k) => {
+        const btn = document.getElementById(`mc-tab-${k}`);
+        if (btn) btn.classList.toggle('is-active', k === key);
+      });
+      const toggleBar = document.getElementById('corr-toggle-bar');
+      if (toggleBar) {
+        toggleBar.style.display = key === 'corr' ? 'flex' : 'none';
+      }
+      renderConstructionPanel();
+    }
+
+    function setCorrelationMode(mode) {
+      correlationMode = mode;
+      const b1 = document.getElementById('corr-btn-broken');
+      const b2 = document.getElementById('corr-btn-fixed');
+      if (b1) b1.classList.toggle('is-active', mode === 'broken');
+      if (b2) b2.classList.toggle('is-active', mode === 'fixed');
+      renderConstructionPanel();
+    }
+
+    function renderConstructionPanel() {
+      const data = constructionPatternsData[activeConstructionKey];
+      if (!data) return;
+
+      const badge = document.getElementById('mc-badge');
+      const title = document.getElementById('mc-title');
+      const desc = document.getElementById('mc-desc');
+      const ex = document.getElementById('mc-example');
+      const stage = document.getElementById('construction-svg-stage');
+
+      if (title) title.textContent = data.title;
+      if (desc) desc.textContent = data.desc;
+      if (ex) ex.textContent = data.example;
+      if (stage) stage.innerHTML = buildConstructionSvg(activeConstructionKey, correlationMode);
+    }
+
+    function buildConstructionSvg(key, corrMode) {
+      if (key === 'reqrep') {
+        return `
+          <svg viewBox="0 0 460 230" role="img" aria-label="شماتیک الگوی درخواست پاسخ">
+            <rect x="20" y="65" width="105" height="90" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="72" y="105" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface)">Consumer</text>
+            <text x="72" y="124" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">مصرف‌کننده</text>
+
+            <rect x="335" y="65" width="105" height="90" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="387" y="105" text-anchor="middle" font-size="12" font-weight="700" fill="var(--on-surface)">Provider</text>
+            <text x="387" y="124" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">فراهم‌کننده</text>
+
+            <line x1="125" y1="84" x2="335" y2="84" stroke="var(--positive)" stroke-width="2"/>
+            <rect x="175" y="66" width="110" height="32" rx="4" fill="var(--positive-soft)" stroke="var(--positive)" stroke-width="1.2"/>
+            <text x="230" y="86" text-anchor="middle" font-size="10" font-weight="700" fill="var(--positive)">Request Channel</text>
+
+            <line x1="335" y1="136" x2="125" y2="136" stroke="var(--secondary)" stroke-width="2"/>
+            <rect x="175" y="118" width="110" height="32" rx="4" fill="var(--secondary-soft)" stroke="var(--secondary)" stroke-width="1.2"/>
+            <text x="230" y="138" text-anchor="middle" font-size="10" font-weight="700" fill="var(--secondary)">Reply Channel</text>
+          </svg>
+        `;
+      }
+      if (key === 'retaddr') {
+        return `
+          <svg viewBox="0 0 460 250" role="img" aria-label="شماتیک الگوی آدرس بازگشت">
+            <rect x="15" y="25" width="105" height="58" rx="6" fill="var(--positive-soft)" stroke="var(--positive)" stroke-width="1.5"/>
+            <text x="67" y="48" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">مصرف‌کننده ۱</text>
+            <text x="67" y="66" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--positive)">ReplyTo: Ch1</text>
+
+            <rect x="15" y="160" width="105" height="58" rx="6" fill="var(--warning-soft)" stroke="var(--data-2)" stroke-width="1.5"/>
+            <text x="67" y="183" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">مصرف‌کننده ۲</text>
+            <text x="67" y="201" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--tertiary)">ReplyTo: Ch2</text>
+
+            <rect x="165" y="102" width="115" height="36" rx="4" fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="222" y="124" text-anchor="middle" font-size="10" font-weight="700" fill="var(--on-surface)">Request Channel</text>
+
+            <rect x="330" y="88" width="110" height="66" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+            <text x="385" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">ثبت احوال</text>
+            <text x="385" y="134" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">خواندن هدر پاسخ</text>
+
+            <line x1="120" y1="68" x2="165" y2="112" stroke="var(--outline)" stroke-width="1.4"/>
+            <line x1="120" y1="175" x2="165" y2="128" stroke="var(--outline)" stroke-width="1.4"/>
+            <line x1="280" y1="120" x2="330" y2="120" stroke="var(--outline)" stroke-width="1.5"/>
+
+            <path d="M 385 88 L 385 38 L 120 38" fill="none" stroke="var(--positive)" stroke-width="2"/>
+            <text x="240" y="31" text-anchor="middle" font-size="10" font-weight="700" fill="var(--positive)">Reply Channel 1 (پاسخ سبز)</text>
+
+            <path d="M 385 154 L 385 204 L 120 204" fill="none" stroke="var(--data-2)" stroke-width="2"/>
+            <text x="240" y="222" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tertiary)">Reply Channel 2 (پاسخ زرد)</text>
+          </svg>
+        `;
+      }
+      /* Correlation ID */
+      const isFixed = corrMode === 'fixed';
+      return `
+        <svg viewBox="0 0 460 250" role="img" aria-label="شماتیک الگوی شناسه همبستگی">
+          <rect x="15" y="70" width="110" height="100" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+          <text x="70" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="var(--on-surface)">بانک (وام)</text>
+          <text x="70" y="123" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">ارسال هم‌زمان #۱ و #۲</text>
+          <text x="70" y="146" text-anchor="middle" font-size="10" font-weight="700" fill="${isFixed ? 'var(--positive)' : 'var(--error)'}">
+            ${isFixed ? 'تطبیق دقیق با CID' : 'خطا: پاسخ ۲ زودتر آمد!'}
+          </text>
+
+          <rect x="330" y="30" width="110" height="58" rx="6" fill="var(--secondary-soft)" stroke="var(--secondary)" stroke-width="1.5"/>
+          <text x="385" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="var(--secondary)">فراهم‌کننده ۱</text>
+          <text x="385" y="72" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">ثبت احوال (تاخیر)</text>
+
+          <rect x="330" y="150" width="110" height="58" rx="6" fill="var(--warning-soft)" stroke="var(--data-2)" stroke-width="1.5"/>
+          <text x="385" y="174" text-anchor="middle" font-size="11" font-weight="700" fill="var(--tertiary)">فراهم‌کننده ۲</text>
+          <text x="385" y="192" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">دادگستری (پاسخ سریع)</text>
+
+          <line x1="125" y1="95" x2="330" y2="55" stroke="var(--secondary)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="125" y1="145" x2="330" y2="180" stroke="var(--data-2)" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+          <path d="M 330 198 C 250 220 180 215 125 162" fill="none" stroke="${isFixed ? 'var(--positive)' : 'var(--error)'}" stroke-width="2.2"/>
+          <rect x="175" y="198" width="118" height="26" rx="4" fill="${isFixed ? 'var(--positive-soft)' : 'var(--error-soft)'}" stroke="${isFixed ? 'var(--positive)' : 'var(--error)'}" stroke-width="1.2"/>
+          <text x="234" y="215" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="${isFixed ? 'var(--positive)' : 'var(--error)'}">
+            ${isFixed ? 'Reply #2 [CID-202]' : 'Reply #2 (بدون شناسه)'}
+          </text>
+
+          <path d="M 330 42 C 250 20 180 25 125 78" fill="none" stroke="var(--secondary)" stroke-width="1.8"/>
+          <rect x="175" y="14" width="118" height="26" rx="4" fill="var(--secondary-soft)" stroke="var(--secondary)" stroke-width="1.2"/>
+          <text x="234" y="31" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--secondary)">
+            ${isFixed ? 'Reply #1 [CID-101]' : 'Reply #1 (با تاخیر)'}
+          </text>
+        </svg>
+      `;
+    }
+
+    /* Section 5: Quiz Renderer & Handlers */
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      if (!container) return;
+
+      const html = quizData.map((item, qIdx) => {
+        const chosen = quizAnswers[qIdx];
+        const answered = typeof chosen === 'number';
+
+        const optsHtml = item.options.map((opt, oIdx) => {
+          let cls = 'quiz-opt';
+          if (answered) {
+            if (oIdx === item.correct) cls += ' is-correct';
+            else if (oIdx === chosen) cls += ' is-wrong';
+          }
+          return `
+            <button type="button" class="${cls}" onclick="answerQuiz(${qIdx}, ${oIdx})">
+              <span class="index-num">${toPersianDigits(oIdx + 1)}</span>
+              <span>${opt}</span>
+            </button>
+          `;
+        }).join('');
+
+        return `
+          <div class="quiz-item">
+            <div style="font-weight: 700;">${item.q}</div>
+            <div class="quiz-options">${optsHtml}</div>
+            <div class="quiz-feedback${answered ? ' is-visible' : ''}">
+              <strong>${answered && chosen === item.correct ? 'پاسخ صحیح:' : 'نکته اصلاحی:'}</strong>
+              <span>${item.explain}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    function answerQuiz(qIdx, oIdx) {
+      quizAnswers[qIdx] = oIdx;
+      renderQuiz();
+    }
+
+    function resetQuizInline(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== 'true') {
+        btn.dataset.armed = 'true';
+        btn.textContent = `برای تایید بازنشانی دوباره کلیک کنید`;
+        return;
+      }
+      btn.dataset.armed = 'false';
+      btn.textContent = `بازنشانی آزمون`;
+      quizAnswers = {};
+      renderQuiz();
+    }
+
+    /* Boot */
+    function initApp() {
+      renderTopology();
+      selectPipePart(0);
+      selectCategory(0);
+      renderChannelPanel();
+      renderConstructionPanel();
+      renderQuiz();
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>

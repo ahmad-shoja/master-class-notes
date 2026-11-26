@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="briefing">
+  <title>معماری سازمانی: از عمارت وینچستر تا نقشه کلان دولت و پژوهش</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Noto+Naskh+Arabic:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,400&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Briefing Style Tokens (Editorial Warm Paper) */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+      --border-strong: #c8c4b8;
+
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --on-secondary: #ffffff;
+      --tertiary: #785008;
+      --error: #b42318;
+      --on-error: #ffffff;
+
+      /* Extended semantic & tint tokens (never inline hex in body) */
+      --tag-bg: #f5e6c4;
+      --teal-tint: rgba(31, 78, 95, 0.08);
+      --teal-border: rgba(31, 78, 95, 0.28);
+      --gold-tint: rgba(242, 183, 5, 0.16);
+      --error-tint: rgba(180, 35, 24, 0.08);
+      --error-border: rgba(180, 35, 24, 0.32);
+      --positive-tint: rgba(43, 110, 82, 0.10);
+      --positive-border: rgba(43, 110, 82, 0.30);
+
+      /* Data series */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Fonts (Persian-first with Briefing editorial pairing) */
+      --font-headline: 'Noto Naskh Arabic', 'Source Serif 4', serif;
+      --font-body: 'Vazirmatn', 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Vazirmatn', 'Geist Mono', monospace;
+      --font-mono: 'Geist Mono', 'Vazirmatn', monospace;
+
+      /* Shape */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+      --badge-radius: 2px;
+
+      /* Style effects */
+      --section-rule: 1.5px solid var(--outline);
+      --thin-rule: 1px solid var(--outline-variant);
+      --card-border: 1px solid var(--outline-variant);
+      --heading-tracking: 0;
+      --label-tracking: 0;
+      --latin-tracking: 0.06em;
+
+      /* 3. Shared Foundation Tokens */
+      --positive: #2b6e52;
+      --warning: #d99000;
+      --focus: #1f4e5f;
+
+      /* Narrative Type Scale */
+      --display-size: clamp(2rem, 1.4rem + 2.4vw, 3.125rem);
+      --headline-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.0625rem);
+      --subhead-size: clamp(1.125rem, 1.02rem + 0.4vw, 1.375rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Spacing Scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.75;
+      scroll-behavior: smooth;
+    }
+    header { position: static !important; }
+    button, input, select, textarea { font-family: inherit; }
+
+    /* Focus rings */
+    :focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Page Container */
+    .page-shell {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+    }
+
+    /* Hero / Masthead */
+    .hero-dossier {
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-xl);
+    }
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+    .dossier-bar-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 500;
+    }
+    .en-code {
+      font-family: var(--font-mono);
+      letter-spacing: var(--latin-tracking);
+      text-transform: uppercase;
+      font-size: var(--label-size);
+    }
+    .hero-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--display-size);
+      line-height: 1.25;
+      letter-spacing: var(--heading-tracking);
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-surface);
+    }
+    .hero-standfirst {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      line-height: 1.65;
+      color: var(--secondary);
+      margin: 0 0 var(--space-lg) 0;
+      max-width: 72ch;
+    }
+
+    /* Bilingual Dossier Tag Pills */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+    .term-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--tag-bg);
+      color: var(--tertiary);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--label-size);
+      font-weight: 600;
+    }
+    .term-pill .term-sep {
+      color: var(--on-surface-variant);
+      opacity: 0.6;
+    }
+    .term-pill .term-en {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      color: var(--secondary);
+    }
+
+    /* KPI Summary Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .figure-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .index-num {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      background: var(--surface-container);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+    }
+    .figure-kicker {
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--tertiary);
+    }
+    .figure-value {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(1.5rem, 1.25rem + 0.9vw, 2rem);
+      line-height: 1.2;
+      color: var(--on-surface);
+      font-variant-numeric: lining-nums tabular-nums;
+      margin: var(--space-xs) 0;
+    }
+    .figure-desc {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    /* Main Narrative Column */
+    .narrative-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xl);
+    }
+    .chapter-section {
+      scroll-margin-top: var(--space-lg);
+    }
+    .chapter-head {
+      margin-bottom: var(--space-lg);
+    }
+    .chapter-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--headline-size);
+      line-height: 1.35;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm) 0;
+    }
+    .chapter-deck {
+      font-weight: 600;
+      font-size: 1.0625rem;
+      color: var(--secondary);
+      margin: 0;
+      max-width: 65ch;
+      line-height: 1.65;
+    }
+    .prose {
+      max-width: 68ch;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-md) 0;
+    }
+    .prose strong {
+      color: var(--on-surface);
+      font-weight: 700;
+    }
+    .highlight-ink {
+      background: var(--gold-tint);
+      padding: 0 var(--space-xs);
+      border-radius: var(--badge-radius);
+      font-weight: 600;
+    }
+
+    /* Case Study Callouts */
+    .callout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      gap: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+    .case-callout {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-top: var(--section-rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .case-callout.is-alert {
+      background: var(--surface-container-low);
+      border-color: var(--error-border);
+      border-top: 3px solid var(--error);
+    }
+    .case-callout.is-teal {
+      background: var(--surface-container-low);
+      border-color: var(--teal-border);
+      border-top: 3px solid var(--secondary);
+    }
+    .case-callout.is-gold {
+      background: var(--surface-container);
+      border-top: 3px solid var(--primary-container);
+    }
+    .case-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .case-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .case-badge {
+      font-size: var(--label-size);
+      font-weight: 700;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      background: var(--tag-bg);
+      color: var(--tertiary);
+    }
+    .case-badge.badge-error {
+      background: var(--error-tint);
+      color: var(--error);
+    }
+    .case-badge.badge-teal {
+      background: var(--teal-tint);
+      color: var(--secondary);
+    }
+    .case-badge.badge-gold {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .case-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin: var(--space-xs) 0;
+    }
+    .mini-stat {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-xs) var(--space-sm);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+    .case-callout p {
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: var(--on-surface);
+    }
+    .case-lesson {
+      margin-top: auto;
+      padding-top: var(--space-sm);
+      border-top: var(--thin-rule);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Aside / Methodology Box */
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+    .aside-box-title {
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--secondary);
+      margin: 0 0 var(--space-xs) 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .aside-box p {
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.7;
+    }
+
+    /* Responsive Comparison Tables */
+    .table-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+    .table-caption-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .table-title {
+      font-family: var(--font-headline);
+      font-size: 1.1875rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table.dossier-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 560px;
+      font-size: 0.9375rem;
+    }
+    table.dossier-table thead th {
+      text-align: right;
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--secondary);
+      background: var(--surface-container);
+      border-bottom: var(--section-rule);
+      padding: var(--space-sm) var(--space-md);
+      white-space: nowrap;
+    }
+    table.dossier-table tbody td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--thin-rule);
+      vertical-align: top;
+      line-height: 1.65;
+    }
+    table.dossier-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    table.dossier-table tbody tr:hover td {
+      background: var(--surface-container);
+    }
+    .cell-strong {
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+
+    /* Interactive Modules (Briefing Figure Card) */
+    .interactive-panel {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+      container-type: inline-size;
+    }
+    .panel-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: var(--thin-rule);
+      margin-bottom: var(--space-lg);
+    }
+    .panel-title-wrap h3 {
+      font-family: var(--font-headline);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .panel-title-wrap p {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    /* Buttons & Segmented Controls */
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--border-strong);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .btn:hover {
+      background: var(--surface-container);
+    }
+    .btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .btn.is-teal.is-active {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      border-color: var(--secondary);
+    }
+    .btn.is-danger.is-active {
+      background: var(--error);
+      color: var(--on-error);
+      border-color: var(--error);
+    }
+
+    /* EA 5-Layer Interactive Pyramid */
+    .ea-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+    .ea-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .ea-layer-btn {
+      width: 100%;
+      min-height: 52px;
+      text-align: right;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .ea-layer-btn:hover {
+      background: var(--surface-container-high);
+      transform: translateX(-2px);
+    }
+    .ea-layer-btn.is-selected {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      border-color: var(--secondary);
+      box-shadow: 0 2px 0 var(--primary-container);
+    }
+    .ea-layer-btn.is-broken {
+      background: var(--error-tint);
+      border-color: var(--error-border);
+    }
+    .ea-layer-btn.is-broken.is-selected {
+      background: var(--error);
+      color: var(--on-error);
+      border-color: var(--error);
+    }
+    .ea-layer-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-weight: 700;
+      font-size: 0.9375rem;
+    }
+    .ea-step-badge {
+      font-family: var(--font-mono);
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+    }
+    .ea-detail-box {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-top: var(--section-rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .ea-detail-kicker {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--tertiary);
+    }
+    .ea-detail-title {
+      font-family: var(--font-headline);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .ea-detail-list {
+      margin: var(--space-xs) 0 0 0;
+      padding-right: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      font-size: 0.9375rem;
+    }
+    .ea-flow-banner {
+      margin-top: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    .ea-flow-banner.is-broken {
+      color: var(--error);
+      border-color: var(--error-border);
+    }
+
+    /* Industry Process Explorer */
+    .sector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    .sector-card {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+    }
+    .sector-card h4 {
+      margin: 0 0 var(--space-sm) 0;
+      font-size: 1rem;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .sector-card ul {
+      margin: 0;
+      padding-right: var(--space-lg);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+    }
+
+    /* 3-5 Year Cycle Stepper */
+    .cycle-track {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .cycle-step-btn {
+      min-height: 56px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      text-align: right;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .cycle-step-btn:hover {
+      background: var(--surface-container-high);
+    }
+    .cycle-step-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .cycle-step-btn.is-active .cycle-step-num {
+      color: var(--primary-container);
+    }
+    .cycle-step-num {
+      font-family: var(--font-mono);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    .cycle-step-name {
+      font-weight: 700;
+      font-size: 0.9375rem;
+    }
+
+    /* H-Index Interactive Simulator */
+    .hindex-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .control-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .input-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    .input-val-pill {
+      font-family: var(--font-mono);
+      font-size: var(--label-size);
+      background: var(--surface-container);
+      border: var(--card-border);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    input[type="range"] {
+      width: 100%;
+      min-height: 44px;
+      accent-color: var(--secondary);
+      cursor: pointer;
+    }
+    .hindex-readout {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .readout-tile {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm);
+      text-align: center;
+    }
+    .readout-tile.is-highlight {
+      background: var(--gold-tint);
+      border-color: var(--primary-container);
+    }
+    .readout-label {
+      display: block;
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+    }
+    .readout-num {
+      font-family: var(--font-headline);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+    .chart-box {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .chart-svg {
+      width: 100%;
+      height: 230px;
+      display: block;
+    }
+
+    /* Takeaways & Footer */
+    .takeaway-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-md);
+      margin: var(--space-lg) 0;
+    }
+    .takeaway-item {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .takeaway-item h4 {
+      margin: var(--space-xs) 0 0 0;
+      font-size: 1rem;
+      color: var(--on-surface);
+    }
+    .takeaway-item p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      line-height: 1.65;
+    }
+    .dossier-footer {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-lg);
+      border-top: var(--section-rule);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Container Queries for Interactive Modules */
+    @container (max-width: 680px) {
+      .ea-workspace,
+      .hindex-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hindex-readout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: var(--space-sm); }
+      .page-shell { padding: var(--space-sm); }
+      .figure-card, .interactive-panel, .table-card, .case-callout {
+        padding: var(--space-md);
+      }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .note-toc .toc-link {
+      display: inline-flex;
+      align-items: center;
+      border-radius: var(--rounded);
+      text-decoration: none;
+    }
+    .chapter-section { min-width: 0; }
+    .chart-box .chart-svg { min-width: 520px; }
+  </style>
+  <link rel="stylesheet" href="../../session-note.css">
+</head>
+<body>
+  <div class="note-masthead">
+    <a href="index.html">فهرست جلسات</a>
+    <span>معماری سازمانی</span>
+    <time datetime="2026-11-26">پنجشنبه، ۲۶ نوامبر ۲۰۲۶</time>
+  </div>
+  <nav class="note-toc" aria-label="فهرست مطالب">
+    <div class="note-toc-list">
+      <a href="#sec-winchester" class="toc-link">۱. وینچستر و فلورانس</a>
+      <a href="#sec-maps" class="toc-link">۲. ۶ نقشه و هرم معماری</a>
+      <a href="#sec-cases" class="toc-link">۳. مطالعات موردی ایران</a>
+      <a href="#sec-process" class="toc-link">۴. فرایند و مدل مرجع</a>
+      <a href="#sec-maturity" class="toc-link">۵. گذار ۳ تا ۵ ساله</a>
+      <a href="#sec-research" class="toc-link">۶. پژوهش و شاخص اچ</a>
+      <a href="#sec-takeaways" class="toc-link">۷. جمع‌بندی</a>
+    </div>
+  </nav>
+  <main class="page-shell narrative-col">
+    <!-- Hero / Masthead -->
+    <header class="hero-dossier">
+      <div class="dossier-bar">
+        <div class="dossier-bar-group">
+          <span class="dossier-pill">پرونده تخصصی</span>
+          <span class="dossier-meta">جلسه ۰۷ · دانشگاه آزاد اسلامی واحد ساوه · درس معماری سازمانی</span>
+        </div>
+        <span class="dossier-meta en-code"><bdi dir="ltr">BRIEFING · EA-07 · IRAN-EAF / TOGAF</bdi></span>
+      </div>
+
+      <h1 class="hero-title">معماری سازمانی: چرا توسعه بدون نقشه، سازمان را به «عمارت وینچستر» تبدیل می‌کند؟</h1>
+      <p class="hero-standfirst">
+        گزارش تحلیلی از ضرورت مهندسی یکپارچه سازمان، چارچوب ملی معماری ایران، تفاوت فرایندهای هسته و پشتیبان، مدل‌های مرجع صنعت و نقشه راه پژوهش و انتشار مقالات علمی.
+      </p>
+
+      <div class="tag-row" aria-label="کلیدواژه‌های دوزبانه پرونده">
+        <span class="term-pill">معماری سازمانی <span class="term-sep">/</span> <span class="term-en"><bdi dir="ltr">Enterprise Architecture (EA)</bdi></span></span>
+        <span class="term-pill">چارچوب ملی <span class="term-sep">/</span> <span class="term-en"><bdi dir="ltr">IRAN-EAF &amp; TOGAF</bdi></span></span>
+        <span class="term-pill">مدل مرجع <span class="term-sep">/</span> <span class="term-en"><bdi dir="ltr">Reference Model</bdi></span></span>
+        <span class="term-pill">فرایند هسته و پشتیبان <span class="term-sep">/</span> <span class="term-en"><bdi dir="ltr">Core vs. Supporting</bdi></span></span>
+        <span class="term-pill">گذرگاه سرویس <span class="term-sep">/</span> <span class="term-en"><bdi dir="ltr">ESB</bdi></span></span>
+        <span class="term-pill">نشانه‌گذاری فرایند <span class="term-sep">/</span> <span class="term-en"><bdi dir="ltr">BPMN</bdi></span></span>
+        <span class="term-pill">شاخص اچ <span class="term-sep">/</span> <span class="term-en"><bdi dir="ltr">H-Index</bdi></span></span>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="kpi-grid">
+        <article class="figure-card">
+          <div class="figure-card-head">
+            <span class="figure-kicker">نشانه بی‌معماری (وینچستر)</span>
+            <span class="index-num"><bdi dir="ltr">01</bdi></span>
+          </div>
+          <div class="figure-value">۹۵۰ در بی‌خروجی</div>
+          <p class="figure-desc">در کنار ۱۶۰ اتاق، ۴۶۷ در و ۳۸ سال ساخت مداوم با هزینه ۵.۵ میلیون دلار؛ نماد ساخت‌وساز روزمره بدون طرح جامع.</p>
+        </article>
+
+        <article class="figure-card">
+          <div class="figure-card-head">
+            <span class="figure-kicker">نقشه‌های مهندسی سازمان</span>
+            <span class="index-num"><bdi dir="ltr">02</bdi></span>
+          </div>
+          <div class="figure-value">۶ نقشه یکپارچه</div>
+          <p class="figure-desc">ساختار، فرایند، خدمت، اطلاعات، سیستم و شبکه — پیش‌نیاز اجتناب‌ناپذیر پیش از خرید سرور یا نرم‌افزار.</p>
+        </article>
+
+        <article class="figure-card">
+          <div class="figure-card-head">
+            <span class="figure-kicker">افق گذار معماری سازمانی</span>
+            <span class="index-num"><bdi dir="ltr">03</bdi></span>
+          </div>
+          <div class="figure-value">۳ تا ۵ سال</div>
+          <p class="figure-desc">بازه برنامه‌ریزی انتقال از وضع موجود (<bdi dir="ltr">As-Is</bdi>) به وضع مطلوب (<bdi dir="ltr">To-Be</bdi>) و بازنگری ادواری آن.</p>
+        </article>
+
+        <article class="figure-card">
+          <div class="figure-card-head">
+            <span class="figure-kicker">شاخص اعتبار پژوهشی</span>
+            <span class="index-num"><bdi dir="ltr">04</bdi></span>
+          </div>
+          <div class="figure-value"><bdi dir="ltr">H-Index = 18</bdi></div>
+          <p class="figure-desc">نمونه واقعی ارائه‌شده در کلاس: ۱۲۰ مقاله (حتی با یک مقاله ۴۰۰ ارجاعی)، زمانی شاخص ۱۸ می‌گیرد که ۱۸ مقاله دست‌کم ۱۸ ارجاع داشته باشند.</p>
+        </article>
+      </div>
+      <p><strong>محور مرکزی جلسه:</strong> پیش از آنکه «سریع و چابک» کدنویسی یا خرید سامانه را آغاز کنیم، باید بدانیم کجا می‌خواهیم بایستیم و چه نقشه‌ای اجزا را به هم پیوند می‌دهد.</p>
+    </header>
+
+    <!-- SECTION 01 -->
+    <section class="chapter-section" id="sec-winchester">
+      <div class="dossier-bar">
+        <span class="dossier-pill">بخش ۰۱</span>
+        <span class="dossier-meta">استعاره بنیادین · چرا معماری وجود دارد؟</span>
+      </div>
+      <div class="chapter-head">
+        <h2 class="chapter-title">تراژدی توسعه بدون نقشه: عمارت وینچستر در برابر کلیسای فلورانس</h2>
+        <p class="chapter-deck">وقتی سازمان‌ها بدون طرح کلان و صرفاً با توجیه «چابکی» هر روز یک اتاق یا نرم‌افزار تازه به بدنه خود می‌چسبانند، خروجی نه یک بنای ماندگار، بلکه هزارتویی غیرقابل سکونت و غیرقابل نگهداری است.</p>
+      </div>
+
+      <p class="prose">
+        بسیاری از مدیران در سازمان‌ها دقیقاً رفتاری شبیه سازندگان <strong>عمارت وینچستر (<bdi dir="ltr">Winchester Mystery House</bdi>)</strong> در سن‌خوزه کالیفرنیا دارند: مدام در حال ساختن و خرید سامانه هستند، بی‌آنکه بدانند هدف نهایی چیست، ارتباط فضایی بخش‌ها چگونه است و خرید یک اپلیکیشن جدید با کدام سامانه دیگر تداخل دارد. گاهی این ساخت‌وساز دائمی نه از روی نیاز واقعی، بلکه برای تمدید عمر مدیریتی و نمایش «فعال بودن» انجام می‌شود.
+      </p>
+      <p class="prose">
+        این عارضه در مقیاس نرم‌افزار با شعار نادرست «سریع بسازیم و چابک کار کنیم» توجیه می‌شود؛ در حالی که کدنویسی سریع بدون فاز طراحی و برنامه‌ریزی — وقتی همه چیز فقط در ذهن برنامه‌نویس است — به سیستم‌های ناسازگار، پله‌های بن‌بست و بن‌بست‌های عملیاتی ختم می‌شود. در نقطه مقابل، <strong>کلیسای فلورانس</strong> با وجود آنکه چهار معمار مختلف در طول زمان بر روی آن کار کردند، به‌دلیل وجود طرح و معماری مشخص، به اثری یکپارچه و ماندگار تبدیل شد.
+      </p>
+
+      <!-- Case Study Callouts: Winchester vs Florence -->
+      <div class="callout-grid">
+        <article class="case-callout is-alert">
+          <div class="case-header">
+            <h3 class="case-title">عمارت وینچستر (سن‌خوزه، کالیفرنیا)</h3>
+            <span class="case-badge badge-error">نماد فقدان معماری</span>
+          </div>
+          <div class="case-metrics">
+            <span class="mini-stat">۳۸ سال ساخت مداوم</span>
+            <span class="mini-stat">۵.۵ میلیون دلار هزینه</span>
+            <span class="mini-stat">۱۶۰ اتاق</span>
+            <span class="mini-stat">۹۵۰ در بی‌خروجی</span>
+            <span class="mini-stat">۶۵ هزار متر مربع</span>
+          </div>
+          <p>
+            ساخته‌شده بر اساس خرافه‌ای مبنی بر اینکه تا زمان ادامه ساخت‌وساز، صاحب عمارت زنده می‌ماند. نتیجه: پلکان‌هایی که به سقف ختم می‌شوند، درهایی که به فضای خالی طبقه دوم باز می‌شوند، یک کمد که به ۳۰ اتاق دیگر راه دارد، راهروهای گمراه‌کننده و درهایی مسدود. اگرچه اکنون سالانه حدود <strong>۵ میلیون دلار</strong> از فروش بلیت گردشگران درآمد دارد، اما برای سکونت و نگهداری عملاً غیرممکن است.
+          </p>
+          <div class="case-lesson">درس سازمانی: خرید بی‌رویه سامانه و اتصال جزیره‌ای بخش‌ها، سازمان را به «عمارت وینچستر دیجیتال» بدل می‌کند.</div>
+        </article>
+
+        <article class="case-callout is-teal">
+          <div class="case-header">
+            <h3 class="case-title">کلیسای فلورانس (تداوم معماری)</h3>
+            <span class="case-badge badge-teal">نماد طرح کلان</span>
+          </div>
+          <div class="case-metrics">
+            <span class="mini-stat">۴ معمار در نسل‌های پیاپی</span>
+            <span class="mini-stat">وفاداری به پلان مرجع</span>
+            <span class="mini-stat">یکپارچگی ساختاری</span>
+          </div>
+          <p>
+            با آنکه چهار معمار متفاوت در دوره‌های زمانی گوناگون مسئولیت ساخت کلیسای فلورانس را بر عهده گرفتند، اما وجود نقشه و زبان مشترک معماری مانع از گسست سبک و ناکارآمدی فضاها شد. هر نسل ادامه منطقی نسل پیشین بود، نه تخریب یا وصله‌کاری آن.
+          </p>
+          <div class="case-lesson">درس سازمانی: با تغییر مدیران در سازمان، اگر معماری مکتوب باشد، مسیر کلان متکی به سلیقه فردی نمی‌شود.</div>
+        </article>
+      </div>
+
+      <!-- Comparison Table 1 -->
+      <div class="table-card">
+        <div class="table-caption-bar">
+          <h3 class="table-title">مقایسه پیامدهای وجود و فقدان معماری در سه مقیاس</h3>
+          <span class="dossier-meta">برگرفته از تحلیل قیاسی کلاس</span>
+        </div>
+        <div class="table-scroll">
+          <table class="dossier-table">
+            <thead>
+              <tr>
+                <th>مقیاس</th>
+                <th>توسعه بدون معماری (الگوی وینچستر)</th>
+                <th>توسعه معماری‌شده (الگوی کلیسای فلورانس)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-strong">ساختمان</td>
+                <td>درهای بازشونده در هوا، کمد ۳۰ اتاقه، راه‌پله‌های بن‌بست، غیرقابل سکونت و غیرقابل نگهداری</td>
+                <td>تفکیک روشن کاربری (مسکونی، تجاری، اداری، سه‌طبقه یا چهارطبقه) و هماهنگی کامل نقشه سازه، برق، لوله‌کشی و نما</td>
+              </tr>
+              <tr>
+                <td class="cell-strong">سازمان و فناوری</td>
+                <td>خرید اپلیکیشن بدون بررسی تداخل؛ «فرایند در ذهن برنامه‌نویس»؛ چابکی کاذب و ایجاد جزیره‌های داده</td>
+                <td>هم‌راستایی ظرفیت‌ها با هدف نهایی؛ طراحی پیشینی ۶ نقشه سازمان؛ قابلیت توسعه و نگهداری پایدار</td>
+              </tr>
+              <tr>
+                <td class="cell-strong">شهر و دولت</td>
+                <td>شهر آشفته و ناهماهنگ؛ دستگاه‌های دولتی جزیره‌ای بدون امکان تبادل استاندارد داده</td>
+                <td>شهر منسجم؛ ارتباط یکپارچه دستگاه‌های اجرایی از طریق زبان مشترک و گذرگاه‌های سرویس باز</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02 -->
+    <section class="chapter-section" id="sec-maps">
+      <div class="dossier-bar">
+        <span class="dossier-pill">بخش ۰۲</span>
+        <span class="dossier-meta">مهندسی یکپارچه · <bdi dir="ltr">IRAN-EAF &amp; TOGAF</bdi></span>
+      </div>
+      <div class="chapter-head">
+        <h2 class="chapter-title">شش نقشه حیاتی سازمان و هرم ۵ لایه چارچوب ملی معماری ایران</h2>
+        <p class="chapter-deck">همان‌گونه که برای ساخت بنا پیش از کلنگ‌زنی به پلان، نقشه برق، لوله‌کشی و نما نیاز داریم، برای مهندسی یا بهینه‌سازی سازمان نیز باید شش نقشه پایه استخراج شود.</p>
+      </div>
+
+      <p class="prose">
+        معماری سازمانی (و در سطح فناوری اطلاعات، <span class="highlight-ink">معماری فناوری اطلاعات سازمانی</span>) به معنای استخراج نقشه‌های مهندسی همه عناصر و جوانب سازمان به‌صورت یکپارچه است. سازمان‌هایی که به بهانه داشتن «چارت» و «فهرست خدمات» مدعی معماری هستند، اغلب با ساختارهای دست‌وپاشکسته، فرایندهای سلیقه‌ای و فقدان نقشه اطلاعات روبه‌رویند. پیش از هر اقدامی باید شش نقشه تکمیل شود: <strong>نقشه ساختار، نقشه فرایند، نقشه خدمت (شناسنامه سرویس‌ها و گیرندگان)، نقشه اطلاعات، نقشه سیستم و نقشه شبکه</strong>.
+      </p>
+      <p class="prose">
+        در سطح کلان کشوری، <strong>چارچوب ملی معماری سازمانی ایران (<bdi dir="ltr">IRAN-EAF</bdi>)</strong> که توسط سازمان فناوری اطلاعات و بر پایه چارچوب مادر <bdi dir="ltr">TOGAF</bdi> طراحی شده (اسناد آن در وب‌سایت <bdi dir="ltr">iran-eaf.ir</bdi> منتشر شده است)، همه دستگاه‌های اجرایی را در سطح ستاد ملزم می‌کند معماری پنج‌لایه خود را استخراج کنند تا دولت و دستگاه‌ها با یک زبان مشترک از طریق گذرگاه‌ها با هم تبادل اطلاعات داشته باشند.
+      </p>
+
+      <!-- Interactive 1: 5-Layer EA Pyramid vs Broken Bottom-Up -->
+      <div class="interactive-panel" id="ea-pyramid-widget">
+        <div class="panel-top">
+          <div class="panel-title-wrap">
+            <h3>کاوشگر هرم معماری ۵ لایه (<bdi dir="ltr">IRAN-EAF</bdi>)</h3>
+            <p>مسیر صحیح مهندسی (بالا به پایین) را با الگوی معیوب خرید جزیره‌ای در سازمان‌های دولتی مقایسه کنید و روی هر لایه کلیک کنید.</p>
+          </div>
+          <div class="btn-group" role="group" aria-label="انتخاب مسیر معماری">
+            <button type="button" class="btn is-teal is-active" id="mode-topdown" onclick="setEaMode('topdown')">مسیر مهندسی (بالا به پایین)</button>
+            <button type="button" class="btn is-danger" id="mode-bottomup" onclick="setEaMode('bottomup')">الگوی معیوب (پایین به بالا)</button>
+          </div>
+        </div>
+
+        <div class="ea-workspace">
+          <div class="ea-stack" id="ea-stack-list" role="list">
+            <!-- Populated by JS -->
+          </div>
+          <div class="ea-detail-box" id="ea-detail-panel" aria-live="polite">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <aside class="aside-box">
+        <h4 class="aside-box-title">نقد «حکمرانی داده‌مبنا» بدون معماری فرایند</h4>
+        <p>
+          تأکید صرف بر «داده‌مبنا بودن» و راه‌اندازی پروژه‌های کلان داده بدون شناخت فرایندها بی‌معناست؛ زیرا سازمان مرض ندارد بیهوده داده نگهداری کند! داده صرفاً برای پشتیبانی، اجرا و به‌روزرسانی <strong>فرایندهای کسب‌وکار</strong> تولید و نگهداری می‌شود. ازاین‌رو، معماری حرفه پایه معماری داده، معماری داده پایه سیستم‌های اطلاعاتی، و سیستم‌های اطلاعاتی پایه زیرساخت و شبکه هستند.
+        </p>
+      </aside>
+    </section>
+
+    <!-- SECTION 03 -->
+    <section class="chapter-section" id="sec-cases">
+      <div class="dossier-bar">
+        <span class="dossier-pill">بخش ۰۳</span>
+        <span class="dossier-meta">تجربه‌های میدانی · رگولاتوری، پلتفرم‌ها و صنایع</span>
+      </div>
+      <div class="chapter-head">
+        <h2 class="chapter-title">معماری سازمانی در عمل: از تنظیم مقررات و ازکی تا بانکداری و صنایع مادر</h2>
+        <p class="chapter-deck">نمونه‌های واقعی مطرح‌شده در جلسه هفتم نشان می‌دهد چگونه طراحی گذرگاه سرویس و مکتوب‌سازی فرایند، مزیت رقابتی می‌سازد یا نبود آن به ناکارآمدی و سلیقه فردی می‌انجامد.</p>
+      </div>
+
+      <div class="callout-grid">
+        <!-- Case 1: CRA & Telecom Operators (Hamrah-e Aval context) -->
+        <article class="case-callout is-teal">
+          <div class="case-header">
+            <h3 class="case-title">سازمان تنظیم مقررات و ارتباطات رادیویی (۱۳۹۶)</h3>
+            <span class="case-badge badge-teal">نمونه موفق رگولاتوری</span>
+          </div>
+          <div class="case-metrics">
+            <span class="mini-stat">کتاب فرایندهای مطلوب</span>
+            <span class="mini-stat">گذرگاه سرویس (<bdi dir="ltr">ESB</bdi>)</span>
+            <span class="mini-stat">داشبورد مدیریتی</span>
+          </div>
+          <p>
+            در نقشه کلان معماری فناوری اطلاعات این سازمان، تمام ذی‌نفعان بیرونی، کانال‌های ارتباطی، فرایندهای تخصصی (مانند صدور پروانه مجوز رادیویی، نظارت بر فضای فرکانسی، صدور مجوز دفاتر پیشخان دولت و تدوین ضوابط اتصال متقابل میان اپراتورهای ارتباطی نظیر <strong>همراه اول</strong> و رقبای آن) و ارتباط سیستم‌ها از طریق گذرگاه <bdi dir="ltr">ESB</bdi> مستندسازی شد.
+          </p>
+          <div class="case-lesson">دستاورد: تبدیل تعاملات سلیقه‌ای اپراتورها و دفاتر پیشخان به سرویس‌های شناسنامه‌دار و قابل رصد در داشبورد مدیریت.</div>
+        </article>
+
+        <!-- Case 2: Azki & State Bus -->
+        <article class="case-callout is-gold">
+          <div class="case-header">
+            <h3 class="case-title">ازکی (<bdi dir="ltr">azki.com</bdi>) و گذرگاه سرویس دولت</h3>
+            <span class="case-badge badge-gold">مزیت رقابتی <bdi dir="ltr">ESB</bdi></span>
+          </div>
+          <div class="case-metrics">
+            <span class="mini-stat">استعلام خودکار خودرو</span>
+            <span class="mini-stat">تنها با پلاک + کد ملی</span>
+            <span class="mini-stat">الزامات امنیتی سخت‌گیرانه</span>
+          </div>
+          <p>
+            در زمانی که رقبایی مانند بیمه‌بازار کاربر را مجبور می‌کردند نوع خودرو (سواری، باری، کار)، سال ساخت و تخفیف‌ها را دستی وارد کند، ازکی با دریافت مجوز و تعهدات امنیتی از باس دولت (<bdi dir="ltr">ESB</bdi>)، اطلاعات خودرو را مستقیماً فراخوانی کرد و تجربه کاربری را متحول ساخت.
+          </p>
+          <div class="case-lesson">نکته امنیتی: دسترسی به گذرگاه سرویس هرگز بدون تعهدات سنگین امنیتی و زیرساخت‌های حفاظتی اعطا نمی‌شود (چرا که امنیت ۱۰۰ درصدی مطلق وجود ندارد).</div>
+        </article>
+
+        <!-- Case 3: Banking & Verification (HSBC vs Bank Melli / Digipay) -->
+        <article class="case-callout is-alert">
+          <div class="case-header">
+            <h3 class="case-title">بانکداری: <bdi dir="ltr">HSBC</bdi> و دیجی‌پی در برابر «نظر رئیس شعبه»</h3>
+            <span class="case-badge badge-error">شکاف فرایند مکتوب</span>
+          </div>
+          <div class="case-metrics">
+            <span class="mini-stat">حذف گام حیاتی = از دست رفتن داده</span>
+            <span class="mini-stat">سلیقه فردی در اعطای وام</span>
+          </div>
+          <p>
+            در پرونده تسهیلات برخی شعب سنتی، نبود فرایند مکتوب باعث می‌شود یک روز دو چک بخواهند و هفته بعد سه ضامن کسر از حقوق، و در نهایت جمله «با نظر رئیس شعبه» سرنوشت متقاضی را تعیین کند؛ در حالی که سامانه‌های فرایندمحور مانند دیجی‌پی دقیقاً با خط‌کش مکتوب عمل می‌کنند. از سوی دیگر، در بانکداری بریتانیا (<bdi dir="ltr">HSBC</bdi>) کارت بانکی را حضوری تحویل نمی‌دهند، بلکه به آدرس محل سکونت پست می‌کنند تا راستی‌آزمایی املاک و اسکان هم‌زمان با افتتاح حساب انجام شود؛ حذفی که در ایران معضل خوداظهاری اسکان را پدید آورد.
+          </p>
+          <div class="case-lesson">درس کلیدی: بهینه‌سازی فرایند به معنای حذف کورکورانه گام‌ها نیست؛ اگر گام کنترل آدرس حذف شود، داده امنیتی از دست می‌رود.</div>
+        </article>
+
+        <!-- Case 4: MAPNA & Large Industrial Holdings (IMIDRO context) -->
+        <article class="case-callout">
+          <div class="case-header">
+            <h3 class="case-title">مپنا (پروژه‌های نیروگاهی) و هلدینگ‌های صنعتی مادر</h3>
+            <span class="case-badge">مقیاس راهبردی ۵ ساله</span>
+          </div>
+          <div class="case-metrics">
+            <span class="mini-stat">چرخه بازنگری ۵ ساله</span>
+            <span class="mini-stat">گسترش از نیروگاه به ساخت قطار</span>
+          </div>
+          <p>
+            در کلاس به تجربه شرکت پروژه‌های نیروگاهی ایران (مپنا / متنان در متن گفتار) اشاره شد که با اجرای معماری سازمانی، مسیر توسعه ۵ ساله خود را از پروژه‌های نیروگاهی به سمت طراحی و ساخت قطار گسترش داد و پس از پایان دوره ۵ ساله دوباره معماری خود را بازنگری کرد. این منطق دقیقاً همان چارچوبی است که ابرسازمان‌ها و هلدینگ‌های تخصصی زیربنایی (همچون ایمیدرو در حوزه معدن و صنایع معدنی) برای هم‌راستاسازی پروژه‌های کلان و سامانه‌های تابعه در افق ۳ تا ۵ ساله به آن نیاز دارند.
+          </p>
+          <div class="case-lesson">نکته میدانی: در سازمان‌های مادر و هلدینگ‌ها، معماری سازمانی ابزار تصمیم‌گیری برای ورود به کسب‌وکارهای آینده است.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION 04 -->
+    <section class="chapter-section" id="sec-process">
+      <div class="dossier-bar">
+        <span class="dossier-pill">بخش ۰۴</span>
+        <span class="dossier-meta">معماری کسب‌وکار · <bdi dir="ltr">Core vs. Supporting &amp; BPMN</bdi></span>
+      </div>
+      <div class="chapter-head">
+        <h2 class="chapter-title">کالبدشکافی فرایندها: هسته در برابر پشتیبان، <bdi dir="ltr">BPMN</bdi> و مدل‌های مرجع</h2>
+        <p class="chapter-deck">آیا می‌توان برای همه سازمان‌ها یک نسخه واحد پیچید؟ تفکیک فرایندهای تخصصی از فرایندهای پشتیبان و بهره‌گیری از مدل‌های مرجع صنعتی، پاسخ دقیق این پرسش است.</p>
+      </div>
+
+      <p class="prose">
+        بسیاری معماری فرایند را با فلوچارت ساده اشتباه می‌گیرند. در فلوچارت فقط مسیر و توالی مراحل ترسیم می‌شود، بی‌آنکه روشن باشد <strong>کدام بخش یا نقش سازمانی</strong> مسئول انجام هر گام است. در مقابل، مدل‌سازی فرایند با زبان استاندارد <strong><bdi dir="ltr">BPMN</bdi></strong> (که تنها یک زبان نشانه‌گذاری است و نیازمند دانش مهندسی مجدد فرایند است)، خط‌مشی‌ها، استخرهای مسئولیت و حتی مهلت‌های زمانی (<bdi dir="ltr">Deadline</bdi>، مثل تایید خودکار پس از ۲۴ ساعت در صورت عدم پاسخ) را تعریف می‌کند.
+      </p>
+      <p class="prose">
+        همچنین تقدم منطقی در سازمان‌های فرایندمحور (<span class="highlight-ink"><bdi dir="ltr">Process-Oriented</bdi></span>) این است که ابتدا <strong>فرایندها</strong> بر مبنای راهبرد و مأموریت تعریف شوند و سپس <strong>ساختار سازمانی</strong> متناسب با آن چیده شود؛ نه اینکه ابتدا ساختار را بر پایه افراد یا سلیقه‌ها بچینند (مانند ماجرای مدیر دولتی که با یک حدس شفاهی «۲۰۰ نیروی قابل تعدیل» را بدون شناخت فرایندها وارد بحران تعدیل کرد!).
+      </p>
+
+      <!-- Interactive 2: Industry Reference Model & Core vs Supporting Explorer -->
+      <div class="interactive-panel" id="process-explorer-widget">
+        <div class="panel-top">
+          <div class="panel-title-wrap">
+            <h3>کاوشگر فرایندهای هسته/پشتیبان و مدل مرجع (<bdi dir="ltr">Reference Model</bdi>)</h3>
+            <p>یک صنعت یا حوزه را از نمونه‌های مطرح‌شده در کلاس انتخاب کنید تا فرایندهای تخصصی، پشتیبان و منطق مدل مرجع آن را ببینید.</p>
+          </div>
+          <div class="btn-group" role="group" aria-label="انتخاب صنعت">
+            <button type="button" class="btn is-active" data-sector="banking" onclick="selectSector('banking')">بانکداری</button>
+            <button type="button" class="btn" data-sector="insurance" onclick="selectSector('insurance')">بیمه</button>
+            <button type="button" class="btn" data-sector="cra" onclick="selectSector('cra')">تنظیم مقررات</button>
+            <button type="button" class="btn" data-sector="education" onclick="selectSector('education')">آموزش و دانشگاه</button>
+            <button type="button" class="btn" data-sector="health" onclick="selectSector('health')">سلامت و بیمارستان</button>
+          </div>
+        </div>
+
+        <div class="sector-grid" id="sector-output" aria-live="polite">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Comparison Table 2: Core vs Supporting & Flowchart vs BPMN -->
+      <div class="table-card">
+        <div class="table-caption-bar">
+          <h3 class="table-title">جدول مقایسه‌ای فرایندهای هسته، پشتیبان و استاندارد مدلسازی</h3>
+          <span class="dossier-meta">تفاوت ماهیت، قابلیت تعمیم و جایگاه در ساختار</span>
+        </div>
+        <div class="table-scroll">
+          <table class="dossier-table">
+            <thead>
+              <tr>
+                <th>بعد مقایسه</th>
+                <th>فرایندهای تخصصی / هسته (<bdi dir="ltr">Core</bdi>)</th>
+                <th>فرایندهای پشتیبان (<bdi dir="ltr">Supporting</bdi>)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-strong">ماهیت و اختصاصی بودن</td>
+                <td>هویت و مأموریت اصلی سازمان را می‌سازند (مثل صدور مجوز رادیویی در رگولاتوری یا ثبت نمرات در آموزش)</td>
+                <td>در اغلب سازمان‌ها مشابه‌اند: اداری، مالی، منابع انسانی، روابط عمومی، فناوری اطلاعات و مرخصی استعلاجی</td>
+              </tr>
+              <tr>
+                <td class="cell-strong">امکان تدوین مدل مرجع</td>
+                <td>برای شرکت‌های هم‌جنس یک صنعت (مانند <bdi dir="ltr">Core Banking</bdi> یا <bdi dir="ltr">Core Insurance</bdi>) کاملاً امکان‌پذیر و ضروری است</td>
+                <td>قالب‌های عمومی با حدود ۹۰٪ شباهت وجود دارد، اما به‌دلیل تفاوت ماهیت و آیین‌نامه سازمان‌ها، نسخه یکسان مطلق برای کل کشور تجویز نمی‌شود</td>
+              </tr>
+              <tr>
+                <td class="cell-strong">رابطه با مدل مرجع (<bdi dir="ltr">Reference Model</bdi>)</td>
+                <td>قانون اجباری نیست، بلکه الگوی بهینه آزموده‌شده‌ای است تا هر سازمان «چرخ را از نو اختراع نکند» (مثل کارت‌به‌کارت ۹۵٪ مشترک در بانک‌ها)</td>
+                <td>الگوبرداری با تعدیل‌های جزئی متناسب با آیین‌نامه داخلی و چارت سازمانی انجام می‌شود</td>
+              </tr>
+              <tr>
+                <td class="cell-strong">جایگاه فلوچارت در برابر <bdi dir="ltr">BPMN</bdi></td>
+                <td colspan="2">فلوچارت صرفاً مسیر گام‌ها را نشان می‌دهد؛ اما در معماری فرایند (<bdi dir="ltr">BPMN</bdi>) واحدهای درگیر، مسئولیت هر نقش، مهلت پاسخ‌گویی (<bdi dir="ltr">Deadline</bdi>) و خروجی سرویس‌ها برای کشف خدمات بیرونی و داخلی (<bdi dir="ltr">Service Catalog</bdi>) استخراج می‌شود.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 05 -->
+    <section class="chapter-section" id="sec-maturity">
+      <div class="dossier-bar">
+        <span class="dossier-pill">بخش ۰۵</span>
+        <span class="dossier-meta">پویایی و بلوغ · <bdi dir="ltr">As-Is &rarr; To-Be (3–5 Years)</bdi></span>
+      </div>
+      <div class="chapter-head">
+        <h2 class="chapter-title">چرا نرم‌افزار «فاسد» می‌شود؟ چرخه ۳ تا ۵ ساله گذار و سطوح بلوغ</h2>
+        <p class="chapter-deck">نرم‌افزار مانند گوشی موبایل فرسوده نمی‌شود؛ بلکه وقتی فرایندهای کسب‌وکار تغییر می‌کنند و سامانه روی وضع موجود منجمد می‌ماند، به معنای دقیق کلمه فاسد و بلااستفاده می‌شود.</p>
+      </div>
+
+      <p class="prose">
+        یکی از بزرگ‌ترین خطاهای تحول دیجیتال در سازمان‌ها، مکانیزه‌کردن <strong>وضع موجود (<bdi dir="ltr">As-Is</bdi>)</strong> است؛ یعنی فرایندهای ناکارآمد گذشته را عیناً وارد سامانه جدید می‌کنند. راهکار مهندسی، تبدیل فرایندهای جاری به <strong>وضع مطلوب (<bdi dir="ltr">To-Be</bdi>)</strong> از طریق جلسات تحلیلی، حذف گام‌های زائد و حفظ گام‌های کنترلی ضروری است.
+      </p>
+
+      <!-- Interactive 3: 3-5 Year Cycle & Maturity Stepper -->
+      <div class="interactive-panel" id="cycle-widget">
+        <div class="panel-top">
+          <div class="panel-title-wrap">
+            <h3>چرخه سه‌فازی معماری و گام‌های بلوغ فرایندی</h3>
+            <p>روی هر فاز کلیک کنید تا خروجی‌های آن و چرایی تکرار چرخه در افق ۳ تا ۵ ساله را مشاهده کنید.</p>
+          </div>
+        </div>
+
+        <div class="cycle-track" role="tablist" aria-label="فازهای چرخه معماری">
+          <button type="button" class="cycle-step-btn is-active" data-phase="asis" onclick="selectPhase('asis')">
+            <span class="cycle-step-num">PHASE 01</span>
+            <span class="cycle-step-name">شناسایی وضع موجود (<bdi dir="ltr">As-Is</bdi>)</span>
+          </button>
+          <button type="button" class="cycle-step-btn" data-phase="tobe" onclick="selectPhase('tobe')">
+            <span class="cycle-step-num">PHASE 02</span>
+            <span class="cycle-step-name">تدوین وضع مطلوب (<bdi dir="ltr">To-Be</bdi>)</span>
+          </button>
+          <button type="button" class="cycle-step-btn" data-phase="transition" onclick="selectPhase('transition')">
+            <span class="cycle-step-num">PHASE 03</span>
+            <span class="cycle-step-name">فاز انتقال (۳ تا ۵ سال)</span>
+          </button>
+          <button type="button" class="cycle-step-btn" data-phase="maturity" onclick="selectPhase('maturity')">
+            <span class="cycle-step-num">MATURITY</span>
+            <span class="cycle-step-name">۴ گام بلوغ و پیشگیری از شکست</span>
+          </button>
+        </div>
+
+        <div class="ea-detail-box" id="phase-detail-panel" aria-live="polite">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 06 -->
+    <section class="chapter-section" id="sec-research">
+      <div class="dossier-bar">
+        <span class="dossier-pill">بخش ۰۶</span>
+        <span class="dossier-meta">پیوست پژوهشی · <bdi dir="ltr">ISI, Citations &amp; H-Index</bdi></span>
+      </div>
+      <div class="chapter-head">
+        <h2 class="chapter-title">نقشه راه پژوهش در معماری سازمانی: پیوستگی، مقاله <bdi dir="ltr">ISI</bdi> و منطق <bdi dir="ltr">H-Index</bdi></h2>
+        <p class="chapter-deck">در بخش پایانی جلسه، بحث به مسیر پژوهش دانشجویان ارشد و دکتری، نقش گروه پژوهشی، اهمیت تداوم روزانه و معیار واقعی سنجش اعتبار علمی یعنی شاخص اچ اختصاص یافت.</p>
+      </div>
+
+      <p class="prose">
+        ماهیت پژوهش (<bdi dir="ltr">Research</bdi>) انباشتی و زمان‌محور نیست، بلکه <strong>پیوسته‌محور</strong> است: اختصاص روزانه ۳۰ دقیقه تا ۲ ساعت به‌صورت مستمر بسیار مؤثرتر از کار فشرده ۱۰ ساعته و سپس یک هفته رها کردن پژوهش است؛ چرا که وقفه باعث بازگشت به نقطه صفر می‌شود. مسیر پیشنهادی برای شروع، تشکیل کارگروه‌های پژوهشی موضوعی در همین حوزه <strong>معماری سازمانی</strong> (تقسیم بررسی چارچوب‌ها و متدولوژی‌ها میان دو تا سه نفر و اشتراک‌گذاری دانش)، نگارش مقاله مروری (<bdi dir="ltr">Review Paper</bdi>)، ارسال به همایش‌های داخلی و سپس هدف‌گذاری مجلات <bdi dir="ltr">ISI</bdi> است.
+      </p>
+      <p class="prose">
+        داشتن مقاله معتبر <bdi dir="ltr">ISI</bdi> نه‌تنها در مصاحبه‌های دکتری، بلکه برای دریافت پذیرش دانشگاه‌های خارجی و حتی ویزاهای نخبگی (<bdi dir="ltr">Talent Visas</bdi>) تعیین‌کننده است؛ زیرا داوران و اساتید با دیدن سابقه <bdi dir="ltr">ISI</bdi> مطمئن می‌شوند پژوهشگر روش تحقیق و داوری علمی را بلد است. اما معیار دقیق‌تر از تعداد کل مقالات، <strong>تعداد ارجاعات (<bdi dir="ltr">Citations</bdi>)</strong> و شاخص <strong><bdi dir="ltr">H-Index</bdi></strong> است.
+      </p>
+
+      <!-- Interactive 4: H-Index Simulator -->
+      <div class="interactive-panel" id="hindex-widget">
+        <div class="panel-top">
+          <div class="panel-title-wrap">
+            <h3>شبیه‌ساز تعاملی شاخص <bdi dir="ltr">H-Index</bdi> (تست مثال واقعی کلاس)</h3>
+            <p>حالت‌های واقعی مطرح‌شده در کلاس را امتحان کنید یا لغزنده‌ها را تغییر دهید تا ببینید چرا یک مقاله ۴۰۰ ارجاعی به‌تنهایی <bdi dir="ltr">H-Index</bdi> را ۴۰۰ نمی‌کند.</p>
+          </div>
+          <div class="btn-group" role="group" aria-label="پیش‌تنظیم‌های شبیه‌ساز">
+            <button type="button" class="btn is-active" id="preset-prof" onclick="applyHPreset('prof')">مثال استاد (۱۲۰ مقاله / <bdi dir="ltr">H=18</bdi>)</button>
+            <button type="button" class="btn" id="preset-spike" onclick="applyHPreset('spike')">تک‌مقاله ۴۰۰ ارجاعی</button>
+            <button type="button" class="btn" id="preset-elite" onclick="applyHPreset('elite')">پژوهشگر شاخص ۳۰ (<bdi dir="ltr">30×30</bdi>)</button>
+          </div>
+        </div>
+
+        <div class="hindex-grid">
+          <div class="control-stack">
+            <div class="input-group">
+              <div class="input-label-row">
+                <label for="slider-total-papers">تعداد کل مقالات منتشرشده</label>
+                <span class="input-val-pill" id="val-total-papers">۱۲۰ مقاله</span>
+              </div>
+              <input type="range" id="slider-total-papers" min="10" max="150" value="120" oninput="onHSliderChange()">
+            </div>
+
+            <div class="input-group">
+              <div class="input-label-row">
+                <label for="slider-core-count">تعداد مقالات هسته پرارجاع</label>
+                <span class="input-val-pill" id="val-core-count">۱۸ مقاله</span>
+              </div>
+              <input type="range" id="slider-core-count" min="1" max="50" value="18" oninput="onHSliderChange()">
+            </div>
+
+            <div class="input-group">
+              <div class="input-label-row">
+                <label for="slider-top-cite">ارجاع برترین مقاله (سقف توزیع)</label>
+                <span class="input-val-pill" id="val-top-cite">۴۰۰ ارجاع</span>
+              </div>
+              <input type="range" id="slider-top-cite" min="5" max="450" value="400" oninput="onHSliderChange()">
+            </div>
+
+            <div class="aside-box" style="margin: 0;">
+              <h4 class="aside-box-title">تعریف دقیق <bdi dir="ltr">H-Index = h</bdi></h4>
+              <p id="hindex-explanation">
+                پژوهشگر دارای شاخص ۱۸ است اگر دست‌کم <strong>۱۸ مقاله</strong> او هرکدام حداقل <strong>۱۸ بار</strong> در مقالات دیگر ارجاع (<bdi dir="ltr">Citation</bdi>) خورده باشند.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div class="hindex-readout">
+              <div class="readout-tile is-highlight">
+                <span class="readout-label">شاخص <bdi dir="ltr">H-Index</bdi></span>
+                <span class="readout-num" id="out-hindex">18</span>
+              </div>
+              <div class="readout-tile">
+                <span class="readout-label">مجموع ارجاعات نمونه</span>
+                <span class="readout-num" id="out-total-cites">1,450</span>
+              </div>
+              <div class="readout-tile">
+                <span class="readout-label">تعداد کل مقالات</span>
+                <span class="readout-num" id="out-total-papers">120</span>
+              </div>
+            </div>
+
+            <div class="chart-box">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-xs);">
+                <span class="dossier-meta">نمودار رتبه‌بندی ۲۵ مقاله برتر در برابر خط <bdi dir="ltr">Citations = Rank</bdi></span>
+                <span class="dossier-meta" id="chart-legend-note" style="color: var(--secondary); font-weight: 700;">نقطه تقاطع: H = 18</span>
+              </div>
+              <div class="note-diagram-scroll" tabindex="0">
+                <svg class="chart-svg" id="hindex-svg" viewBox="0 0 520 230" role="img" aria-label="نمودار میله‌ای مقایسه ارجاعات مقالات با رتبه برای محاسبه شاخص اچ">
+                  <!-- Rendered dynamically by JS -->
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Academic Comparison Table -->
+      <div class="table-card">
+        <div class="table-caption-bar">
+          <h3 class="table-title">مقایسه سناریوهای پژوهش و اعتبارسنجی آکادمیک</h3>
+          <span class="dossier-meta">بر اساس نمونه‌های عددی مطرح‌شده در کلاس</span>
+        </div>
+        <div class="table-scroll">
+          <table class="dossier-table">
+            <thead>
+              <tr>
+                <th>سناریو</th>
+                <th>تعداد مقالات</th>
+                <th>الگوی ارجاعات</th>
+                <th>نتیجه <bdi dir="ltr">H-Index</bdi> و اعتبار علمی</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-strong">تک‌مقاله پربازدید</td>
+                <td>۱۰۰ مقاله</td>
+                <td>یک مقاله با ۴۰۰ ارجاع، اما ۹۹ مقاله دیگر با ۲ تا ۴ ارجاع</td>
+                <td><bdi dir="ltr">H-Index ≈ 4</bdi> — اتکا به یک مقاله، شاخص اچ را بالا نمی‌برد</td>
+              </tr>
+              <tr>
+                <td class="cell-strong">تجربه واقعی ارائه‌شده در جلسه</td>
+                <td>۱۲۰ مقاله</td>
+                <td>دارای یک مقاله ۴۰۰ ارجاعی، همراه با ۱۸ مقاله دارای دست‌کم ۱۸ ارجاع</td>
+                <td><bdi dir="ltr">H-Index = 18</bdi> — تداوم و کیفیت پایدار در چند دهه فعالیت</td>
+              </tr>
+              <tr>
+                <td class="cell-strong">سطح مرجع بین‌المللی</td>
+                <td><bdi dir="ltr">≥ 30</bdi> تا <bdi dir="ltr">2000</bdi></td>
+                <td>دست‌کم ۳۰ مقاله با ۳۰ ارجاع یا بیشتر</td>
+                <td><bdi dir="ltr">H-Index = 30</bdi> — شناخته‌شده به‌عنوان استعداد برتر (<bdi dir="ltr">Talent</bdi>) در سطح جهانی</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAKEAWAYS -->
+    <section class="chapter-section" id="sec-takeaways">
+      <div class="dossier-bar">
+        <span class="dossier-pill">جمع‌بندی اجرایی</span>
+        <span class="dossier-meta">چهار اصل کلیدی جلسه هفتم</span>
+      </div>
+      <div class="takeaway-list">
+        <article class="takeaway-item">
+          <span class="index-num"><bdi dir="ltr">01</bdi></span>
+          <h4>توقف توسعه «وینچستری»</h4>
+          <p>چابکی بدون طراحی کلان و بدون ۶ نقشه پایه، سازمان را به سازه‌های بی‌خروجی و غیرقابل نگهداری تبدیل می‌کند.</p>
+        </article>
+        <article class="takeaway-item">
+          <span class="index-num"><bdi dir="ltr">02</bdi></span>
+          <h4>حرکت از بالای هرم به پایین</h4>
+          <p>ابتدا راهبرد و فرایندها را تعریف کنید، سپس داده، نرم‌افزار و زیرساخت را برای پشتیبانی از آن‌ها بسازید.</p>
+        </article>
+        <article class="takeaway-item">
+          <span class="index-num"><bdi dir="ltr">03</bdi></span>
+          <h4>الهام از مدل مرجع، نه حذف کنترل</h4>
+          <p>بهینه‌سازی فرایند به معنای کم کردن بی‌ضابطه گام‌ها نیست؛ حفظ کنترل‌های حیاتی (مثل راستی‌آزمایی اسکان) الزامی است.</p>
+        </article>
+        <article class="takeaway-item">
+          <span class="index-num"><bdi dir="ltr">04</bdi></span>
+          <h4>پیوستگی روزانه در پژوهش</h4>
+          <p>کار روزانه مستمر در کارگروه معماری سازمانی، مسیر نگارش مقاله مروری و <bdi dir="ltr">ISI</bdi> و ارتقای <bdi dir="ltr">H-Index</bdi> را هموار می‌کند.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="dossier-footer">
+      <span>منبع محتوا: فایل صوتی جلسه هفتم درس معماری سازمانی — دانشگاه آزاد اسلامی واحد ساوه (<bdi dir="ltr">Saveh Branch 7.m4a</bdi>)</span>
+      <span class="en-code"><bdi dir="ltr">IRAN-EAF · TOGAF · BPMN · ESB</bdi></span>
+    </footer>
+  </main>
+
+  <script>
+    // 1. EA 5-Layer Pyramid Data
+    const eaLayers = [
+      {
+        id: `strategy`,
+        num: `01`,
+        name: `معماری برنامه راهبردی (Strategic Plan)`,
+        en: `Vision & Mission`,
+        topDownRole: `نقطه آغاز مطلق هر معماری؛ تعیین چشم‌انداز، مأموریت اصلی سازمان (مثلاً سازمان تأمین اجتماعی باید بیمه کند و درمان بدهد) و اهداف کلان.`,
+        bottomUpFlaw: `در الگوی معیوب، سازمان هیچ توجهی به هدف کلان و مأموریت نمی‌کند؛ صرفاً بودجه سالانه صرف خرید تجهیزات می‌شود.`,
+        maps: [`نقشه چشم‌انداز و راهبردهای دولت / دستگاه`, `تعیین جایگاه هدف در افق ۳ تا ۵ ساله`]
+      },
+      {
+        id: `business`,
+        num: `02`,
+        name: `معماری کسب‌وکار و فرایند (Business / Process)`,
+        en: `Process & Service Architecture`,
+        topDownRole: `برای تحقق راهبردها به چه فرایندهای هسته و پشتیبان نیاز داریم؟ تمام فرایندها از وضع موجود به وضع مطلوب بازمهندسی شده و شناسنامه خدمت و ساختار متناسب از دل آن استخراج می‌شود.`,
+        bottomUpFlaw: `«فرایندها را که هیچ کاری نمی‌کنیم!» — فرایندها در ذهن افراد یا کارشناسان می‌ماند، بخش‌ها با سلیقه فردی کار می‌کنند و ساختار سازمانی دست‌وپاشکسته می‌ماند.`,
+        maps: [`نقشه ساختار سازمانی`, `نقشه فرایندهای مطلوب (BPMN)`, `نقشه و شناسنامه خدمات`]
+      },
+      {
+        id: `data`,
+        num: `03`,
+        name: `معماری اطلاعات و داده (Information & Data)`,
+        en: `Data Governance & Entities`,
+        topDownRole: `داده صرفاً برای اجرا، پشتیبانی و به‌روزرسانی فرایندهای لایه کسب‌وکار تولید و نگهداری می‌شود؛ بنابراین ساختار داده دقیقاً تابع نیاز فرایندهاست.`,
+        bottomUpFlaw: `شعارهای «حکمرانی داده‌مبنا» با پروژه‌های میلیاردی، در حالی که داده‌های ناسازگار و بی‌مصرف در جزایر پراکنده تولید می‌شوند و «تبدیل به مایه دردسر» می‌گردند.`,
+        maps: [`نقشه اطلاعات و موجودیت‌های داده`, `استانداردهای تبادل داده میان دستگاه‌ها`]
+      },
+      {
+        id: `app`,
+        num: `04`,
+        name: `معماری نرم‌افزارهای کاربردی (Application Systems)`,
+        en: `Applications & ESB Integration`,
+        topDownRole: `سیستم‌ها و اپلیکیشن‌ها دقیقاً بر اساس داده‌ها و فرایندهای مصوب طراحی یا خریداری می‌شوند و از طریق گذرگاه سرویس سازمانی (ESB) به یکدیگر و داشبورد مدیریت متصل می‌گردند.`,
+        bottomUpFlaw: `خرید اپلیکیشن‌های جزیره‌ای بدون بررسی تداخل با سایر بخش‌ها؛ کدنویسی «سریع و چابک» بدون نقشه که به عمارت وینچستر دیجیتال منتهی می‌شود.`,
+        maps: [`نقشه سیستم‌های اطلاعاتی`, `معماری گذرگاه سرویس (ESB)`]
+      },
+      {
+        id: `tech`,
+        num: `05`,
+        name: `معماری زیرساخت فناوری و امنیت (Technology & Security)`,
+        en: `Infrastructure, Network & Security`,
+        topDownRole: `در آخرین گام هرم، زیرساخت شبکه، سرورها، بسترهای ارتباطی و لایه‌های امنیتی (به‌صورت فراگیر در کل ۵ لایه) متناسب با بار واقعی سیستم‌ها و سرویس‌ها تأمین می‌شود.`,
+        bottomUpFlaw: `«اول انبوه سرور می‌خریم و این سرورها بیکار می‌مانند!» سپس برای توجیه سرورها، اپلیکیشن بی‌نقشه می‌خریم و چرخه اتلاف منابع آغاز می‌شود.`,
+        maps: [`نقشه شبکه و زیرساخت`, `معماری امنیت اطلاعات و تعهدات گذرگاه`]
+      }
+    ];
+
+    let currentEaMode = `topdown`;
+    let currentEaLayerId = `strategy`;
+
+    function setEaMode(mode) {
+      currentEaMode = mode;
+      const btnTop = document.getElementById(`mode-topdown`);
+      const btnBot = document.getElementById(`mode-bottomup`);
+      if (btnTop && btnBot) {
+        btnTop.classList.toggle(`is-active`, mode === `topdown`);
+        btnBot.classList.toggle(`is-active`, mode === `bottomup`);
+      }
+      if (mode === `bottomup`) {
+        currentEaLayerId = `tech`;
+      } else {
+        currentEaLayerId = `strategy`;
+      }
+      renderEaPyramid();
+    }
+
+    function selectEaLayer(layerId) {
+      currentEaLayerId = layerId;
+      renderEaPyramid();
+    }
+
+    function renderEaPyramid() {
+      const stackEl = document.getElementById(`ea-stack-list`);
+      const detailEl = document.getElementById(`ea-detail-panel`);
+      if (!stackEl || !detailEl) return;
+
+      const orderedLayers = currentEaMode === `topdown` ? eaLayers : [...eaLayers].reverse();
+      const isBroken = currentEaMode === `bottomup`;
+
+      stackEl.innerHTML = orderedLayers.map((layer, idx) => {
+        const selectedClass = layer.id === currentEaLayerId ? `is-selected` : ``;
+        const brokenClass = isBroken ? `is-broken` : ``;
+        const stepOrder = isBroken ? `گام معیوب ${idx + 1}` : `لایه ${layer.num}`;
+        return `
+          <button type="button" class="ea-layer-btn ${brokenClass} ${selectedClass}" onclick="selectEaLayer('${layer.id}')">
+            <span class="ea-layer-meta">
+              <span class="ea-step-badge">${stepOrder}</span>
+              <span>${layer.name}</span>
+            </span>
+            <span class="en-code" style="opacity:0.8"><bdi dir="ltr">${layer.en}</bdi></span>
+          </button>
+        `;
+      }).join(``);
+
+      const activeLayer = eaLayers.find((l) => l.id === currentEaLayerId) || eaLayers[0];
+      const kickerText = isBroken
+        ? `آسیب‌شناسی الگوی خرید جزیره‌ای — لایه ${activeLayer.num}`
+        : `الگوی استاندارد IRAN-EAF / TOGAF — لایه ${activeLayer.num}`;
+      const bodyText = isBroken ? activeLayer.bottomUpFlaw : activeLayer.topDownRole;
+      const bannerText = isBroken
+        ? `جریان معکوس در بخش دولتی: خرید سرور ← خرید اپلیکیشن ← تولید داده بی‌ربط ← رهاسازی فرایندها!`
+        : `جریان مهندسی صحیح: راهبرد ← فرایند (حرفه) ← داده ← سیستم اطلاعاتی ← زیرساخت و شبکه`;
+
+      detailEl.innerHTML = `
+        <span class="ea-detail-kicker">${kickerText}</span>
+        <h4 class="ea-detail-title">${activeLayer.name}</h4>
+        <p style="margin:0; line-height:1.75;">${bodyText}</p>
+        <ul class="ea-detail-list">
+          ${activeLayer.maps.map((m) => `<li><strong>خروجی و نقشه مرتبط:</strong> ${m}</li>`).join(``)}
+        </ul>
+        <div class="ea-flow-banner ${isBroken ? `is-broken` : ``}">${bannerText}</div>
+      `;
+    }
+
+    // 2. Industry Process & Reference Model Data
+    const sectorData = {
+      banking: {
+        title: `صنعت بانکداری (Core Banking)`,
+        core: [
+          `فرایند افتتاح حساب و احراز هویت نشانی مشتری`,
+          `انتقال وجه و عملیات کارت‌به‌کارت (۹۵٪ مشترک بر پایه مدل مرجع)`,
+          `اعطای تسهیلات و اعتبارسنجی (نیاز مبرم به حذف «نظر رئیس شعبه»)`
+        ],
+        supporting: [
+          `مرخصی استعلاجی و امور اداری کارکنان`,
+          `مالی داخلی، تدارکات و روابط عمومی`,
+          `پشتیبانی داخلی فناوری اطلاعات`
+        ],
+        refNote: `بانک‌هایی مانند HSBC با تجربه ۱۰۰ ساله، ارسال کارت به آدرس منزل را برای تایید هم‌زمان املاک و اسکان در فرایند افتتاح حساب حفظ کرده‌اند. افزودن گام‌های تزئینی به مدل مرجع (به اسم برندسازی اختصاصی) اغلب ناکارآمدی می‌آفریند.`
+      },
+      insurance: {
+        title: `صنعت بیمه (Core Insurance)`,
+        core: [
+          `صدور بیمه‌نامه شخص ثالث (دارای مدل مرجع مشترک میان تمام شرکت‌های بیمه)`,
+          `صدور بیمه‌نامه بدنه و ارزیابی خسارت`,
+          `استعلام برخط سوابق خودرو از گذرگاه سرویس دولت (تجربه موفق ازکی)`
+        ],
+        supporting: [
+          `استخدام، آموزش کارکنان و امور اداری`,
+          `خروج پرسنل و بازنشستگی`,
+          `نگهداری زیرساخت ستادی و روابط عمومی`
+        ],
+        refNote: `یک فرایند صدور بیمه ثالث را می‌توان با ۲۰، ۱۲ یا ۶ مرحله اجرا کرد؛ اما ۶ مرحله لزوماً بهترین نیست اگر اطلاعات ضروری حذف شود. مدل مرجع حالتی است که کمترین گام و کمترین زمان را بدون از دست دادن داده حیاتی ارائه دهد.`
+      },
+      cra: {
+        title: `تنظیم مقررات و ارتباطات رادیویی (CRA)`,
+        core: [
+          `صدور پروانه و مجوزهای فرکانسی و رادیویی`,
+          `نظارت بر فضای فرکانسی کشور و شبکه ارتباطی`,
+          `صدور، تمدید و تغییر پروانه دفاتر پیشخان خدمات دولت`,
+          `تدوین ضوابط اتصال متقابل میان اپراتورهای ارتباطی`
+        ],
+        supporting: [
+          `فرایند مرخصی استعلاجی و امور استخدامی`,
+          `برگزاری نمایشگاه‌ها و روابط عمومی`,
+          `ارتباطات اداری و مالی ستادی`
+        ],
+        refNote: `در این سازمان یک کتابچه جامع «فرایندهای مطلوب» چاپ شده تا تعاملات چه درون سازمان و چه با متقاضیان و اپراتورها از حالت سلیقه‌ای خارج شده و تمام خدمات شناسنامه دقیق داشته باشند.`
+      },
+      education: {
+        title: `آموزش و پرورش و دانشگاه‌ها`,
+        core: [
+          `ثبت نمرات و ارزیابی تحصیلی دانشجویان / دانش‌آموزان`,
+          `برگزاری دوره‌های تخصصی ضمن خدمت فرهنگیان`,
+          `مدیریت چرخه پژوهش، پایان‌نامه و امور آموزشی`
+        ],
+        supporting: [
+          `فرایند استخدام و کارگزینی (پشتیبانی است، نه هسته تخصصی)`,
+          `مرخصی استعلاجی، تدارکات و مالی`,
+          `برنامه‌های عمومی روابط عمومی`
+        ],
+        refNote: `اگرچه دانشگاه‌ها و مدارس از نظر ماهیت با صنعت بیمه متفاوت‌اند، اما می‌توان برای شبکه دانشگاه‌ها یا بیمارستان‌ها یک «الگوی مرجع معماری اطلاعات و فرایند» واحد طراحی کرد تا هر واحد آی‌تی استانداردی داشته باشد.`
+      },
+      health: {
+        title: `بهداشت، سلامت و بیمارستان‌ها`,
+        core: [
+          `پذیرش، تریاژ و تشکیل پرونده سلامت بیمار`,
+          `تشخیص، تجویز و فرایندهای درمانی و اتاق عمل`,
+          `ترخیص و تبادل داده پرونده الکترونیک سلامت`
+        ],
+        supporting: [
+          `اداری، کارگزینی و حقوق و دستمزد کادر`,
+          `پشتیبانی تأسیسات و تدارکات عمومی`,
+          `مدیریت مرخصی و بازنشستگی پرسنل`
+        ],
+        refNote: `بیمارستان‌ها و مراکز درمانی از نظر جنس عملیات یکسان‌اند؛ بنابراین می‌توان یک مدل مرجع معماری سازمانی شامل فرایندهای استاندارد، داده‌ها، اپلیکیشن‌ها و زیرساخت برای کل شبکه بیمارستانی تدوین کرد.`
+      }
+    };
+
+    function selectSector(sectorKey) {
+      const buttons = document.querySelectorAll(`#process-explorer-widget .btn[data-sector]`);
+      buttons.forEach((btn) => {
+        btn.classList.toggle(`is-active`, btn.dataset.sector === sectorKey);
+      });
+      const data = sectorData[sectorKey];
+      const out = document.getElementById(`sector-output`);
+      if (!data || !out) return;
+
+      out.innerHTML = `
+        <article class="sector-card">
+          <h4>
+            <span>فرایندهای تخصصی / هسته</span>
+            <span class="case-badge badge-teal"><bdi dir="ltr">Core</bdi></span>
+          </h4>
+          <ul>${data.core.map((item) => `<li>${item}</li>`).join(``)}</ul>
+        </article>
+        <article class="sector-card">
+          <h4>
+            <span>فرایندهای پشتیبان</span>
+            <span class="case-badge"><bdi dir="ltr">Supporting</bdi></span>
+          </h4>
+          <ul>${data.supporting.map((item) => `<li>${item}</li>`).join(``)}</ul>
+        </article>
+        <article class="sector-card" style="grid-column: 1 / -1; background: var(--surface-container-low); border-top: 2px solid var(--primary-container);">
+          <h4>
+            <span>تحلیل مدل مرجع در ${data.title}</span>
+            <span class="case-badge badge-gold"><bdi dir="ltr">Reference Model</bdi></span>
+          </h4>
+          <p style="margin:0; font-size:0.9375rem; line-height:1.7;">${data.refNote}</p>
+        </article>
+      `;
+    }
+
+    // 3. 3-5 Year Cycle & Maturity Data
+    const phaseData = {
+      asis: {
+        kicker: `فاز اول چرخه معماری`,
+        title: `شناسایی وضع موجود (As-Is)`,
+        desc: `عکسبرداری واقعی از وضعیت کنونی سازمان: کدام ساختارها، فرایندها، داده‌ها، نرم‌افزارها و شبکه‌ها هم‌اکنون در حال کارند؟ مهم‌ترین هشدار جلسه هفتم این است که هرگز نباید وضع موجود پرخطا را عیناً در نرم‌افزار جدید پیاده کرد.`,
+        points: [
+          `کشف گلوگاه‌ها، دوباره‌کاری‌ها و سامانه‌های جزیره‌ای متضاد`,
+          `تفکیک رویه‌های سلیقه‌ای افراد از فرایندهای واقعی و مکتوب`,
+          `احصای شکاف میان مأموریت سازمان و سیستم‌های خریداری‌شده`
+        ]
+      },
+      tobe: {
+        kicker: `فاز دوم چرخه معماری`,
+        title: `تدوین وضع مطلوب (To-Be)`,
+        desc: `طراحی نقشه هدف بر پایه راهبردهای سازمان. در این فاز، فرایندهای جاری با جلسات تخصصی مهندسی مجدد (<bdi dir="ltr">Re-engineering</bdi>) می‌شوند تا گام‌های زائد حذف، گام‌های کنترلی حیاتی حفظ و سرویس‌های استاندارد تعریف گردند.`,
+        points: [
+          `ترسیم فرایندهای مطلوب به تفکیک بخش‌های مسئول و مهلت‌های زمانی (<bdi dir="ltr">BPMN</bdi>)`,
+          `تعریف ساختار سازمانی چابک بر مبنای فرایندها، نه بر مبنای اشخاص`,
+          `تعیین شناسنامه خدمات و معماری یکپارچه داده، نرم‌افزار و زیرساخت`
+        ]
+      },
+      transition: {
+        kicker: `فاز سوم چرخه معماری (افق ۳ تا ۵ ساله)`,
+        title: `برنامه‌ریزی گذار و بازتکرار چرخه (Transition Plan)`,
+        desc: `انتقال از وضع موجود به وضع مطلوب یک پروژه یک‌شبه نیست؛ بلکه نیازمند نقشه راه ۳ تا ۵ ساله است. پس از گذشت ۵ سال، آن وضع مطلوبِ دیروز به «وضع موجود» جدید تبدیل می‌شود و چرخه معماری سازمانی دوباره تکرار می‌گردد (مانند تجربه مپنا).`,
+        points: [
+          `معماری سازمانی یک پروژه مقطعی نیست، بلکه فرایندی دائمی و تکرارشونده در سازمان است`,
+          `تغییر فناوری، قوانین و مدل‌های کسب‌وکار، بازنگری ۳ تا ۵ ساله را اجتناب‌ناپذیر می‌کند`,
+          `مدیریت تغییر و هم‌زمانی پروژه‌های انتقال بدون توقف سرویس‌دهی جاری سازمان`
+        ]
+      },
+      maturity: {
+        kicker: `چهار گام مدل بلوغ فرایندی`,
+        title: `چرا استخراج اولیه فرایند کافی نیست و چگونه از شکست جلوگیری کنیم؟`,
+        desc: `اگر فرایندی شکست بخورد، دو دلیل دارد: یا از ابتدا اشتباه شناسایی شده یا در طول زمان تغییر محیطی رخ داده و فرایند به‌روز نشده (فساد نرم‌افزار). برای ماندگاری، فرایند باید چهار سطح بلوغ را پیوسته طی کند:`,
+        points: [
+          `۱. شناسایی دقیق فرایندهای هسته و پشتیبان`,
+          `۲. مکتوب‌سازی رسمی با زبان مشترک (<bdi dir="ltr">BPMN</bdi>) و حذف سلیقه‌محوری`,
+          `۳. مدیریت اجرایی و پایش مداوم رعایت شاخص‌ها و مهلت‌ها`,
+          `۴. بهینه‌سازی و بازنگری مستمر همگام با تحول فناوری و نیازهای جدید`
+        ]
+      }
+    };
+
+    function selectPhase(phaseKey) {
+      const btns = document.querySelectorAll(`#cycle-widget .cycle-step-btn`);
+      btns.forEach((b) => {
+        b.classList.toggle(`is-active`, b.dataset.phase === phaseKey);
+      });
+      const p = phaseData[phaseKey];
+      const panel = document.getElementById(`phase-detail-panel`);
+      if (!p || !panel) return;
+      panel.innerHTML = `
+        <span class="ea-detail-kicker">${p.kicker}</span>
+        <h4 class="ea-detail-title">${p.title}</h4>
+        <p style="margin:0; line-height:1.75;">${p.desc}</p>
+        <ul class="ea-detail-list">
+          ${p.points.map((pt) => `<li>${pt}</li>`).join(``)}
+        </ul>
+      `;
+    }
+
+    // 4. H-Index Interactive Simulator
+    function computeCitationSeries(totalPapers, coreCount, topCite) {
+      const shownCount = Math.min(25, totalPapers);
+      const effectiveCore = Math.min(coreCount, totalPapers);
+      const citations = [];
+
+      for (let r = 1; r <= totalPapers; r++) {
+        let c = 0;
+        if (r === 1) {
+          c = topCite;
+        } else if (r <= effectiveCore) {
+          // Smooth decay from min(topCite, effectiveCore * 2.2) down to effectiveCore
+          const start = Math.min(topCite, Math.max(effectiveCore + 4, Math.round(effectiveCore * 2.1)));
+          const ratio = effectiveCore > 1 ? (r - 2) / (effectiveCore - 1) : 1;
+          c = Math.max(effectiveCore, Math.round(start - ratio * (start - effectiveCore)));
+        } else {
+          // Tail papers drop rapidly below effectiveCore
+          const tailPos = r - effectiveCore;
+          c = Math.max(0, Math.round((effectiveCore * 0.45) / Math.pow(tailPos, 0.7)));
+        }
+        citations.push(c);
+      }
+      citations.sort((a, b) => b - a);
+
+      let h = 0;
+      for (let i = 0; i < citations.length; i++) {
+        if (citations[i] >= i + 1) {
+          h = i + 1;
+        } else {
+          break;
+        }
+      }
+      const totalCites = citations.reduce((acc, v) => acc + v, 0);
+      return {
+        citations,
+        shown: citations.slice(0, shownCount),
+        hIndex: h,
+        totalCites
+      };
+    }
+
+    function applyHPreset(preset) {
+      const pSlider = document.getElementById(`slider-total-papers`);
+      const cSlider = document.getElementById(`slider-core-count`);
+      const tSlider = document.getElementById(`slider-top-cite`);
+      if (!pSlider || !cSlider || !tSlider) return;
+
+      const btns = document.querySelectorAll(`#hindex-widget .btn[id^="preset-"]`);
+      btns.forEach((b) => b.classList.toggle(`is-active`, b.id === `preset-${preset}`));
+
+      if (preset === `prof`) {
+        pSlider.value = 120;
+        cSlider.value = 18;
+        tSlider.value = 400;
+      } else if (preset === `spike`) {
+        pSlider.value = 100;
+        cSlider.value = 4;
+        tSlider.value = 400;
+      } else if (preset === `elite`) {
+        pSlider.value = 95;
+        cSlider.value = 30;
+        tSlider.value = 260;
+      }
+      renderHIndex();
+    }
+
+    function onHSliderChange() {
+      const btns = document.querySelectorAll(`#hindex-widget .btn[id^="preset-"]`);
+      btns.forEach((b) => b.classList.remove(`is-active`));
+      renderHIndex();
+    }
+
+    function toPersianNum(num) {
+      return Number(num).toLocaleString(`fa-IR`);
+    }
+
+    function renderHIndex() {
+      const pSlider = document.getElementById(`slider-total-papers`);
+      const cSlider = document.getElementById(`slider-core-count`);
+      const tSlider = document.getElementById(`slider-top-cite`);
+      const svg = document.getElementById(`hindex-svg`);
+      if (!pSlider || !cSlider || !tSlider || !svg) return;
+
+      const totalPapers = parseInt(pSlider.value, 10);
+      const coreCount = Math.min(parseInt(cSlider.value, 10), totalPapers);
+      const topCite = parseInt(tSlider.value, 10);
+
+      const vTotal = document.getElementById(`val-total-papers`);
+      const vCore = document.getElementById(`val-core-count`);
+      const vTop = document.getElementById(`val-top-cite`);
+      if (vTotal) vTotal.textContent = `${toPersianNum(totalPapers)} مقاله`;
+      if (vCore) vCore.textContent = `${toPersianNum(coreCount)} مقاله`;
+      if (vTop) vTop.textContent = `${toPersianNum(topCite)} ارجاع`;
+
+      const res = computeCitationSeries(totalPapers, coreCount, topCite);
+
+      const outH = document.getElementById(`out-hindex`);
+      const outCites = document.getElementById(`out-total-cites`);
+      const outPapers = document.getElementById(`out-total-papers`);
+      const legendNote = document.getElementById(`chart-legend-note`);
+      const expEl = document.getElementById(`hindex-explanation`);
+
+      if (outH) outH.textContent = toPersianNum(res.hIndex);
+      if (outCites) outCites.textContent = toPersianNum(res.totalCites);
+      if (outPapers) outPapers.textContent = toPersianNum(totalPapers);
+      if (legendNote) legendNote.textContent = `نقطه تقاطع: H = ${res.hIndex}`;
+      if (expEl) {
+        expEl.innerHTML = `پژوهشگر دارای شاخص <strong>${toPersianNum(res.hIndex)}</strong> است؛ یعنی از میان ${toPersianNum(totalPapers)} مقاله، <strong>${toPersianNum(res.hIndex)} مقاله</strong> دست‌کم <strong>${toPersianNum(res.hIndex)} بار</strong> ارجاع گرفته‌اند. برترین مقاله (${toPersianNum(topCite)} ارجاع) به‌تنهایی نمی‌تواند شاخص اچ را افزایش دهد.`;
+      }
+
+      // Render SVG Bar Chart (Top 25 papers, capped axis at 80 for visual clarity of H intersection, annotating spike)
+      const W = 520;
+      const H = 230;
+      const padL = 40;
+      const padR = 16;
+      const padT = 22;
+      const padB = 34;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+      const maxScale = Math.max(45, res.hIndex + 12);
+      const count = res.shown.length;
+      const barStep = plotW / count;
+      const barW = Math.max(8, barStep - 4);
+
+      let svgParts = [];
+      // Horizontal grid lines
+      const gridTicks = [0, Math.round(maxScale * 0.5), maxScale];
+      gridTicks.forEach((tick) => {
+        const y = padT + plotH - (tick / maxScale) * plotH;
+        svgParts.push(`<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="var(--outline-variant)" stroke-dasharray="3,3" stroke-width="1"/>`);
+        svgParts.push(`<text x="${padL - 6}" y="${y + 4}" text-anchor="end" font-family="var(--font-mono)" font-size="10" fill="var(--on-surface-variant)">${tick}</text>`);
+      });
+
+      // Bars (LTR rank 1..25 inside chart)
+      res.shown.forEach((cites, idx) => {
+        const rank = idx + 1;
+        const capped = Math.min(cites, maxScale);
+        const barH = (capped / maxScale) * plotH;
+        const x = padL + idx * barStep + 2;
+        const y = padT + plotH - barH;
+        const qualifies = cites >= rank;
+        const fill = qualifies ? `var(--data-1)` : `var(--data-context)`;
+        svgParts.push(`<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="2" fill="${fill}" />`);
+
+        if (rank === 1 && cites > maxScale) {
+          svgParts.push(`<text x="${x + barW / 2}" y="${padT - 6}" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="var(--data-2)">${cites}+</text>`);
+        }
+        if (rank === 1 || rank % 5 === 0) {
+          svgParts.push(`<text x="${x + barW / 2}" y="${H - 12}" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--on-surface-variant)">${rank}</text>`);
+        }
+      });
+
+      // Diagonal line y = rank (Citations == Rank)
+      const lineEndRank = Math.min(count, maxScale);
+      const x1 = padL + 2 + barW / 2;
+      const y1 = padT + plotH - (1 / maxScale) * plotH;
+      const x2 = padL + (lineEndRank - 1) * barStep + 2 + barW / 2;
+      const y2 = padT + plotH - (lineEndRank / maxScale) * plotH;
+      svgParts.push(`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--data-2)" stroke-width="2" />`);
+
+      // Highlight H-index marker
+      if (res.hIndex >= 1 && res.hIndex <= count) {
+        const hx = padL + (res.hIndex - 1) * barStep + 2 + barW / 2;
+        const hy = padT + plotH - (res.hIndex / maxScale) * plotH;
+        svgParts.push(`<circle cx="${hx}" cy="${hy}" r="5" fill="var(--primary-container)" stroke="var(--on-surface)" stroke-width="1.5" />`);
+      }
+
+      svgParts.push(`<text x="${W / 2}" y="${H - 1}" text-anchor="middle" font-family="var(--font-body)" font-size="10" fill="var(--on-surface-variant)">رتبه مقاله (مرتب‌شده از بیشترین ارجاع)</text>`);
+      svg.innerHTML = svgParts.join(``);
+    }
+
+    // Boot
+    document.addEventListener(`DOMContentLoaded`, () => {
+      renderEaPyramid();
+      selectSector(`banking`);
+      selectPhase(`asis`);
+      renderHIndex();
+    });
+  </script>
+</body>
+</html>
